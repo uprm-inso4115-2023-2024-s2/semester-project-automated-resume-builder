@@ -1,0 +1,19 @@
+1. Descargar node.js: Esto es importante para poder ejecutar comandos npm
+2. Se mueven a la carpeta api y ahi ejecutan el comando "npm i express morgan cors"
+3. Se mueven a la carpeta ui/client y ahi ejecutan "npm install"
+4. Descargan PostgreSQL (Les va a pedir crear una contraseña, no se olviden de ella).
+5. Van al archivo .env en la api y cambian el atributo DB_PASSWORD por la contraseña que crearon.
+6. Abren el cmd de windows y escriben "psql -U postgres". Les va a pedir la contraseña que crearon.
+7. Escriban "\l" para ver sus usuarios.
+8. Estando el comand line en el usuario postgres escriben "CREATE DATABASE tasksdb". Pueden visualizar si se
+creo con el comando "\l".
+9. Se mueven a esa base de datos con el comando "\c tasksdb".
+10. Van a crear columnas pegando el siguiente comando "CREATE TABLE task(
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) UNIQUE,
+    description VARCHAR(255)
+);"
+
+11. Para ejecutar los servidores:
+Abren un terminal y se mueven a la carpeta api y corren el comando "npm run dev". Esto corre el backend.
+Abren un terminal nuevo, se mueven a ui/client y corren el comando "npm start"
