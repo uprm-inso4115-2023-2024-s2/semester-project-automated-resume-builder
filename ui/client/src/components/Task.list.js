@@ -9,7 +9,7 @@ export default function TaskList(){
     const navigate = useNavigate()
 
     const loadTasks = async () =>{
-        const response = await fetch('http://localhost:4000/tasks')
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks`)
         const data = await response.json()
         setTasks(data)
         console.log(tasks)
@@ -18,7 +18,7 @@ export default function TaskList(){
 
     const handleDelete = async (id) => {
         try {
-            const res = await fetch(`http://localhost:4000/tasks/${id}` , {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${id}` , {
             method: "DELETE"
             })
             
@@ -51,7 +51,7 @@ export default function TaskList(){
                             color: 'white'
                         }}>
                             <Typography>{task.title}</Typography>
-                            <Typography>{task.description}</Typography>
+                            <Typography>{task.description}</Typography> 
                         </div>
 
                         <div>
