@@ -2,8 +2,13 @@
 import { Button, Card, CardContent, CircularProgress, Grid, TextField, Typography } from "@mui/material"
 import {useState, useEffect} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
+import { useUser } from './UserContext';
 
 export default function TaskForm(){
+
+  // TEST Access the User Context and its attributes TEST//
+  const { user, setUser } = useUser();
+  
 
   const [task, setTask] = useState({
     title: '',
@@ -57,10 +62,11 @@ export default function TaskForm(){
         loadTasks(params.id)
       }
   }, [params.id])
-
-
+// TEST The h1 is just a Test of the user attributes TEST
+// To clear the test just erase the h1 line 3 lines below
   return (
     <Grid container direction='column' alignItems='center' justifyContent='center'>
+      <h1>{user.name} {user.middle_initial} {user.frst_lst_name}</h1>
       <Grid item xs={3}>
         <Card sx={{mt: 5}} style={{
           backgroundColor: '#1e272e',
