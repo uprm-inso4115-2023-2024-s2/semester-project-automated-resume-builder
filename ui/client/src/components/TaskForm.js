@@ -27,13 +27,13 @@ export default function TaskForm(){
     setLoading(true)
 
     if (editing){
-      const res = await fetch(`http://localhost:4000/tasks/${params.id}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${params.id}`, {
       method: 'PUT',
       body: JSON.stringify(task),
       headers: {'Content-Type': 'application/json'}
       });
     }else{
-      const res = await fetch('http://localhost:4000/tasks', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks`, {
       method: 'POST',
       body: JSON.stringify(task),
       headers: {'Content-Type': 'application/json'}
@@ -51,7 +51,7 @@ export default function TaskForm(){
   }
 
   const loadTasks = async (id) =>{
-    const res = await fetch(`http://localhost:4000/tasks/${id}`)
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${id}`)
     const data = await res.json()
     setTask({title: data.title, description: data.description})
     setEditing(true)
