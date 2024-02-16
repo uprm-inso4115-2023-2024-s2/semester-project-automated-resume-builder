@@ -2,8 +2,8 @@ import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material
 import {Link, useNavigate} from 'react-router-dom'
 
 export default function Navbar(){
-
-    const navigate = useNavigate()
+    
+  const navigate = useNavigate()
 
     return (
       <Box sx={{flexGrow: 1}}>
@@ -15,8 +15,11 @@ export default function Navbar(){
                         Pern stack
                         </Link>
                     </Typography>
-                    <Button variant='contained' color='primary' onClick={() => navigate('tasks/new')}>
-                            New task
+                    <Button variant='contained' color='primary' onClick={() => navigate('tasks/new')} className="navbarButton">
+                        New task
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('resume/new')}>
+                        Resume Template
                     </Button>
                 </Toolbar>
             </Container>
