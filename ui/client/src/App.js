@@ -1,12 +1,22 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import TaskList from './components/Task.list'
-import TaskForm from './components/TaskForm'
-import ResumeForm from './components/resume'
-import {Container} from '@mui/material'
-import Menu from "./components/NavBar"
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import { UserProvider } from './contexts/UserContext.js';
+import TaskList from './components/Task.list';
+import TaskForm from './components/TaskForm';
+import ResumeForm from './components/resume.js';
+import ResumeTemplates from './components/templates.js'; // Import the ResumeTemplates component
+import { Container } from '@mui/material';
+import Menu from "./components/NavBar";
 
-export default function App(){
+export default function App() {
+  const [submittedResume, setSubmittedResume] = useState(null);
+
+  const handleResumeSubmit = (resumeData) => {
+    setSubmittedResume(resumeData);
+  };
+
   return (
+    // <UserProvider>
     <BrowserRouter>
       <Menu />
       <Container>
@@ -14,9 +24,12 @@ export default function App(){
           <Route path='/' element={<TaskList />} />
           <Route path='/tasks/new' element={<TaskForm />} />
           <Route path='/tasks/:id/edit' element={<TaskForm />} />
-          <Route path='/resume/new' element={<ResumeForm />} />
+          <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
+          {/* Pass the submitted resume data to ResumeTemplates */}
+          <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
         </Routes>
       </Container>
     </BrowserRouter>
-  )
+  //   </UserProvider>
+  );
 }

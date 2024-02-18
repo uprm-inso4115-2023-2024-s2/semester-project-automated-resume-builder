@@ -18,8 +18,8 @@ export default function Navbar(){
                     <Button variant='contained' color='primary' onClick={() => navigate('tasks/new')} className="navbarButton">
                         New task
                     </Button>
-                    <Button variant='contained' color='primary' onClick={() => navigate('resume/new')}>
-                        Resume Template
+                    <Button variant='contained' color='primary' style={{ marginLeft: '1rem' }} onClick={() => navigate('resume/new')}>
+                        Create a Resume
                     </Button>
                 </Toolbar>
             </Container>

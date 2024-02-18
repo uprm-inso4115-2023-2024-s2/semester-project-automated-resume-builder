@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-export default function ResumeForm() {
+export default function ResumeForm({ submitCallBack }) {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
   const [resume, setResume] = useState({
     name: '',
     email: '',
@@ -17,8 +20,11 @@ export default function ResumeForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle the submit action, e.g., sending data to a server or displaying it on the screen
-    console.log(resume);
+    // Pass the resume data to the parent component
+    submitCallBack(resume);
+
+    // Redirect to template.js after submission
+    navigate('/resume/templates');
   };
 
   return (
@@ -30,8 +36,8 @@ export default function ResumeForm() {
           </Typography>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              {/* Name */}
-              <TextField
+               {/* Name */}
+               <TextField
                 variant="filled"
                 label="Name"
                 name="name"
@@ -110,7 +116,6 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-
               <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Submit Resume
               </Button>
