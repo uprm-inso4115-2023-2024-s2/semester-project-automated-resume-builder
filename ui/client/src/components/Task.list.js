@@ -2,14 +2,16 @@
 import {useEffect, useState} from 'react'
 import {Button, Card, CardContent, Typography} from '@mui/material'
 import {useNavigate} from 'react-router-dom'
+import { useUser } from './UserContext';
 
 export default function TaskList(){
 
     const [tasks, setTasks] = useState([])
     const navigate = useNavigate()
+    const { user, setUser } = useUser();
 
     const loadTasks = async () =>{
-        const response = await fetch('http://localhost:4000/tasks')
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks`)
         const data = await response.json()
         setTasks(data)
         console.log(tasks)
@@ -18,7 +20,7 @@ export default function TaskList(){
 
     const handleDelete = async (id) => {
         try {
-            const res = await fetch(`http://localhost:4000/tasks/${id}` , {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${id}` , {
             method: "DELETE"
             })
             
@@ -33,9 +35,11 @@ export default function TaskList(){
         loadTasks()
     }, [])
 
+// TEST The h1 is just a Test of the user attributes TEST
+// To clear the test just erase the h1 line 3 lines below
     return (
       <>
-      <h1>Task List</h1>
+      <h1>Task List {user.name}</h1>
 
         {
             tasks.map((task) => (
@@ -51,7 +55,7 @@ export default function TaskList(){
                             color: 'white'
                         }}>
                             <Typography>{task.title}</Typography>
-                            <Typography>{task.description}</Typography>
+                            <Typography>{task.description}</Typography> 
                         </div>
 
                         <div>
