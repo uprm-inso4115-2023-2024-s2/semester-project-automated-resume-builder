@@ -21,6 +21,12 @@ export default function Navbar(){
                     <Button variant='contained' color='primary' onClick={() => navigate('resume/new')}>
                         Resume Template
                     </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('signup')} className="navbarButton">
+                        Sign up
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('login')} className="navbarButton">
+                        Log in
+                    </Button>
                 </Toolbar>
             </Container>
         </AppBar>
