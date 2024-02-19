@@ -19,6 +19,10 @@ const LogInForm  = (onLogIn) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    setFormData({
+        email: '',
+        password: '',
+    });
   };
   
 

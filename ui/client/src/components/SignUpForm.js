@@ -24,6 +24,15 @@ const SignUpForm  = (onSignUp) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    setFormData({
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      agreeTerms: false,
+    });
   };
   
 
