@@ -15,8 +15,8 @@ export default function Navbar(){
                         Pern stack
                         </Link>
                     </Typography>
-                    <Button variant='contained' color='primary' onClick={() => navigate('tasks/new')} className="navbarButton">
-                        New task
+                    <Button variant='contained' color='primary' onClick={() => navigate('users/new')} className="navbarButton">
+                        New user
                     </Button>
                     <Button variant='contained' color='primary' onClick={() => navigate('resume/new')}>
                         Resume Template

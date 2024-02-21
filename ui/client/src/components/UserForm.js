@@ -4,15 +4,22 @@ import {useState, useEffect} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import { useUser } from '../contexts/UserContext';
 
-export default function TaskForm(){
+export default function UserForm(){
 
   // TEST Access the User Context and its attributes TEST//
-  const { user, setUser } = useUser();
+  const { globalUser, setGlobalUser } = useUser();
   
 
-  const [task, setTask] = useState({
-    title: '',
-    description: ''
+  const [user, setuser] = useState({
+      email: "",
+      password: "",
+      name: "",
+      middle_initial: "",
+      frst_lst_name: "",
+      scnd_lst_name: "",
+      phone_number: "",
+      summary: "",
+      profile: ""
   }) 
 
   const [loading, setLoading] = useState(false)
@@ -27,53 +34,63 @@ export default function TaskForm(){
     setLoading(true)
 
     if (editing){
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${params.id}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${params.id}`, {
       method: 'PUT',
-      body: JSON.stringify(task),
+      body: JSON.stringify(user),
       headers: {'Content-Type': 'application/json'}
       });
     }else{
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
       method: 'POST',
-      body: JSON.stringify(task),
+      body: JSON.stringify(user),
       headers: {'Content-Type': 'application/json'}
       });
     }
 
-    
-    
     setLoading(false)
     navigate('/')
   }
 
   const handleChange = e =>{
-    setTask({...task, [e.target.name]: e.target.value})
+    setuser({...user, [e.target.name]: e.target.value})
   }
 
-  const loadTasks = async (id) =>{
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${id}`)
+  const loadusers = async (id) =>{
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id}`)
     const data = await res.json()
-    setTask({title: data.title, description: data.description})
+    setuser(
+      {
+      user_id: data.user_id,
+      email: data.email,
+      password_hash: data.password_hash,
+      name: data.name,
+      middle_initial: data.middle_initial,
+      frst_lst_name: data.frst_lst_name,
+      scnd_lst_name: data.scnd_lst_name,
+      phone_number: data.phone_number,
+      summary: data.summary,
+      profile: data.profile
+    })
     setEditing(true)
   }
 
   useEffect( () => {
       if (params.id){
-        loadTasks(params.id)
+        loadusers(params.id)
       }
   }, [params.id])
 // TEST The h1 is just a Test of the user attributes TEST
 // To clear the test just erase the h1 line 3 lines below
   return (
     <Grid container direction='column' alignItems='center' justifyContent='center'>
-      <h1>{user.name} {user.middle_initial} {user.frst_lst_name}</h1>
+      <h1>{globalUser.name} {user.middle_initial} {user.frst_lst_name}</h1>
       <Grid item xs={3}>
         <Card sx={{mt: 5}} style={{
           backgroundColor: '#1e272e',
           padding: '1rem'
         }}>
           <Typography variant="5" textAlign='center' color='white'>
-            {editing ? "Edit Task" : "Create Task"}
+            {editing ? "Edit user" : "Create user"}
           </Typography>
           <CardContent>
             <form onSubmit={handleSubmit}>
@@ -91,8 +108,8 @@ export default function TaskForm(){
                   style: {color: 'white'}
                 }}
                 onChange={handleChange}
-                name="title"
-                value={task.title}
+                name="name"
+                value={user.name}
               />
               <TextField 
                 variant="filled"
@@ -110,11 +127,11 @@ export default function TaskForm(){
                   style: {color: 'white'}
                 }}
                 onChange={handleChange}
-                name="description"
-                value={task.description}
+                name="email"
+                value={user.email}
               />
 
-              <Button variant="contained" color="primary" type="submit" disabled={!task.title || !task.description}>
+              <Button variant="contained" color="primary" type="submit" disabled={!user.email || !user.name}>
                 {loading ? <CircularProgress color="inherit" size={24} /> : 'Save'} 
               </Button>
 
