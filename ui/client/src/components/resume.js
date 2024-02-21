@@ -48,12 +48,60 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              {/* Title */}
+              <TextField
+                variant="filled"
+                label="Title"
+                name="title"
+                value={resume.title}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ style: { color: 'white' } }}
+                inputProps={{ style: { color: 'white' } }}
+              />
               {/* Email */}
               <TextField
                 variant="filled"
                 label="Email"
                 name="email"
                 value={resume.email}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ style: { color: 'white' } }}
+                inputProps={{ style: { color: 'white' } }}
+              />
+              {/* Phone */}
+              <TextField
+                variant="filled"
+                label="Phone"
+                name="phone"
+                value={resume.phone}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ style: { color: 'white' } }}
+                inputProps={{ style: { color: 'white' } }}
+              />
+              {/*City*/}
+              <TextField
+                variant="filled"
+                label="City"
+                name="city"
+                value={resume.city}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ style: { color: 'white' } }}
+                inputProps={{ style: { color: 'white' } }}
+              />
+              {/*Country*/}
+              <TextField
+                variant="filled"
+                label="Country"
+                name="country"
+                value={resume.country}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
