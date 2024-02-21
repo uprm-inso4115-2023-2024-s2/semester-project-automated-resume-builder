@@ -8,5 +8,8 @@
         "**/Thumbs.db": true,
         "api/node_modules": true,
         "ui/client/node_modules": true
+    },
+    "files.associations": {
+        "plyconfig.json": "jsonc"
     }
 }
