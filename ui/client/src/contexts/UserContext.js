@@ -13,7 +13,7 @@ const UserContext = createContext();
 // To make them empty attributes
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({
+    const [globalUser, setGlobalUser] = useState({
       id: '123', 
       name: 'Fulano', 
       middle_initial: 'Y', 
@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
     });
   
     return (
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ globalUser, setGlobalUser }}>
         {children}
       </UserContext.Provider>
     );

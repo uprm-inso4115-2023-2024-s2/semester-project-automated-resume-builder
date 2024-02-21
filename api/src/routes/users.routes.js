@@ -19,8 +19,8 @@ router.get('/users/:user_id', getUser)
 router.post('/users', createUser)
 
 // Para actualizar un usuario
-router.delete('/users/:user_id', updateUser)
+router.delete('/users/:user_id', deleteUser)
 
-router.put('/users/:user_id', deleteUser) 
+router.put('/users/:user_id', updateUser) 
 
 module.exports = router;
