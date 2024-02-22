@@ -20,8 +20,21 @@ function WorkExperienceModal({ open, onClose, onSave }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(formState);
+        resetToDefault();
         onClose();
     };
+
+    const resetToDefault = () => {
+        setFormState({
+            jobTitle: '',
+            companyName: '',
+            location: '',
+            startDate: '',
+            endDate: '',
+            responsibilities: '',
+            achievements: '',
+        })
+    }
 
     const style = {
         position: 'absolute',
@@ -39,7 +52,7 @@ function WorkExperienceModal({ open, onClose, onSave }) {
     };
     
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
                 <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Work Experience

@@ -13,20 +13,16 @@ const ResumeInput = () => {
     const [showEducationModal, setShowEducationModal] = useState(false);
     const [showCertificationModal, setShowCertificationModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
-    // Repeat for other categories
+
     const [workExperience, setWorkExperience] = useState([]);
     const [education, setEducation] = useState([]);
     const [certifications, setCertifications] = useState([]);
     const [projects, setProjects] = useState([]);
 
-    // Repeat state management for other categories
-
     const handleSaveItem = (setItem) => (newItem) => {
         setItem(prevItems => [...prevItems, newItem]);
     };
     
-
-    // Repeat save handlers for other categories
     return (
         <div>
             <Button onClick={() => setShowWorkExperienceModal(true)}>Add Work Experience</Button>
@@ -56,7 +52,6 @@ const ResumeInput = () => {
                 onClose={() => setShowProjectModal(false)}
                 onSave={handleSaveItem(setProjects)}
             />
-            {/* Repeat for other categories */}
         </div>
     );
 };

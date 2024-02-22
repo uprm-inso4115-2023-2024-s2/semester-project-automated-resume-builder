@@ -5,8 +5,8 @@ function ProjectModal({ open, onClose, onSave }) {
     const [formState, setFormState] = useState({
         projectName: '',
         description: '',
-        technologiesUsed: '', // For simplicity in form handling, starting as a string
-        link: '', // Also starting as a string for ease of input
+        technologiesUsed: '', 
+        link: '', 
     });
 
     const handleChange = (e) => {
@@ -14,17 +14,26 @@ function ProjectModal({ open, onClose, onSave }) {
         setFormState(prev => ({ ...prev, [name]: value }));
     };
 
-    // Convert string inputs to arrays as needed for technologiesUsed and links
     const handleSave = (e) => {
         e.preventDefault();
         const { technologiesUsed, ...rest } = formState;
         const projectToSave = {
             ...rest,
-            technologiesUsed: technologiesUsed.split(',').map(item => item.trim()), // Splitting by comma and trimming
+            technologiesUsed: technologiesUsed.split(',').map(item => item.trim()), 
         };
         onSave(projectToSave);
+        resetToDefault();
         onClose();
     };
+
+    const resetToDefault = () => {
+        setFormState({
+            projectName: '',
+            description: '',
+            technologiesUsed: '', 
+            link: '',
+        })
+    }
 
     const style = {
         position: 'absolute',
@@ -41,7 +50,7 @@ function ProjectModal({ open, onClose, onSave }) {
         overflowY: 'auto', 
     };
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
                 <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Project

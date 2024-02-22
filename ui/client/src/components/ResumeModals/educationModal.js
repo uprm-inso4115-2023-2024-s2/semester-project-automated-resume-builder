@@ -9,7 +9,7 @@ function EducationModal({ open, onClose, onSave }) {
         startDate: '',
         endDate: '', 
         gpa: '',
-        relevantCourses: '', // For simplicity in form handling, starting as a string
+        relevantCourses: '', 
         about: '',
     });
 
@@ -18,17 +18,30 @@ function EducationModal({ open, onClose, onSave }) {
         setFormState(prev => ({ ...prev, [name]: value }));
     };
 
-    // Convert string inputs to arrays as needed for relevantCourses
     const handleSave = (e) => {
         e.preventDefault();
         const { relevantCourses, ...rest } = formState;
         const educationToSave = {
             ...rest,
-            relevantCourses: relevantCourses.split(',').map(item => item.trim()), // Splitting by comma and trimming
+            relevantCourses: relevantCourses.split(',').map(item => item.trim()), 
         };
         onSave(educationToSave);
+        resetToDefault();
         onClose();
     };
+
+    const resetToDefault = () => {
+        setFormState({
+            institutionName: '',
+            degree: '',
+            location: '',
+            startDate: '',
+            endDate: '', 
+            gpa: '',
+            relevantCourses: '', 
+            about: '',
+        })
+    }
 
     const style = {
         position: 'absolute',
@@ -47,7 +60,7 @@ function EducationModal({ open, onClose, onSave }) {
     
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
                 <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Education

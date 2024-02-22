@@ -17,8 +17,18 @@ function CertificationModal({ open, onClose, onSave }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(formState);
+        resetToDefault();
         onClose();
     };
+
+    const resetToDefault = () => {
+        setFormState({
+            certificationName: '',
+            issuingOrganization: '',
+            dateObtained: '',
+            purpose: '',
+        })
+    }
 
     const style = {
         position: 'absolute',
@@ -36,7 +46,7 @@ function CertificationModal({ open, onClose, onSave }) {
     };
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
                 <Typography 
                     sx={{ 
