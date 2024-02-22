@@ -50,6 +50,7 @@ const SignUpForm  = (onSignUp) => {
       </Typography>
 
       <Grid container spacing={2}> 
+      
         <Grid item xs={12} sm={6}> 
           <TextField
             label="First name"
@@ -64,6 +65,7 @@ const SignUpForm  = (onSignUp) => {
             inputProps={{ style: { color: 'white' } }}
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="Last name"
@@ -78,6 +80,7 @@ const SignUpForm  = (onSignUp) => {
             inputProps={{ style: { color: 'white' } }}
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="Phone number"
@@ -92,6 +95,7 @@ const SignUpForm  = (onSignUp) => {
             inputProps={{ style: { color: 'white' } }}
           />
         </Grid>
+
         <Grid item xs={12}>
           <TextField
             label="Email address"
@@ -106,6 +110,7 @@ const SignUpForm  = (onSignUp) => {
             inputProps={{ style: { color: 'white' } }}
           />
         </Grid>
+
         <Grid item xs={12}>
           <TextField
             label="Password"

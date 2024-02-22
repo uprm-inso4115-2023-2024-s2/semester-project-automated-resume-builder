@@ -27,6 +27,9 @@ export default function Navbar(){
                     <Button variant='contained' color='primary' onClick={() => navigate('login')} className="navbarButton">
                         Log in
                     </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('datainput')} className="navbarButton">
+                        Data entry
+                    </Button>
                 </Toolbar>
             </Container>
         </AppBar>
