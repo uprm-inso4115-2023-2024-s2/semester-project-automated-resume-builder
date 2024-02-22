@@ -1,5 +1,13 @@
 const pool = require('../db');
+const PDFDocument = require('pdfkit');
 
+function buildPDF(dataCallback, endCallback) {
+    const doc = new PDFDocument()
+    doc.on('data', dataCallback);
+    doc.on('end', endCallback);
+    doc.text(val);
+    doc.end();
+}
 // Recomendado para seguridad de contraseñas
 const bcrypt = require('bcrypt'); 
 const getAllUsers = async (req, res, next) => {
@@ -45,7 +53,28 @@ const createUser = async (req, res, next) => {
         next(error);
     }
 };
+//somewhat temporary code to convert the selected user's username into a pdf, planned for use to download resumes
+const getDownload = async (req, res, next) => {
+    try {
+        const { user_id, name } = req.params;
+        const result = await pool.query('SELECT * FROM users WHERE user_id = $1', [user_id]);
 
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        val = result.rows[0].name
+        const doc = new PDFDocument()
+        filename = 'download.pdf'
+        res.setHeader('Content-disposition', 'attachment; filename= "download.pdf"')
+        res.setHeader('Content-type', 'application/pdf')
+        doc.y = 300
+        doc.text(val, 50, 50)
+        doc.pipe(res)
+        doc.end()
+    } catch (error) {
+        next(error);
+    }
+};
 // Actualizar un usuario
 const updateUser = async (req, res, next) => {
     const { user_id } = req.params;
@@ -86,6 +115,7 @@ const deleteUser = async (req, res, next) => {
 module.exports = {
     getAllUsers,
     getUser,
+    getDownload,
     createUser,
     updateUser,
     deleteUser
