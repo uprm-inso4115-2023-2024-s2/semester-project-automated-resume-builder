@@ -24,13 +24,15 @@ function CertificationModal({ open, onClose, onSave }) {
         position: 'absolute',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)', 
-        width: 600, 
-        bgcolor: '#151515', // Dark background color
-        border: '2px solid #333', 
+        transform: 'translate(-50%, -50%)',
+        width: 600,
+        maxHeight: '70vh', 
+        bgcolor: '#202525',
+        border: '2px solid #444',
         boxShadow: 24,
-        p: 4, 
+        p: 4,
         borderRadius: '16px',
+        overflowY: 'auto', 
     };
 
     return (
@@ -84,7 +86,7 @@ function CertificationModal({ open, onClose, onSave }) {
                         inputProps={{ style: { color: 'white' } }}
                         margin="normal"
                     />
-                    <Button type="submit" sx={{ mt: 2, color: 'white', borderColor: 'white', '&:hover': { borderColor: 'white' } }} variant="outlined">
+                    <Button type="submit" sx={{ mt: 2, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
                         Save
                     </Button>
                 </form>
