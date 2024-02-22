@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button, Box,  Typography } from '@mui/material';
+import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
-function WorkExperienceModal({ open, onClose, onSave }) {
+function EducationModal({ open, onClose, onSave }) {
     const [formState, setFormState] = useState({
-        jobTitle: '',
-        companyName: '',
+        institutionName: '',
+        degree: '',
         location: '',
         startDate: '',
-        endDate: '',
-        responsibilities: '',
-        achievements: '',
+        endDate: '', 
+        gpa: '',
+        relevantCourses: [], 
+        about: '',
     });
 
     const handleChange = (e) => {
@@ -48,22 +49,13 @@ function WorkExperienceModal({ open, onClose, onSave }) {
                     }}
                     variant="h6"
                 >
-                    Add Work Experience
+                    Add Education
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField 
-                        name="jobTitle" 
-                        label="Job Title" 
-                        value={formState.jobTitle} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
-                        margin="normal"
-                    />
-                    <TextField 
-                        name="jobTitle" 
-                        label="Job Title" 
-                        value={formState.jobTitle} 
+                        name="institutionName" 
+                        label="Institution name" 
+                        value={formState.institutionName} 
                         onChange={handleChange} fullWidth 
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
@@ -76,4 +68,4 @@ function WorkExperienceModal({ open, onClose, onSave }) {
     );
 }
 
-export default WorkExperienceModal
+export default EducationModal
