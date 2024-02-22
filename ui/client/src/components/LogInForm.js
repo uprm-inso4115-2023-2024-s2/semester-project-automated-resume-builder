@@ -38,6 +38,7 @@ const LogInForm  = (onLogIn) => {
         >
             Log in
         </Typography>
+
         <TextField
         label="Email address"
         variant="outlined"
@@ -50,6 +51,7 @@ const LogInForm  = (onLogIn) => {
         InputLabelProps={{ style: { color: 'white' } }}
         inputProps={{ style: { color: 'white' } }}
         />
+        
         <TextField
         label="Password"
         variant="outlined"
