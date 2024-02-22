@@ -1,122 +1,33 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button, Checkbox, FormControlLabel, Link, Grid, Typography } from '@mui/material';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material';
+// Import modal components
+// import WorkExperienceModal from './WorkExperienceModal';
+// Repeat for other modals as needed
+import WorkExperienceModal from './ResumeModals/workExperienceModal.js';
 
+const ResumeInput = () => {
+    const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
+    // Repeat for other categories
+    const [workExperience, setWorkExperience] = useState([]);
+    // Repeat state management for other categories
 
-const ResumeInput = (onSubmitResumeForm) => {
-
-    //======================Start resume info lists==========================//
-
-    const [workExperience, setWorkExperience] = useState([{
-        jobTitle: '',
-        companyName: '',
-        location: '',
-        startDate: '',
-        endDate: '',
-        responsibilities: '',
-        achievements: '',
-    }]);
-    
-
-    const [education, setEducation] = useState([{
-        institutionName: '',
-        degree: '',
-        location: '',
-        startDate: '',
-        endDate: '', 
-        gpa: '',
-        relevantCourses: [], 
-        about: '',
-    }]);
-    
-
-    const [certifications, setCertifications] = useState([{
-        certificationName: '',
-        issuingOrganization: '', 
-        dateObtained: '', 
-        purpose: '', 
-    }]);
-    
-
-    const [projects, setProjects] = useState([{
-        projectName: '',
-        description: '',
-        technologiesUsed: [], 
-        links: [],
-    }]);
-
-    //======================End resume info lists==========================//
-
-
-    //======================Start user data input============================//
-    const [personalInfo, setPersonalInfo] = useState({
-        firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        links: [],
-        professionalSummary: '',
-    });
-
-    const [currentWorkExperience, setCurrentWorkExperience] = useState({
-        jobTitle: '',
-        companyName: '',
-        location: '',
-        startDate: '',
-        endDate: '',
-        responsibilities: '',
-        achievements: '',
-    });
-
-    const [currentEducation, setCurrentEducation] = useState({
-        institutionName: '',
-        degree: '',
-        location: '',
-        startDate: '',
-        endDate: '', 
-        gpa: '',
-        relevantCourses: [], 
-        about: '',
-    });
-
-    const [currentCertification, setCurrentCertification] = useState({
-        certificationName: '',
-        issuingOrganization: '', 
-        dateObtained: '', 
-        purpose: '', 
-    });
-
-    const [currentProject, setCurrentProject] = useState({
-        projectName: '',
-        description: '',
-        technologiesUsed: [], 
-        links: [],
-    });
-    
-    //======================End user data input============================//
-    
-    
-
-    //======================Start functions=================================//
-
-    const handleInputChange = (setter) => (e) => {
-        const { name, value } = e.target;
-        setter(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
+    const handleSaveWorkExperience = (newItem) => {
+        setWorkExperience(prev => [...prev, newItem]);
     };
 
-    const handleSubmitForList = (setList, currentItem, resetItem) => (e) => {
-        e.preventDefault();
-        setList(prevList => [...prevList, currentItem]);
-        resetItem(); // Reset the form to its initial state
-    };
+    // Repeat save handlers for other categories
 
-    return ((
+    return (
         <div>
-            Im alive :D
+            <Button onClick={() => setShowWorkExperienceModal(true)}>Add Work Experience</Button>
+            <WorkExperienceModal
+                open={showWorkExperienceModal}
+                onClose={() => setShowWorkExperienceModal(false)}
+                onSave={handleSaveWorkExperience}
+            />
+            {/* Repeat for other categories */}
         </div>
-    ))
-}
+    );
+};
 
-export default ResumeInput 
+export default ResumeInput;
