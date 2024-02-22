@@ -37,7 +37,7 @@ const SignUpForm  = (onSignUp) => {
         error = value.trim() === '' ? 'Last name is required' : /\d/.test(value) ? 'Last name should not contain numbers' : '';
         break;
       case 'phone':
-        error = value.trim() === '' ? 'Phone number is required' : /[a-zA-Z]/.test(value) ? 'Phone number should not contain letters' : '';
+        error = value.trim() === '' ? 'Phone number is required' : /[a-zA-Z]/.test(value) ? 'Phone number should not contain letters' : value.length !== 10 ? 'Phone number should be exactly 10 digits' : '';
         break;
       case 'email':
         error = value.trim() === '' ? 'Email is required' : !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value) ? 'Email is invalid' : '';
@@ -74,7 +74,7 @@ const SignUpForm  = (onSignUp) => {
           error = formData[key].trim() === '' ? 'Last name is required' : /\d/.test(formData[key]) ? 'Last name should not contain numbers' : '';
           break;
         case 'phone':
-          error = formData[key].trim() === '' ? 'Phone number is required' : /[a-zA-Z]/.test(formData[key]) ? 'Phone number should not contain letters' : '';
+          error = formData[key].trim() === '' ? 'Phone number is required' : /[a-zA-Z]/.test(formData[key]) ? 'Phone number should not contain letters' : formData[key].length !== 10 ? 'Phone number should be exactly 10 digits': '';
           break;
         case 'email':
           error = formData[key].trim() === '' ? 'Email is required' : !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(formData[key]) ? 'Email is invalid' : '';
