@@ -27,7 +27,7 @@ export default function Navbar(){
                     <Button variant='contained' color='primary' onClick={() => navigate('login')} className="navbarButton">
                         Log in
                     </Button>
-                    <Button variant='contained' color='primary' onClick={() => navigate('datainput')} className="navbarButton">
+                    <Button variant='contained' color='primary' onClick={() => navigate('/resume/datainput')} className="navbarButton">
                         Data entry
                     </Button>
                 </Toolbar>

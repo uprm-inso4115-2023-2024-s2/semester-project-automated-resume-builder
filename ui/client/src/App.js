@@ -7,6 +7,7 @@ import {Container} from '@mui/material'
 import Menu from "./components/NavBar"
 import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
+import ResumeInput from './components/ResumeInput.js';
 
 export default function App(){
   return (
@@ -21,6 +22,7 @@ export default function App(){
             <Route path='/resume/new' element={<ResumeForm />} />
             <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
+            <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
           </Routes>
         </Container>
       </BrowserRouter>
