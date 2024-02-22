@@ -28,7 +28,7 @@ export default function Navbar(){
                         Log in
                     </Button>
                     <Button variant='contained' color='primary' onClick={() => navigate('/resume/datainput')} className="navbarButton">
-                        Data entry
+                        Resume Information
                     </Button>
                 </Toolbar>
             </Container>
