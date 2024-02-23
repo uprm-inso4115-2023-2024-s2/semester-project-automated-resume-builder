@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Card, CardContent, Grid, TextField, Typography } from '@mui/material';
+import { Button, Card, CardContent, Grid, TextField, Typography, Tooltip } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/HelpOutlineRounded';
 
 export default function ResumeForm() {
   const [resume, setResume] = useState({
@@ -21,6 +22,13 @@ export default function ResumeForm() {
     console.log(resume);
   };
 
+//create tooltip with hint
+const renderTooltip = (hint) => (
+  <Tooltip title={hint} arrow>
+    <QuestionMarkIcon />
+  </Tooltip>
+);
+
   return (
     <Grid container direction="column" alignItems="center" justifyContent="center">
       <Grid item xs={12} md={6} lg={4}>
@@ -30,6 +38,9 @@ export default function ResumeForm() {
           </Typography>
           <CardContent>
             <form onSubmit={handleSubmit}>
+            <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Enter your full name')} 
+            </Grid>
               {/* Name */}
               <TextField
                 variant="filled"
@@ -42,6 +53,9 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Enter your email address')}
+              </Grid>                  
               {/* Email */}
               <TextField
                 variant="filled"
@@ -54,6 +68,9 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Write a brief summary of your professional background')}
+              </Grid>
               {/* Summary */}
               <TextField
                 variant="filled"
@@ -68,6 +85,9 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('List your work experience, including job titles and responsibilities, and dates of employment, if applicable.')}
+              </Grid>
               {/* Experience */}
               <TextField
                 variant="filled"
@@ -82,6 +102,9 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('List your education, including degrees and schools attended, and dates of attendance, if applicable.')}
+              </Grid>
               {/* Education */}
               <TextField
                 variant="filled"
@@ -96,6 +119,10 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('List your skills, including technical skills, certifications, and other relevant qualifications.')}
+              </Grid>
+
               {/* Skills */}
               <TextField
                 variant="filled"
@@ -110,7 +137,7 @@ export default function ResumeForm() {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-
+      
               <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Submit Resume
               </Button>
