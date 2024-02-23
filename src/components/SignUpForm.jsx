@@ -25,7 +25,19 @@ const SignUpForm = ({ onSignUp }) => {
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-		setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+		const newValue = type === 'checkbox' ? checked : value;
+		setFormData(prev => ({ ...prev, [name]: newValue }));
+
+		const newErrors = { ...errors };
+
+		const error = validateField(name, newValue);
+		if (error) {
+			newErrors[name] = error;
+		} else {
+			delete newErrors[name];
+		}
+
+		setErrors(newErrors);
 	};
 
 	const validateField = (name, value) => {
@@ -62,10 +74,11 @@ const SignUpForm = ({ onSignUp }) => {
 
 			<Grid container spacing={2}>
 				{fieldConfigs.map(({ name, label, type }) => (
-					<Grid item xs={12} sm={name === 'email' || name === 'password' || name === 'confirmPassword' ? 12 : 6} key={name}>
+					<Grid item xs={12} sm={name === 'email' || name === 'password' || name === 'confirmPassword' ? 12 : 6}>
 						<TextField
 							label={label}
 							variant="outlined"
+							key={name}
 							name={name}
 							value={formData[name]}
 							onChange={handleChange}
@@ -83,16 +96,17 @@ const SignUpForm = ({ onSignUp }) => {
 				<Grid item xs={12}>
 					<FormControlLabel
 						control={<Checkbox checked={formData.agreeTerms} onChange={handleChange} name="agreeTerms" />}
+						key="agreeTerms"
 						label={<React.Fragment>I agree with the <Link href="#" style={{ color: 'white' }}>terms and conditions</Link>.</React.Fragment>}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<Button type="submit" variant="contained" color="primary" fullWidth>
+					<Button type="submit" variant="contained" color="primary" fullWidth key="submit">
 						Submit
 					</Button>
 				</Grid>
 			</Grid>
-		</form>
+		</form >
 	);
 };
 

@@ -16,7 +16,7 @@ The code will no longer work with the local Postgres database so there is no nee
 npm install
 ```
 
-## Inside the API folder you are going to create a file called .env with the variables shown below. Please note that no value is shown since these are the credentials to access the database so they are confidential. To find out what your values are, contact Janiel Núñez.
+## Inside the api/ folder you are going to create a file called .env with the variables shown below. Please note that no value is shown since these are the credentials to access the database so they are confidential. To find out what your values are, contact Janiel Núñez.
 ```.env
 DB_USER=something
 DB_PASSWORD=something
@@ -25,7 +25,7 @@ DB_PORT=something
 DB_NAME=something
 ```
 
-## Inside the ui/client folder you will create a file called .env.local with the following content:
+## Inside the src/ folder you will need to create a file called .env.local with the following content:
 ```.env
 REACT_APP_BACKEND_URL=http://localhost:4000
 ```
@@ -33,13 +33,13 @@ REACT_APP_BACKEND_URL=http://localhost:4000
 
 ## Run the servers
 
-1. To run the backend, open a terminal, navigate to the `api` folder and run:
+1. To run the backend, open a terminal, and inside the root folder run:
     ```
     npm run dev
     ```
     This will start the backend server.
 
-2. To start the frontend, open a new terminal, navigate to `ui/client` and run:
+2. To start the frontend, open a new terminal, and inside the root folder run:
     ```
     npm start
     ```

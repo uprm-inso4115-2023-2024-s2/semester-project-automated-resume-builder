@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { UserProvider } from './contexts/UserContext.jsx';
 import UserList from './components/UserList.jsx'
 import UserForm from './components/UserForm.jsx'
@@ -14,6 +14,7 @@ export default function App(){
   return (
 		<>
 			<UserProvider>
+				<BrowserRouter>
 					<Menu />
 					<Container>
 						<Routes>
@@ -26,6 +27,7 @@ export default function App(){
 							<Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
 						</Routes>
 					</Container>
+				</BrowserRouter>
 			</UserProvider>
 		</>
   )

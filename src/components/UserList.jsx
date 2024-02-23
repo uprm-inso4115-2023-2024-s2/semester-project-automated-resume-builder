@@ -71,7 +71,7 @@ export default function UserList() {
 	return (
 		<>
 			<h1>User List {globalUser.name}</h1>
-			{users.map((user) => (
+			{Array.isArray(users) && users.map((user) => (
 				<Card key={user.user_id} sx={styles.card}>
 					<CardContent sx={styles.cardContent}>
 						<div sx={styles.userInfo}>

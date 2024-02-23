@@ -5,9 +5,9 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node api/src/index.js",
-		"dev": "nodemon src/index.js",
-		"front-start": "react-scripts start",
+		"back-start": "node api/src/index.js",
+		"dev": "nodemon api/src/index.js",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"

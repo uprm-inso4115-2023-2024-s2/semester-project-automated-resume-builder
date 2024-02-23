@@ -2,6 +2,24 @@ import React, { useState } from 'react';
 import { Button, Card, CardContent, Grid, TextField, Typography, Tooltip } from '@mui/material';
 import QuestionMarkIcon from '@mui/icons-material/HelpOutlineRounded';
 
+const formStyles = {
+	card: {
+		mt: 5,
+		backgroundColor: '#1e272e',
+		padding: '1rem',
+	},
+	textField: {
+		display: 'block',
+		margin: '.5rem 0',
+	},
+	input: {
+		color: 'white',
+	},
+	label: {
+		color: 'white',
+	},
+};
+
 export default function ResumeForm() {
 	const [resume, setResume] = useState({
 		name: '',
@@ -30,8 +48,8 @@ export default function ResumeForm() {
 	}
 
 	const fields = [
-		{ tooltip: 'Enter your full name', label: 'Name', name: 'name', multiline: false, },
-		{ tooltip: 'Enter your email address', label: 'Email', name: 'email', multiline: false, },
+		{ tooltip: 'Enter your full name', label: 'Name', name: 'name', },
+		{ tooltip: 'Enter your email address', label: 'Email', name: 'email', },
 		{ tooltip: 'Write a brief summary of your professional background', label: 'Professional Summary', name: 'summary', multiline: true, rows: 4, },
 		{ tooltip: 'List your work experience, including job titles and responsibilities, and dates of employment, if applicable.', label: 'Work Experience', name: 'experience', multiline: true, rows: 4, },
 		{ tooltip: 'List your education, including degrees and schools attended, and dates of attendance, if applicable.', label: 'Education', name: 'education', multiline: true, rows: 4, },
@@ -39,16 +57,16 @@ export default function ResumeForm() {
 	];
 
 	return (
-		<Grid container direction="column" alignItems="center" justifyContent="center">
+		<Grid alignItems="center" justifyContent="center">
 			<Grid item xs={12} md={6} lg={4}>
-				<Card sx={{ mt: 5, backgroundColor: '#1e272e', padding: '1rem' }}>
+				<Card sx={formStyles.card}>
 					<Typography variant="h5" textAlign="center" color="white">
 						Create Resume
 					</Typography>
 					<CardContent>
 						<form onSubmit={handleSubmit}>
 							{fields.map(({ tooltip, label, name, multiline, rows }) => (
-								<>
+								<React.Fragment key={name}>
 									<Grid container direction="row" justifyContent="flex-end">
 										{renderTooltip(tooltip)}
 									</Grid>
@@ -56,14 +74,17 @@ export default function ResumeForm() {
 										variant="filled"
 										label={label}
 										name={name}
+										key={name}
 										value={resume[name]}
 										onChange={handleChange}
 										fullWidth
 										margin="normal"
-										InputLabelProps={{ style: { color: 'white' } }}
-										inputProps={{ style: { color: 'white' }, multiline: multiline ?? false, rows: rows ?? 1 }}
+										multiline={multiline ?? false}
+										rows={rows ?? 1}
+										InputLabelProps={{ style: formStyles.input }}
+										inputProps={{ style: formStyles.input, }}
 									/>
-								</>
+								</React.Fragment>
 							))}
 
 							<Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>

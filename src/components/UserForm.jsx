@@ -59,11 +59,11 @@ export default function UserForm() {
 		loadUser();
 	}, [id]);
 
-	const handleChange = e => {
+	async function handleChange(e) {
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
 
-	const handleSubmit = async e => {
+	async function handleSubmit(e) {
 		e.preventDefault();
 		setLoading(true);
 		try {
@@ -93,7 +93,7 @@ export default function UserForm() {
 	];
 
 	return (
-		<Grid container direction="column" alignItems="center" justifyContent="center">
+		<Grid alignItems="center" justifyContent="center">
 			<Grid item xs={12} md={6} lg={4}>
 				<Card sx={formStyles.card}>
 					<Typography variant="h5" textAlign="center" color="white">
@@ -102,26 +102,30 @@ export default function UserForm() {
 					<CardContent>
 						<form onSubmit={handleSubmit}>
 							{formFields.map(({ id, label, type, multiline, rows }) => (
-								<TextField
-									key={id}
-									variant="filled"
-									label={label}
-									type={type}
-									name={id}
-									value={user[id]}
-									onChange={handleChange}
-									multiline={multiline}
-									rows={rows || 1}
-									sx={formStyles.textField}
-									InputProps={{ style: formStyles.input }}
-									InputLabelProps={{ style: formStyles.label }}
-								/>
+								<>
+									<TextField
+										key={id}
+										variant="filled"
+										label={label}
+										type={type}
+										name={id}
+										value={user[id]}
+										onChange={handleChange}
+										fullWidth
+										margin="normal"
+										multiline={multiline ?? false}
+										rows={rows ?? 1}
+										sx={formStyles.textField}
+										InputProps={{ style: formStyles.input }}
+										InputLabelProps={{ style: formStyles.input }}
+									/>
+								</>
 							))}
 							<Button variant="contained" color="primary" type="submit" disabled={loading || !user.email || !user.name}>
 								{loading ? <CircularProgress color="inherit" size={24} /> : 'Save'}
 							</Button>
 						</form>
-					</CardContent>
+					</CardContent >
 				</Card>
 			</Grid>
 		</Grid>
