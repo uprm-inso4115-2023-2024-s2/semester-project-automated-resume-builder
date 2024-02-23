@@ -30,8 +30,7 @@ export default function UserForm(){
 
   const handleSubmit = async e =>{
     e.preventDefault();
-
-    setLoading(true)
+    setLoading(true);
 
     if (editing){
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${params.id}`, {
