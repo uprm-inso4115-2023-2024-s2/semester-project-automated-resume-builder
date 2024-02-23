@@ -42,14 +42,14 @@ const getUser = async (req, res, next) => {
     }
 };
 
-
+// Sign user up
 const signUpUser = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
-            'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING user_id, email',
-            [email, hashedPassword]
+            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING user_id, email, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile',
+            [email, hashedPassword, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile]
         );
         const user = result.rows[0];
         const token = generateAuthToken(user.user_id);
@@ -59,6 +59,7 @@ const signUpUser = async (req, res, next) => {
     }
 };
 
+// Log user in
 const logInUser = async (req, res, next) => {
     const { email, password } = req.body;
     try {
