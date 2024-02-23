@@ -1,15 +1,15 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import userRoutes from './routes/users.routes.js';
 
-const userRoutes = require('./routes/users.routes');
 const app = express();
+const PORT = 4000;
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
-// Route handler for the root ("/")
 app.get('/', (req, res) => {
     res.send('Hello, welcome to the backend!');
 });
@@ -17,11 +17,9 @@ app.get('/', (req, res) => {
 app.use(userRoutes);
 
 app.use((err, req, res, next) => {
-    return res.json({
-        message: err.message
-    });
+    res.json({ message: err.message });
 });
 
-app.listen(4000, () => {
-    console.log('Server on port 4000');
+app.listen(PORT, () => {
+    console.log(`Server on port ${PORT}`);
 });

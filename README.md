@@ -11,21 +11,7 @@ This document describes the steps required to configure and run the project. Ple
 The code will no longer work with the local Postgres database so there is no need to download it.
 
 
-## Commands to install dependencies in the API folder
-```
-npm install nodemon --save-dev
-```
-```
-npm i express morgan cors
-```
-```
-npm install bcrypt
-```
-```
-npm install jsonwebtoken
-```
-
-## Commands to install dependencies in the ui/client folder
+## Commands to install dependencies in the root folder
 ```
 npm install
 ```

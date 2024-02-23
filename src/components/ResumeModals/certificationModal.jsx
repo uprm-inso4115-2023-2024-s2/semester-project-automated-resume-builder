@@ -1,6 +1,45 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
+const modalStyles = {
+  modalBox: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    maxHeight: '70vh',
+    bgcolor: '#202525',
+    border: '2px solid #444',
+    boxShadow: 24,
+    p: 4,
+    borderRadius: '16px',
+    overflowY: 'auto',
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    mb: 2,
+  },
+};
+
+const formStyles = {
+  textField: {
+    InputLabelProps: { style: { color: 'white' } },
+    inputProps: { style: { color: 'white' } },
+    margin: "normal",
+    fullWidth: true,
+  },
+  saveButton: {
+    mt: 2,
+    color: 'light blue',
+    borderColor: 'light blue',
+    '&:hover': {
+      borderColor: 'light blue',
+    },
+  },
+};
+
 function CertificationModal({ open, onClose, onSave }) {
     const [formState, setFormState] = useState({
         certificationName: '',
@@ -27,33 +66,14 @@ function CertificationModal({ open, onClose, onSave }) {
             issuingOrganization: '',
             dateObtained: '',
             purpose: '',
-        })
-    }
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 600,
-        maxHeight: '70vh', 
-        bgcolor: '#202525',
-        border: '2px solid #444',
-        boxShadow: 24,
-        p: 4,
-        borderRadius: '16px',
-        overflowY: 'auto', 
+        });
     };
 
     return (
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
-            <Box sx={style}>
+            <Box sx={modalStyles.modalBox}>
                 <Typography 
-                    sx={{ 
-                        color: 'white', 
-                        fontWeight: 'bold', 
-                        mb: 2 
-                    }}
+                    sx={modalStyles.title}
                     variant="h6"
                 >
                     Add Certification
@@ -63,40 +83,35 @@ function CertificationModal({ open, onClose, onSave }) {
                         name="certificationName" 
                         label="Certification Name" 
                         value={formState.certificationName} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
-                        margin="normal"
+                        onChange={handleChange}
+                        {...formStyles.textField}
                     />
                     <TextField 
                         name="issuingOrganization" 
                         label="Issuing Organization" 
                         value={formState.issuingOrganization} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
-                        margin="normal"
+                        onChange={handleChange}
+                        {...formStyles.textField}
                     />
                     <TextField 
                         name="dateObtained" 
                         label="Date Obtained" 
                         type="date"
                         value={formState.dateObtained} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
-                        inputProps={{ style: { color: 'white' } }}
+                        onChange={handleChange}
+                        InputLabelProps={{ ...formStyles.textField.InputLabelProps, shrink: true }}
+                        inputProps={formStyles.textField.inputProps}
+                        fullWidth
                         margin="normal"
                     />
                     <TextField 
                         name="purpose" 
                         label="Purpose" 
                         value={formState.purpose} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
-                        margin="normal"
+                        onChange={handleChange}
+                        {...formStyles.textField}
                     />
-                    <Button type="submit" sx={{ mt: 2, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
+                    <Button type="submit" sx={formStyles.saveButton} variant="outlined">
                         Save
                     </Button>
                 </form>
