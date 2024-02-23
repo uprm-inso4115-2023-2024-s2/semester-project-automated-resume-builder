@@ -1,9 +1,10 @@
 const { Router } = require('express');
-const { 
+const {
     getAllUsers,
     getUser,
     getDownload,
-    createUser,
+    signUpUser,
+    logInUser,
     updateUser,
     deleteUser
 } = require('../controllers/users.controller')
@@ -20,12 +21,15 @@ router.get('/users/:user_id', getUser)
 // Only missing the fromatting required to write to the pdf, all the base for writing said text is ready
 router.post('/users/:user_id/dummyResumen/download', getDownload)
 
-// Para crear un nuevo usuario
-router.post('/users', createUser)
+// Sign user up
+router.post('/users', signUpUser)
+
+// Sign user up
+router.post('/users/login', logInUser)
 
 // Para actualizar un usuario
 router.delete('/users/:user_id', deleteUser)
 
-router.put('/users/:user_id', updateUser) 
+router.put('/users/:user_id', updateUser)
 
 module.exports = router;

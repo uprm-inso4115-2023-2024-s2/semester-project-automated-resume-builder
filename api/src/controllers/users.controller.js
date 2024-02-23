@@ -8,14 +8,21 @@ function buildPDF(dataCallback, endCallback) {
     doc.text(val);
     doc.end();
 }
-// Recomendado para seguridad de contraseñas
-const bcrypt = require('bcrypt'); 
+// Recommended for password security
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
+// Generate authentication token for session
+const generateAuthToken = (userId) => {
+    return jwt.sign({ userId }, 'your_secret_key', { expiresIn: '1h' });
+};
+
 const getAllUsers = async (req, res, next) => {
     try {
         const allUsers = await pool.query('SELECT * FROM users');
         res.json(allUsers.rows);
     } catch (error) {
-        next(error); 
+        next(error);
     }
 };
 
@@ -35,24 +42,42 @@ const getUser = async (req, res, next) => {
     }
 };
 
-// Crear un nuevo usuario
-const createUser = async (req, res, next) => {
-    const { email, password, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile } = req.body;
 
+const signUpUser = async (req, res, next) => {
+    const { email, password } = req.body;
     try {
-        // Aqui se usa el bcrypt para hashear la contraseña (recomendado debido a que es mejor que se genere el hash en el servidor que en el cliente)
-        const password_hash = await bcrypt.hash(password, 10);
-
+        const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
-            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-            [email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile]
+            'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING user_id, email',
+            [email, hashedPassword]
         );
-
-        res.json(result.rows[0]); // Para retornar el usuario creado
+        const user = result.rows[0];
+        const token = generateAuthToken(user.user_id);
+        res.json({ user, token });
     } catch (error) {
         next(error);
     }
 };
+
+const logInUser = async (req, res, next) => {
+    const { email, password } = req.body;
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (result.rows.length === 0) {
+            return res.status(401).json({ message: 'Invalid Credentials' });
+        }
+        const user = result.rows[0];
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid Credentials' });
+        }
+        const token = generateAuthToken(user.user_id);
+        res.json({ user, token });
+    } catch (error) {
+        next(error);
+    }
+};
+
 //somewhat temporary code to convert the selected user's username into a pdf, planned for use to download resumes
 const getDownload = async (req, res, next) => {
     try {
@@ -116,7 +141,8 @@ module.exports = {
     getAllUsers,
     getUser,
     getDownload,
-    createUser,
+    signUpUser,
+    logInUser,
     updateUser,
     deleteUser
 };
