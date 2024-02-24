@@ -21,6 +21,9 @@ npm i express morgan cors
 ```
 npm install bcrypt
 ```
+```
+npm install jsonwebtoken
+```
 
 ## Commands to install dependencies in the ui/client folder
 ```
