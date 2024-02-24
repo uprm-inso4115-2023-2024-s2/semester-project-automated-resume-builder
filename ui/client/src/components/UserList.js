@@ -30,6 +30,28 @@ export default function UserList(){
         }
         
     }
+//calls back end for the file of the specified username
+    const handleDownload = async (id) => {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id}/dummyResumen/download` , {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(async res => {
+          if (res.status === 200) {
+            const blob = await res.blob();
+            const file = new Blob(
+              [blob], 
+              {type: 'application/pdf'}
+            );
+            //Build a URL from the file
+            const fileURL = URL.createObjectURL(file);
+            //Open the URL on new Window
+            window.open(fileURL);  
+          }
+        })
+        
+    }
 
     useEffect( () =>{
         loadusers()
@@ -65,6 +87,10 @@ export default function UserList(){
 
                             <Button variant='contained' color='warning' onClick={() => handleDelete(user.user_id)} style={{margin: '.5rem'}}>
                                 Delete
+                            </Button>
+
+                            <Button variant='contained' color='inherit' onClick={(e) => handleDownload(user.user_id)} style={{margin: '.5rem'}}>
+                                Download
                             </Button>
                         </div>
 

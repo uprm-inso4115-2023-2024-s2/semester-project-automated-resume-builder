@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const { 
+const {
     getAllUsers,
     getUser,
-    createUser,
+    getDownload,
+    signUpUser,
+    logInUser,
     updateUser,
     deleteUser
 } = require('../controllers/users.controller')
@@ -15,12 +17,19 @@ router.get('/users', getAllUsers)
 // Para obtener un usuario por user_id
 router.get('/users/:user_id', getUser)
 
-// Para crear un nuevo usuario
-router.post('/users', createUser)
+// Call to create a pdf document off of the given resume (temporarily puts the user's username in the pdf)
+// Only missing the fromatting required to write to the pdf, all the base for writing said text is ready
+router.post('/users/:user_id/dummyResumen/download', getDownload)
+
+// Sign user up
+router.post('/users', signUpUser)
+
+// Sign user up
+router.post('/users/login', logInUser)
 
 // Para actualizar un usuario
 router.delete('/users/:user_id', deleteUser)
 
-router.put('/users/:user_id', updateUser) 
+router.put('/users/:user_id', updateUser)
 
 module.exports = router;

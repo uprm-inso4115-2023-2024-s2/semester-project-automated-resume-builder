@@ -1,13 +1,28 @@
 const pool = require('../db');
+const PDFDocument = require('pdfkit');
 
-// Recomendado para seguridad de contraseñas
-const bcrypt = require('bcrypt'); 
+function buildPDF(dataCallback, endCallback) {
+    const doc = new PDFDocument()
+    doc.on('data', dataCallback);
+    doc.on('end', endCallback);
+    doc.text(val);
+    doc.end();
+}
+// Recommended for password security
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
+// Generate authentication token for session
+const generateAuthToken = (userId) => {
+    return jwt.sign({ userId }, 'your_secret_key', { expiresIn: '1h' });
+};
+
 const getAllUsers = async (req, res, next) => {
     try {
         const allUsers = await pool.query('SELECT * FROM users');
         res.json(allUsers.rows);
     } catch (error) {
-        next(error); 
+        next(error);
     }
 };
 
@@ -27,25 +42,65 @@ const getUser = async (req, res, next) => {
     }
 };
 
-// Crear un nuevo usuario
-const createUser = async (req, res, next) => {
-    const { email, password, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile } = req.body;
-
+// Sign user up
+const signUpUser = async (req, res, next) => {
+    const { email, password } = req.body;
     try {
-        // Aqui se usa el bcrypt para hashear la contraseña (recomendado debido a que es mejor que se genere el hash en el servidor que en el cliente)
-        const password_hash = await bcrypt.hash(password, 10);
-
+        const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
-            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-            [email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile]
+            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING user_id, email, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile',
+            [email, hashedPassword, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile]
         );
-
-        res.json(result.rows[0]); // Para retornar el usuario creado
+        const user = result.rows[0];
+        const token = generateAuthToken(user.user_id);
+        res.json({ user, token });
     } catch (error) {
         next(error);
     }
 };
 
+// Log user in
+const logInUser = async (req, res, next) => {
+    const { email, password } = req.body;
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (result.rows.length === 0) {
+            return res.status(401).json({ message: 'Invalid Credentials' });
+        }
+        const user = result.rows[0];
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid Credentials' });
+        }
+        const token = generateAuthToken(user.user_id);
+        res.json({ user, token });
+    } catch (error) {
+        next(error);
+    }
+};
+
+//somewhat temporary code to convert the selected user's username into a pdf, planned for use to download resumes
+const getDownload = async (req, res, next) => {
+    try {
+        const { user_id, name } = req.params;
+        const result = await pool.query('SELECT * FROM users WHERE user_id = $1', [user_id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        val = result.rows[0].name
+        const doc = new PDFDocument()
+        filename = 'download.pdf'
+        res.setHeader('Content-disposition', 'attachment; filename= "download.pdf"')
+        res.setHeader('Content-type', 'application/pdf')
+        doc.y = 300
+        doc.text(val, 50, 50)
+        doc.pipe(res)
+        doc.end()
+    } catch (error) {
+        next(error);
+    }
+};
 // Actualizar un usuario
 const updateUser = async (req, res, next) => {
     const { user_id } = req.params;
@@ -86,7 +141,9 @@ const deleteUser = async (req, res, next) => {
 module.exports = {
     getAllUsers,
     getUser,
-    createUser,
+    getDownload,
+    signUpUser,
+    logInUser,
     updateUser,
     deleteUser
 };
