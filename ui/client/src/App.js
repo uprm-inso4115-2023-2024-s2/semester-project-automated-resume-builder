@@ -8,6 +8,7 @@ import Menu from "./components/NavBar"
 import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
+import LandingPage from './components/ResumeModals/LandingPage.js';
 
 export default function App(){
   return (
@@ -16,6 +17,8 @@ export default function App(){
         <Menu />
         <Container>
           <Routes>
+            {/*Landing Page*/}
+            <Route path='/' element={<LandingPage />} />
             <Route path='/' element={<UserList />} />
             <Route path='/users/new' element={<UserForm />} />
             <Route path='/users/:id/edit' element={<UserForm />} />
