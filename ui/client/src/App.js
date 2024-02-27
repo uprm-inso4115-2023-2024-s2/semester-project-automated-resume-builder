@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext.js';
 import { Container } from '@mui/material';
 import MenuContainer from "./components/MenuContainer";
-import LandingPage from './components/ResumeModals/LandingPage.js';
+import LandingPage from './components/LandingPage.js';
 import UserForm from './components/UserForm.js';
 import ResumeForm from './components/resume';
 import SignUpForm from './components/SignUpForm.js';

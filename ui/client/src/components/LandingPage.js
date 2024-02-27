@@ -16,7 +16,7 @@ function LandingPage() {
                     <p>Get started by creating a new resume</p>
                     {/* Apply custom styles to the Link */}
                     <Link to="/resume/new" onClick={handleGetStarted} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <button style={{ textDecoration: 'none', color: 'inherit' }}>Start your resume!</button>
+                        <button style={{ textDecoration: 'none', color: 'black' }}>Start your resume!</button>
                     </Link>
                 </div>
             )}
