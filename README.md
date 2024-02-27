@@ -24,6 +24,9 @@ npm install bcrypt
 ```
 npm install jsonwebtoken
 ```
+```
+npm install pdfkit
+```
 
 ## Commands to install dependencies in the ui/client folder
 ```
