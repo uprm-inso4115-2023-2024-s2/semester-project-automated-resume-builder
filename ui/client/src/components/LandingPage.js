@@ -9,7 +9,7 @@ function LandingPage() {
     }
 
     return (
-        <div>
+        <div style={styles.container}>
             <h1>Welcome to the Resume Builder</h1>
             {!started && (
                 <div>
@@ -26,5 +26,23 @@ function LandingPage() {
         </div>
     );
 }
+
+// Define styles
+const styles = {
+    container: {
+        background: 'linear-gradient(to bottom, #7be495, #28a745)', // Brighter green variant with faster color transition
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+        color: 'white', // Text color
+    },
+};
 
 export default LandingPage;
