@@ -11,13 +11,29 @@ function LandingPage() {
 
     return (
         <div className='container'> {/* Apply custom styles to the container */}
-            <h1>Welcome to the Resume Builder</h1>
+            <h1 className='upresume-title'>UPResuMe</h1>
+            <div className='top-buttons-group'>
+                <button className='top-button'>Templates</button>
+                <Link to='/resume/datainput' className='link'>
+                    <button className='top-button'>Resume</button>
+                </Link>
+            </div>
+            <div className='profile-picture'></div>
+            <h1 className='welcome'>
+                <p>Resumes got you crazy?</p>
+                <p>Can't find the right color?</p>
+                <p>Need help picking the right template?</p>
+            </h1>
+            {/*diplaing resume images*/}
+            <div className='resume-images'>
+                <img src="/resume1.png" alt='resume1' />
+                <img src='/resume2.png' alt='resume2' />
+            </div>
             {!started && (
-                <div>
-                    <p>Get started by creating a new resume</p>
+                <div className='button-container'>
                     {/* Apply custom styles to the Link */}
                     <Link to="/resume/new" onClick={handleGetStarted} className='link'>
-                        <button className='button'>Start your resume!</button>
+                            <button className='button'>Start your resume today!</button>
                     </Link>
                 </div>
             )}
