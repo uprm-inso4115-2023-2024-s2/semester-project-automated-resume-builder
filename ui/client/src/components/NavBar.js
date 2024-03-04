@@ -1,5 +1,5 @@
 import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom';
 
 export default function Navbar(){
     
@@ -29,6 +29,9 @@ export default function Navbar(){
                     </Button>
                     <Button variant='contained' color='primary' onClick={() => navigate('/resume/datainput')} className="navbarButton">
                         Resume Information
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('/preview')} className="navbarButton">
+                        Preview
                     </Button>
                 </Toolbar>
             </Container>

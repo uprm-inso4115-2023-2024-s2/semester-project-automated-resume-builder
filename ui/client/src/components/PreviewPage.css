@@ -1,0 +1,49 @@
+.resume-preview-container {
+    background: linear-gradient(160deg, #a4d96c 0%, #35612a 100%);
+    padding: 20px;
+    overflow: auto;
+  }
+  
+  .pdf-preview-placeholder {
+    aspect-ratio: 1 / 1;
+    background: #ffffff;
+    width: 100%;
+  }
+  
+  .title {
+    text-align: center ;
+    color: #fff ;
+    margin-bottom: 20px !important;
+    font-size: 3rem !important;
+  }
+  
+  .buttons-row {
+    display: flex;
+    justify-content: space-between ;
+    margin-bottom: 20px;
+  }
+  
+  .button-single {
+    text-align: center ;
+  }
+  
+  .custom-button {
+    background-color: rgb(255, 255, 255) !important;
+    color: #4b8b3b !important;
+    margin-right: 10px !important;
+
+    min-Width: 120px; /* Ajusta al mínimo ancho deseado */
+    height: 40px; /* Ajusta a la altura deseada */
+    padding: 6px 16px; /* Ajusta el relleno según sea necesario */
+
+    
+  }
+  
+  .custom-button:hover {
+    background-color: #009b22 ;
+  }
+  
+  .custom-button .MuiSvgIcon-root {
+    color: #4b8b3b;
+  }
+  
