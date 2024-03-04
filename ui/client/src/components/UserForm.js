@@ -82,7 +82,6 @@ export default function UserForm(){
 // To clear the test just erase the h1 line 3 lines below
   return (
     <div>
-      <Menu />
       <Grid container direction='column' alignItems='center' justifyContent='center'>
         <h1>{globalUser.name} {user.middle_initial} {user.frst_lst_name}</h1>
         <Grid item xs={3}>
