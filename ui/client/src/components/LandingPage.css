@@ -1,0 +1,25 @@
+/* LandingPage.css */
+.container {
+    background: linear-gradient(to bottom, #7be495, #28a745);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: white;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.button {
+    text-decoration: none;
+    color: black;
+}
