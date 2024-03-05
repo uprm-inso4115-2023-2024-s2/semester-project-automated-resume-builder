@@ -1,23 +1,25 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+// App.js
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext.js';
-import UserList from './components/UserList.js'
-import UserForm from './components/UserForm.js'
-import ResumeForm from './components/resume'
-import {Container} from '@mui/material'
-import Menu from "./components/NavBar"
+import { Container } from '@mui/material';
+import MenuContainer from "./components/MenuContainer";
+import LandingPage from './components/LandingPage.js';
+import UserForm from './components/UserForm.js';
+import ResumeForm from './components/resume';
 import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
 
-export default function App(){
+export default function App() {
   return (
     <UserProvider>
       <BrowserRouter>
-        <Menu />
+        <MenuContainer /> {/* Render the MenuContainer component */}
         <Container>
           <Routes>
-            <Route path='/' element={<UserList />} />
+            {/* Landing Page */}
+            <Route path='/' element={<LandingPage />} />
             <Route path='/users/new' element={<UserForm />} />
             <Route path='/users/:id/edit' element={<UserForm />} />
             <Route path='/resume/new' element={<ResumeForm />} />
