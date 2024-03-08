@@ -4,9 +4,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
 import LinkIcon from '@mui/icons-material/Link';
 import SaveIcon from '@mui/icons-material/Save';
+import HomeIcon from '@mui/icons-material/Home';
 import './PreviewPage.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function PreviewPage() {
+    const navigate = useNavigate();
 
     const handleShare = () => {
         console.log('Compartir presionado');
@@ -22,6 +25,10 @@ export default function PreviewPage() {
     
       const handleSave = () => {
         console.log('Guardar presionado');
+      };
+
+      const handleMainMenu = () => {
+        navigate('/');
       };
 
 
@@ -41,14 +48,18 @@ export default function PreviewPage() {
             Share & Export Your Resume!
           </Typography>
           <Box className="buttons-row">
-            <Button className="custom-button" startIcon={<ShareIcon />} onClick={handleShare}>Compartir</Button>
-            <Button className="custom-button" startIcon={<DownloadIcon />} onClick={handleDownload}>Descargar</Button>
-            <Button className="custom-button" startIcon={<LinkIcon />} onClick={handleCopyLink}>Copiar Enlace</Button>
+            <Button className="custom-button" startIcon={<ShareIcon />} onClick={handleShare}>Share</Button>
+            <Button className="custom-button" startIcon={<DownloadIcon />} onClick={handleDownload}>Download</Button>
+            <Button className="custom-button" startIcon={<LinkIcon />} onClick={handleCopyLink}>Copy Link</Button>
           </Box>
           <Box className="button-single">
-            <Button className="custom-button" startIcon={<SaveIcon />} onClick={handleSave}>Guardar</Button>
+            <Button className="custom-button" startIcon={<SaveIcon />} onClick={handleSave}>Save</Button>
+          </Box>
+          <Box className="homepage-button">
+            <Button onClick={handleMainMenu} className='custom-button' startIcon={<HomeIcon/>}>Back to Homepage</Button>
           </Box>
         </Grid>
+          
       </Grid>
 
     </Box>
