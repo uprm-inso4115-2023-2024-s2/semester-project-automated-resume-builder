@@ -1,5 +1,9 @@
 const pool = require('../db');
 const PDFDocument = require('pdfkit');
+const { Resend } = require('resend');
+const resend = new Resend('re_cnazMdWM_FS1Zo3ce1vrAFm3XiboSRCzd');
+const crypto = require('crypto');
+
 
 function buildPDF(dataCallback, endCallback) {
     const doc = new PDFDocument()
@@ -42,21 +46,52 @@ const getUser = async (req, res, next) => {
     }
 };
 
-// Sign user up
+const verifiedEmail = async (req, res, next) => {
+    const { token } = req.query; // Extraes el token de la URL
+    // Aquí buscas en la base de datos el usuario con este token y actualizas su estado a verificado
+    try {
+        const result = await pool.query(
+            'UPDATE users SET email_verified = true WHERE email_verification_token = $1 RETURNING *',
+            [token]
+        );
+        
+        if (result.rows.length > 0) {
+            res.redirect("http://localhost:3000/");
+        } else {
+            res.redirect("http://localhost:3000/");
+        }
+    } catch (error) {
+        next(error)
+    }
+    
+};
+
 const signUpUser = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password, name, frst_lst_name, phone_number } = req.body;
+    const emailVerificationToken = crypto.randomBytes(20).toString('hex');
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
-            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING user_id, email, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile',
-            [email, hashedPassword, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile]
+            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile, email_verification_token, email_verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+            [email, hashedPassword, name, "", frst_lst_name, "", phone_number, "", "", emailVerificationToken, false]
         );
         const user = result.rows[0];
         const token = generateAuthToken(user.user_id);
         res.json({ user, token });
+
+        
+
+        resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: [email],
+            subject: 'Hello World',
+            html: `<strong>Haz clic en este enlace para verificar tu correo electrónico:</strong> <a href="http://localhost:4000/verificar-email?token=${emailVerificationToken}">Verificar Email</a>`,
+          });
+
     } catch (error) {
         next(error);
     }
+
 };
 
 // Log user in
@@ -145,5 +180,6 @@ module.exports = {
     signUpUser,
     logInUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    verifiedEmail
 };

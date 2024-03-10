@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Checkbox, FormControlLabel, Link, Grid, Typography } from '@mui/material';
 
 
+
 const SignUpForm  = (onSignUp) => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -60,7 +65,7 @@ const SignUpForm  = (onSignUp) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
 
@@ -92,17 +97,55 @@ const SignUpForm  = (onSignUp) => {
       if (error) return;
     }
 
-    console.log('Form submitted')
+    
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          name: formData.firstName,
+          middle_initial: formData.middleInitial,
+          frst_lst_name: formData.lastName,
+          scnd_lst_name: formData.scndLastName,
+          phone_number: formData.phone,
+          summary: formData.summary,
+          profile: formData.profile,
+          emailVerification: false,
+        }),
+      });
+  
+      if (!response.ok) { //Manejo de errores 1
+        throw new Error('Error en la solicitud al servidor');
+      }
+      const result = await response.json();
+      if(result.message && result.message.includes('users_email_key')){//Manejo de errores 2
+        setError(prevError => ({
+          ...prevError,
+          email: 'The email is already registered. Please use another email.'
+        }));
+        return;
+      }
+      console.log(result.message)
+      // Everything turned out correct
+      setFormData({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        agreeTerms: false,
+      });
 
-    setFormData({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      agreeTerms: false,
-    });
+      navigate('/login');
+
+    } catch (error) {
+      console.error('Error al enviar el formulario: ', error);
+    }
   };
   
 

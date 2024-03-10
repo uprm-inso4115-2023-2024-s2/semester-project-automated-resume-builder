@@ -3,10 +3,11 @@ const {
     getAllUsers,
     getUser,
     getDownload,
+    verifiedEmail,
     signUpUser,
     logInUser,
     updateUser,
-    deleteUser
+    deleteUser,
 } = require('../controllers/users.controller')
 
 const router = Router();
@@ -23,6 +24,8 @@ router.post('/users/:user_id/dummyResumen/download', getDownload)
 
 // Sign user up
 router.post('/users', signUpUser)
+
+router.get('/verificar-email', verifiedEmail)
 
 // Sign user up
 router.post('/users/login', logInUser)
