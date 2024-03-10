@@ -66,16 +66,16 @@ export const UserProvider = ({ children }) => {
                     } else {
                         // Si el token no es válido o hubo otro error, puedes manejarlo aquí
                         setGlobalUser({
-                          id: '123', 
-                          name: 'Fulano', 
-                          middle_initial: 'Y', 
-                          frst_lst_name: 'Fulanin', 
-                          scnd_lst_name: 'Fulanon', 
+                          id: '', 
+                          name: '', 
+                          middle_initial: '', 
+                          frst_lst_name: '', 
+                          scnd_lst_name: '', 
                           phone_num: 12345678,  
-                          profile: 'profileURL.com', 
-                          usr_name:'Fululu', 
-                          email: 'fulanin@email.com', 
-                          password:'******'
+                          profile: '', 
+                          usr_name:'', 
+                          email: '', 
+                          password:''
                         });
                         console.error('Error al obtener los datos del usuario.');
                         localStorage.removeItem('userToken'); // Considera remover el token si es inválido
