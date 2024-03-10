@@ -82,7 +82,7 @@ export default function UserForm(){
   return (
     <div>
       <Grid container direction='column' alignItems='center' justifyContent='center'>
-        <h1>{globalUser.name} {user.middle_initial} {user.frst_lst_name}</h1>
+        <h1>{globalUser.name} {globalUser.middle_initial} {globalUser.frst_lst_name}</h1>
         <Grid item xs={3}>
           <Card sx={{mt: 5}} style={{
             backgroundColor: '#1e272e',

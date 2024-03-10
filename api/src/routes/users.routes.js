@@ -8,12 +8,15 @@ const {
     logInUser,
     updateUser,
     deleteUser,
+    getUserDetailsByToken
 } = require('../controllers/users.controller')
 
 const router = Router();
 
 // Para obtener todos los usuarios
 router.get('/users', getAllUsers)
+
+router.get('/users/me', getUserDetailsByToken)
 
 // Para obtener un usuario por user_id
 router.get('/users/:user_id', getUser)
