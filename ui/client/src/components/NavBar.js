@@ -1,9 +1,11 @@
 import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
 import {Link, useNavigate} from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 
 export default function Navbar(){
     
   const navigate = useNavigate()
+  const { logout, globalUser, setGlobalUser } = useUser();
 
     return (
       <Box sx={{flexGrow: 1}}>
@@ -33,6 +35,15 @@ export default function Navbar(){
                     <Button variant='contained' color='primary' onClick={() => navigate('/preview')} className="navbarButton">
                         Preview
                     </Button>
+                    <Button variant='contained' color='primary' onClick={logout} className="navbarButton">
+                        Cerrar secion
+                    </Button>
+                    {/* Comprobamos si globalUser y globalUser.name están definidos y no son cadenas vacías */}
+            {globalUser.name !== "" ? (
+                <a>Hola {globalUser.name}</a> // Mostrar el nombre del usuario
+            ) : (
+                <a></a>
+            )}
                 </Toolbar>
             </Container>
         </AppBar>

@@ -107,12 +107,42 @@ const logInUser = async (req, res, next) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid Credentials' });
         }
+        if(user.email_verified === false){
+            return res.status(401).json({ message: 'Unverified email' });
+        }
         const token = generateAuthToken(user.user_id);
         res.json({ user, token });
+        // console.log(token)
+        // console.log("todo salio bien")
     } catch (error) {
         next(error);
     }
 };
+
+const getUserDetailsByToken = async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1]; // "Bearer TOKEN"
+    if (!token) {
+        return res.status(401).json({ message: 'Acceso denegado. No se proporcionó token.' });
+    }
+
+    try {
+        const verified = jwt.verify(token, 'your_secret_key');
+        const userId = verified.userId;
+        const userResult = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
+
+        if (userResult.rows.length > 0) {
+            const user = userResult.rows[0];
+            // Excluye datos sensibles como password_hash antes de enviar la respuesta
+            const { password_hash, ...userData } = user;
+            res.json(userData);
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado.' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: 'Token inválido.' });
+    }
+};
+
 
 //somewhat temporary code to convert the selected user's username into a pdf, planned for use to download resumes
 const getDownload = async (req, res, next) => {
@@ -181,5 +211,6 @@ module.exports = {
     logInUser,
     updateUser,
     deleteUser,
-    verifiedEmail
+    verifiedEmail,
+    getUserDetailsByToken
 };
