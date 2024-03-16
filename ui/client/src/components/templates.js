@@ -3,10 +3,17 @@ import { Grid, Typography, Drawer, List, ListItem, ListItemText, Button, Box, Pa
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
+const templateCategories = {
+  'Category 1': ['Template 1', 'Template 2'],
+  'Category 2': ['Template 3', 'Template 4'],
+  // Add more categories and templates as needed
+};
+
 export default function ResumeTemplates({ submittedResume }) {
   const [generatedTemplate, setGeneratedTemplate] = useState(null);
   const [pdfUrl, setPdfUrl] = useState('');
   const templateRef = useRef(null); // Reference for the template to convert into PDF
+  const [selectedCategory, setSelectedCategory] = useState('Category 1');
 
   const generateResume = (templateType) => {
     let content = null;
@@ -98,7 +105,30 @@ export default function ResumeTemplates({ submittedResume }) {
 
   return (
     <Grid container spacing={0}>
-      <Grid item xs={3}>
+      <Grid item xs={2}>
+        <Drawer
+          anchor="left"
+          variant="permanent"
+          PaperProps={{
+            style: {
+              backgroundColor: 'transparent',
+              marginTop: '64px',
+              color: 'white',
+              overflow: 'auto',
+              width: '140px', // Adjust the width of the category sidebar
+            },
+          }}
+        >
+          <List>
+            {Object.keys(templateCategories).map((category) => (
+              <ListItem button key={category} onClick={() => setSelectedCategory(category)}>
+                <ListItemText primary={category} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+      </Grid>
+      <Grid item xs={2}>
         <Drawer
           anchor="left"
           variant="permanent"
@@ -108,21 +138,20 @@ export default function ResumeTemplates({ submittedResume }) {
               marginTop: '64px',
               color: 'white',
               overflow: 'hidden',
+              marginLeft: '150px', // Adjust margin to position next to the categories sidebar
             },
           }}
         >
           <List>
-            <ListItem button onClick={() => generateResume('Template 1')}>
-              <ListItemText primary="Template 1" />
-            </ListItem>
-            <ListItem button onClick={() => generateResume('Template 2')}>
-              <ListItemText primary="Template 2" />
-            </ListItem>
-            {/* List other templates as needed */}
+            {templateCategories[selectedCategory].map((template) => (
+              <ListItem button key={template} onClick={() => generateResume(template)}>
+                <ListItemText primary={template} />
+              </ListItem>
+            ))}
           </List>
         </Drawer>
       </Grid>
-      <Grid item xs={9} style={{ position: 'relative' }}>
+      <Grid item xs={8} style={{ position: 'relative' }}>
         <div ref={templateRef}>
           {/* Display the generated template */}
           {generatedTemplate}
