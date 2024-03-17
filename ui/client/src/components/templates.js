@@ -1,19 +1,52 @@
 import React, { useState, useRef } from 'react';
-import { Grid, Typography, Drawer, List, ListItem, ListItemText, Button, Box, Paper, Link} from '@mui/material';
+import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import template1Image from '../chrono.png';
+import template2Image from '../combination.png'
+import template3Image from '../targeted.png'
 
 const templateCategories = {
-  'Category 1': ['Template 1', 'Template 2'],
-  'Category 2': ['Template 3', 'Template 4'],
+  'Category 1': [
+    { name: 'Template 1', imagePath: template1Image }, // Adjust the path as necessary
+    { name: 'Template 2', imagePath: template2Image },
+    { name: 'Template 3', imagePath: template3Image },
+  ],
+  'Category 2': [
+    { name: 'Template 3', imagePath: 'ui/client/public/chrono.png' },
+    { name: 'Template 4', imagePath: 'ui/client/public/chrono.png' }
+  ],
   // Add more categories and templates as needed
 };
+
+const StyledModal = styled(Modal)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const ResumePreview = styled(Box)({
+  position: 'absolute',
+  width: '80vw', // Make the pop-up 80% of the viewport width
+  maxWidth: '1000px', // Optional: You can also set a maximum width
+  maxHeight: '90vh',
+  overflowY: 'auto',
+  backgroundColor: 'white',
+  border: '2px solid #000',
+  boxShadow: 24,
+  padding: 4,
+  outline: 'none', // Remove the focus outline for aesthetics
+});
 
 export default function ResumeTemplates({ submittedResume }) {
   const [generatedTemplate, setGeneratedTemplate] = useState(null);
   const [pdfUrl, setPdfUrl] = useState('');
-  const templateRef = useRef(null); // Reference for the template to convert into PDF
+  const [resumeModalOpen, setResumeModalOpen] = useState(false);
+  const [pdfModalOpen, setPdfModalOpen] = useState(false);
+  const templateRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
+
+
 
   const generateResume = (templateType) => {
     let content = null;
@@ -85,6 +118,7 @@ export default function ResumeTemplates({ submittedResume }) {
         content = null;
     }
     setGeneratedTemplate(content);
+    setResumeModalOpen(true)
   };
 
   const generatePdf = async () => {
@@ -101,10 +135,15 @@ export default function ResumeTemplates({ submittedResume }) {
     pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
     const pdfBlob = pdf.output('blob');
     setPdfUrl(URL.createObjectURL(pdfBlob));
+    setPdfModalOpen(true); // Open the PDF modal after generating the PDF
   };
 
+  const handleResumeModalClose = () => setResumeModalOpen(false);
+  const handlePdfModalClose = () => setPdfModalOpen(false);
+
+
   return (
-    <Grid container spacing={0}>
+    <Grid container spacing={2}>
       <Grid item xs={2}>
         <Drawer
           anchor="left"
@@ -115,7 +154,7 @@ export default function ResumeTemplates({ submittedResume }) {
               marginTop: '64px',
               color: 'white',
               overflow: 'auto',
-              width: '140px', // Adjust the width of the category sidebar
+              width: '140px',
             },
           }}
         >
@@ -128,45 +167,55 @@ export default function ResumeTemplates({ submittedResume }) {
           </List>
         </Drawer>
       </Grid>
-      <Grid item xs={2}>
-        <Drawer
-          anchor="left"
-          variant="permanent"
-          PaperProps={{
-            style: {
-              backgroundColor: 'transparent',
-              marginTop: '64px',
-              color: 'white',
-              overflow: 'hidden',
-              marginLeft: '150px', // Adjust margin to position next to the categories sidebar
-            },
-          }}
+      <Grid item xs={12} style={{ marginTop: '20px' }}>
+        <Grid container spacing={2}>
+          {templateCategories[selectedCategory].map((template) => (
+            <Grid item xs={12} sm={6} md={6} lg={4} key={template.name}> {/* Adjusted for larger items */}
+              <Card>
+                <CardActionArea onClick={() => generateResume(template.name)}>
+                  <CardMedia
+                    component="img"
+                    image={template.imagePath}
+                    alt={`Template image for ${template.name}`}
+                    sx={{ objectFit: 'cover', objectPosition: 'top', height: 280 }} // Set height to your preference
+                  />
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Grid>
+
+      {generatedTemplate && (
+        <StyledModal
+          open={resumeModalOpen}
+          onClose={handleResumeModalClose}
+          aria-labelledby="resume-preview-title"
+          aria-describedby="resume-preview-description"
         >
-          <List>
-            {templateCategories[selectedCategory].map((template) => (
-              <ListItem button key={template} onClick={() => generateResume(template)}>
-                <ListItemText primary={template} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </Grid>
-      <Grid item xs={8} style={{ position: 'relative' }}>
-        <div ref={templateRef}>
-          {/* Display the generated template */}
-          {generatedTemplate}
-        </div>
-        {generatedTemplate && (
-          <>
+          <ResumePreview>
+            <div ref={templateRef}>
+              {generatedTemplate}
+            </div>
             <Button variant="contained" color="primary" onClick={generatePdf} style={{ margin: '10px' }}>
-              Preview
+              Preview PDF
             </Button>
-            {pdfUrl && (
-              <iframe src={pdfUrl} style={{ width: '100%', height: '500px' }} frameBorder="0" title="Resume Preview"></iframe>
-            )}
-          </>
-        )}
-      </Grid>
+          </ResumePreview>
+        </StyledModal>
+      )}
+
+      <StyledModal
+        open={pdfModalOpen}
+        onClose={handlePdfModalClose}
+        aria-labelledby="pdf-preview-title"
+        aria-describedby="pdf-preview-description"
+      >
+        <ResumePreview>
+          {pdfUrl && (
+            <iframe src={pdfUrl} style={{ width: '100%', height: '500px' }} frameBorder="0" title="PDF Preview"></iframe>
+          )}
+        </ResumePreview>
+      </StyledModal>
     </Grid>
   );
 }
