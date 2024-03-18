@@ -56,11 +56,22 @@ export default function ResumeTemplates({ submittedResume }) {
 
     // Generate content to display the full image of the selected template
     const content = (
-      <Box sx={{ textAlign: 'center' }}>
+      <Box sx={{ display:'grid', gridTemplateColumns: "repeat(2, 1fr)", gridGap: 20, textAlign: 'center' }}>
+        <div id="Preview">
         <img src={selectedTemplate.imagePath} alt={`Template ${templateName}`} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
-        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName } })} style={{ marginTop: '20px' }}>
+        </div>
+        
+        <div id="Options" sx={{display:'grid'}}>
+        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
           Use This Template
         </Button>
+
+        <fieldset id="BackgroundColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
+        <input name="bg" type="radio" id="white"/><label for="white">White</label>
+        <input name="bg" type="radio" id="linen"/><label for="linen">Linen</label>
+        <input name="bg" type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
+        </fieldset>
+        </div>
       </Box>
     );
 
