@@ -8,6 +8,7 @@ import {
     Container,
     CircularProgress,
 } from '@mui/material';
+import './PersonalInfo.css';
 
 const PersonalInfo = () => {
     const [firstName, setFirstName] = useState("");
@@ -93,10 +94,7 @@ const PersonalInfo = () => {
     };
 
     return (
-        <Container sx={{
-                background: 'white',
-                borderRadius: '20px',
-            }}>
+        <Container className='personal-info-container'>
             <FormControl>
                 <Typography 
                     variant="h4" 
@@ -111,7 +109,7 @@ const PersonalInfo = () => {
                     Personal Information
                 </Typography>
 
-                <Grid container spacing={2} > {/* sx={{mb: 3}} */}
+                <Grid container spacing={2} >
                     {/* First row */}
                     <Grid container item xs={12} spacing={2} >
                         <Grid item xs={5}>
@@ -121,6 +119,7 @@ const PersonalInfo = () => {
                             name="firstName"
                             placeholder='E.g. John'
                             value={firstName}
+                            className='input-field'
                             onChange={(e) => setFirstName(e.target.value)}
                             error={firstNameErrorMessage !== ""}
                             helperText={firstNameErrorMessage}
@@ -135,6 +134,7 @@ const PersonalInfo = () => {
                                 name="middleInitial"
                                 placeholder='E.g. A'
                                 value={middleInitial}
+                                className='input-field'
                                 onChange={(e) => setMiddleInitial(e.target.value)}
                                 inputProps={{ maxLength: 1 }}
                             />
@@ -146,6 +146,7 @@ const PersonalInfo = () => {
                                 name="lastName"
                                 placeholder='E.g. Doe'
                                 value={lastName}
+                                className='input-field'
                                 onChange={(e) => setLastName(e.target.value)}
                                 error={lastNameErrorMessage !== ""}
                                 helperText={lastNameErrorMessage}
@@ -156,7 +157,7 @@ const PersonalInfo = () => {
                     </Grid>
                     
                     {/* Second row */}
-                    <Grid container item spacing={2}> { /*sm={6} */}
+                    <Grid container item spacing={2}> 
                         <Grid item xs={6}>
                             <TextField
                                 label="Email"
@@ -164,6 +165,7 @@ const PersonalInfo = () => {
                                 name="email"
                                 placeholder='E.g. john.doe@gmail.com'
                                 value={email}
+                                className='input-field'
                                 onChange={(e) => setEmail(e.target.value)}
                                 error={emailErrorMessage !== ""}
                                 helperText={emailErrorMessage}
@@ -178,6 +180,7 @@ const PersonalInfo = () => {
                                 name="phoneNumber"
                                 placeholder='E.g. 123-456-7890'
                                 value={phoneNumber}
+                                className='input-field'
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                                 error={phoneNumberErrorMessage !== ""}
                                 helperText={phoneNumberErrorMessage}
@@ -194,6 +197,7 @@ const PersonalInfo = () => {
                             name="socials"
                             placeholder='LinkedIn, GitHub, etc. (separated by commas)'
                             value={socials}
+                            className='input-field'
                             onChange={(e) => setSocials(e.target.value)}
                             fullWidth
                         />
@@ -206,6 +210,7 @@ const PersonalInfo = () => {
                             variant="outlined"
                             name="summary"
                             value={summary}
+                            className='input-field'
                             onChange={(e) => setSummary(e.target.value)}
                             multiline
                             fullWidth
@@ -218,12 +223,13 @@ const PersonalInfo = () => {
                     onClick={handleOnSubmit}
                     disabled={isSubmitting}
                     sx={{
+                        background: 'rgb(84, 104, 89)',
                         marginTop: '20px',
                         marginBottom: '20px',
                         width: '10%',
                     }}
                 >
-                    {isSubmitting ? <CircularProgress sx={{filter: "brightness(50%)"}} size={25} /> : "Next"}
+                    {isSubmitting ? <CircularProgress className='circular-progress' size={25} /> : "Next"}
                 </Button>
             </FormControl>
         </Container>
