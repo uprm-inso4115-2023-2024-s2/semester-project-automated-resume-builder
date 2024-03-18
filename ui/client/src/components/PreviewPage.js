@@ -7,17 +7,37 @@ import SaveIcon from '@mui/icons-material/Save';
 import HomeIcon from '@mui/icons-material/Home';
 import './PreviewPage.css';
 import { useNavigate } from 'react-router-dom';
+import Share from "./Share.tsx"
 
 export default function PreviewPage() {
     const navigate = useNavigate();
 
-    const handleShare = () => {
+    const handleShare = async (id) => {
         console.log('Compartir presionado');
       };
-    
-      const handleDownload = () => {
+
+      const handleDownload = async (id) => {
         console.log('Descargar presionado');
-      };
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id}/dummyResumen/download` , {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(async res => {
+          if (res.status === 200) {
+            const blob = await res.blob();
+            const file = new Blob(
+              [blob], 
+              {type: 'application/pdf'}
+            );
+            //Build a URL from the file
+            const fileURL = URL.createObjectURL(file);
+            //Open the URL on new Window
+            window.open(fileURL);  
+          }
+        })
+        
+    }
     
       const handleCopyLink = () => {
         console.log('Copiar Enlace presionado');
@@ -48,8 +68,8 @@ export default function PreviewPage() {
             Share & Export Your Resume!
           </Typography>
           <Box className="buttons-row">
-            <Button className="custom-button" startIcon={<ShareIcon />} onClick={handleShare}>Share</Button>
-            <Button className="custom-button" startIcon={<DownloadIcon />} onClick={handleDownload}>Download</Button>
+            <Share description={"check out my resume! http://localhost:4000/users/"+82+"/dummyResumen/download"}/>
+            <Button className="custom-button" startIcon={<DownloadIcon />} onClick={(e) => handleDownload(82)}>Download</Button>
             <Button className="custom-button" startIcon={<LinkIcon />} onClick={handleCopyLink}>Copy Link</Button>
           </Box>
           <Box className="button-single">
