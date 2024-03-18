@@ -10,7 +10,7 @@ import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js';
-import PersonalInfo from './components/PersonalInfo.js';
+import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
 
 export default function App() {
   return (
