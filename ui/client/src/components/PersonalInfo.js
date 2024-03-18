@@ -20,13 +20,67 @@ const PersonalInfo = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [emailErrorMessage, setEmailErrorMessage] = useState("");
+    const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
+    const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
+    const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+
+    const validateEmail = (email) => {
+        let errorMessage = "";
+        const re = /\S+@\S+\.\S+/;
+
+        // Field is required
+        if (email === "") {
+            errorMessage = "Email is required";
+        }
+        // Invalid email
+        else if (!re.test(email)) {
+            errorMessage = "Email is not valid";
+        }
+
+        setEmailErrorMessage(errorMessage);
+    };
+
+    const validatePhoneNumber = (phoneNumber) => {
+        let errorMessage = "";
+        const re = /^\d{3}-\d{3}-\d{4}$/;
+        if (phoneNumber.length > 0 && !re.test(phoneNumber)) {
+            errorMessage = "Phone number is not valid";
+        }
+
+        setPhoneNumberErrorMessage(errorMessage);
+    };
+
+    const validateName = (name, label, setter) => {
+        let errorMessage = "";
+        if (name === "") {
+            errorMessage = `${label} is required`;
+        }
+        setter(errorMessage);
+    };
+
+    const errorPresent = () => {
+        return emailErrorMessage !== "" || 
+            phoneNumberErrorMessage !== "" || 
+            firstNameErrorMessage !== "" || 
+            lastNameErrorMessage !== "";
+    };
+
     const handleOnSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
         try {
+            validateEmail(email);
+            validatePhoneNumber(phoneNumber);
+            validateName(firstName, "First name", setFirstNameErrorMessage);
+            validateName(lastName, "Last name", setLastNameErrorMessage);
+            
+            if (errorPresent()) {
+                return;
+            }
+
             console.log("Form submitted");
-            // TODO: Check for errors
             // TODO: Save data to database
             // TODO: Redirect to next page
         }
@@ -62,12 +116,14 @@ const PersonalInfo = () => {
                     <Grid container item xs={12} spacing={2} >
                         <Grid item xs={5}>
                         <TextField
-                            label="First name"
+                            label="First Name"
                             variant="outlined"
                             name="firstName"
                             placeholder='E.g. John'
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
+                            error={firstNameErrorMessage !== ""}
+                            helperText={firstNameErrorMessage}
                             fullWidth
                             required
                         />
@@ -80,16 +136,19 @@ const PersonalInfo = () => {
                                 placeholder='E.g. A'
                                 value={middleInitial}
                                 onChange={(e) => setMiddleInitial(e.target.value)}
+                                inputProps={{ maxLength: 1 }}
                             />
                         </Grid>
                         <Grid item xs={5}>
                             <TextField
-                                label="Last name"
+                                label="Last Name"
                                 variant="outlined"
                                 name="lastName"
                                 placeholder='E.g. Doe'
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
+                                error={lastNameErrorMessage !== ""}
+                                helperText={lastNameErrorMessage}
                                 fullWidth
                                 required
                             />
@@ -106,6 +165,8 @@ const PersonalInfo = () => {
                                 placeholder='E.g. john.doe@gmail.com'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                error={emailErrorMessage !== ""}
+                                helperText={emailErrorMessage}
                                 fullWidth
                                 required
                             />
@@ -115,9 +176,11 @@ const PersonalInfo = () => {
                                 label="Phone Number"
                                 variant="outlined"
                                 name="phoneNumber"
-                                placeholder='E.g. (123)456-7890'
+                                placeholder='E.g. 123-456-7890'
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
+                                error={phoneNumberErrorMessage !== ""}
+                                helperText={phoneNumberErrorMessage}
                                 fullWidth
                             />
                         </Grid>
