@@ -14,7 +14,7 @@
 }
 
 .form-container {
-    background: rgba(0, 0, 255, 0.3);
+    background: rgb(134, 186, 175);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -27,8 +27,8 @@
 }
 
 .input-label {
-    color: black;
-    text-align: left;
+    color: white;
+    text-align: center;
     margin-top: 20px;
 }
 
@@ -38,13 +38,14 @@
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: white;
+    background-color: rgb(140, 210, 194);
+    color: black;
 }
 
 .button {
     font-size: 18px;
     color: black;
-    background-color: #60f583;
+    background-color: rgb(134, 245, 236);
     border-radius: 5px;
     cursor: pointer;
     padding: 10px 20px;
@@ -53,7 +54,7 @@
 }
 
 .button:hover {
-    background-color: #45b55f;
+    background-color: rgb(77, 194, 185);
     color: black;
 }
 
