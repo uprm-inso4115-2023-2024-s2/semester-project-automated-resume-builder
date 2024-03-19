@@ -104,7 +104,7 @@ export default function ResumeTemplates({ submittedResume }) {
               marginTop: '64px',
               color: 'white',
               overflow: 'auto',
-              width: '160px',
+              width: '180px',
             },
           }}
         >
@@ -117,7 +117,7 @@ export default function ResumeTemplates({ submittedResume }) {
                     backgroundColor: 'rgba(255, 255, 255, 0.2)',
                   },
                 }}>
-                <ListItemText primary={<Typography variant="h5" style={{ color: 'white' }}>{category}</Typography>} />
+                <ListItemText primary={<Typography variant="h6" style={{ color: 'white' }}>{category}</Typography>} />
               </ListItem>
             ))}
           </List>
