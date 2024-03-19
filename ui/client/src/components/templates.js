@@ -100,7 +100,7 @@ export default function ResumeTemplates({ submittedResume }) {
           variant="permanent"
           PaperProps={{
             style: {
-              backgroundColor: '#212121',
+              backgroundColor: '#1e272e',
               marginTop: '64px',
               color: 'white',
               overflow: 'auto',
