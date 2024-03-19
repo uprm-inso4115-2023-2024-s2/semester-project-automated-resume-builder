@@ -86,9 +86,9 @@ export default function ResumeTemplates({ submittedResume }) {
         </fieldset>
 
         <fieldset id="FontSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
-        <input name="bg" onClick={()=>font="arial"} type="radio" id="arial" checked="defaultChecked"/><label for="arial">Arial</label>
-        <input name="bg" onClick={()=>font="roboto"} type="radio" id="roboto"/><label for="Roboto">Roboto</label>
-        <input name="bg" onClick={()=>font="helvetica"} type="radio" id="helvetica"/><label for="helvetica">Helvetica</label>
+        <input name="font" onClick={()=>font="arial"} type="radio" id="arial" checked="defaultChecked"/><label for="arial">Arial</label>
+        <input name="font" onClick={()=>font="roboto"} type="radio" id="roboto"/><label for="Roboto">Roboto</label>
+        <input name="font" onClick={()=>font="helvetica"} type="radio" id="helvetica"/><label for="helvetica">Helvetica</label>
   
         </fieldset>
        {/* <input name="bg" onClick={()=>bgColor="alice blue"} type="radio"/><label for="alice blue">Alice Blue</label>
