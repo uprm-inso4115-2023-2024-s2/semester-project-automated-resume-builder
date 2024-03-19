@@ -100,18 +100,18 @@ export default function ResumeTemplates({ submittedResume }) {
           variant="permanent"
           PaperProps={{
             style: {
-              backgroundColor: 'transparent',
+              backgroundColor: '#212121',
               marginTop: '64px',
               color: 'white',
               overflow: 'auto',
-              width: '140px',
+              width: '160px',
             },
           }}
         >
           <List>
             {Object.keys(templateCategories).map((category) => (
               <ListItem button key={category} onClick={() => setSelectedCategory(category)}>
-                <ListItemText primary={category} />
+                <ListItemText primary={<Typography variant="h5" style={{ color: 'white' }}>{category}</Typography>} />
               </ListItem>
             ))}
           </List>
