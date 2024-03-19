@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import './Authentication.css';
 
@@ -61,43 +62,40 @@ const LogInForm = (onLogIn) => {
   return (
     <div className="container"> {/* Use the container class for styling */}
       <form onSubmit={handleSubmit} className="form-container"> {/* Use form-container class */}
-        <Typography className="title">Login</Typography> {/* Use title class for styling */}
-        <TextField
-          label="Email address"
-          variant="outlined"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="normal"
-          InputLabelProps={{ style: { color: 'white' } }}
-          inputProps={{ style: { color: 'white' } }}
-          className="input-field"
-        />
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="normal"
-          InputLabelProps={{ style: { color: 'white' } }}
-          inputProps={{ style: { color: 'black' } }}
-          className="input-field"
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          className="button"
-        >
+        <h1 className="form-title">Login</h1> {/* Use title class for styling */}
+        <div className="input-field-container">
+          <TextField
+            label="Enter your email address"
+            variant="outlined"
+            name="email"
+            margin="normal"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="input-field"
+          />
+          <TextField
+            label="Enter your password"
+            variant="outlined"
+            name="password"
+            margin="normal"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="input-field"
+          />
+        </div>
+        <div className="alternative-container">
+          Don't have an account?
+          <Link to="/signup">
+            <button className="alternative-button">
+              Sign Up
+            </button>
+          </Link>
+        </div>
+        <button className="submit-button">
           Log In
-        </Button>
+        </button>
       </form>
     </div>
   );
