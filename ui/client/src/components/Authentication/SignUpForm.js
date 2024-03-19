@@ -1,105 +1,33 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Checkbox, FormControlLabel, Link, Grid, Typography } from '@mui/material';
+import { TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useUser } from '../../contexts/UserContext';
+import './Authentication.css';
 
-
-
-const SignUpForm  = (onSignUp) => {
-
-  const navigate = useNavigate();
+const SignUpForm = () => {
+  const { setGlobalUser } = useUser();
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeTerms: false,
-  });
-
-  const [error, setError] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    let error = '';
-
-    // Validation 
-
-    switch (name) {
-      case 'firstName':
-        error = value.trim() === '' ? 'First name is required' : /\d/.test(value) ? 'First name should not contain numbers' : '';
-        break;
-      case 'lastName':
-        error = value.trim() === '' ? 'Last name is required' : /\d/.test(value) ? 'Last name should not contain numbers' : '';
-        break;
-      case 'phone':
-        error = value.trim() === '' ? 'Phone number is required' : /[a-zA-Z]/.test(value) ? 'Phone number should not contain letters' : value.length !== 10 ? 'Phone number should be exactly 10 digits' : '';
-        break;
-      case 'email':
-        error = value.trim() === '' ? 'Email is required' : !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value) ? 'Email is invalid' : '';
-        break;
-      case 'password':
-        error = value.trim() === '' ? 'Password is required' : !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}/.test(value) ? 'Password is invalid, please make sure it has at least: uppercase letters, lowercase letters and numbers' : '';
-        break;
-      case 'confirmPassword':
-        error = value.trim() === '' ? 'Confirm password is required' : value !== formData.password ? 'Passwords do not match' : '';
-        break;
-      default:
-        break;
-    }
-
-    setError({...error, [name]: error});
-
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-
-    for (let key in formData) {
-      let error = '';
-      switch(key){
-        case 'firstName':
-          error = formData[key].trim() === '' ? 'First name is required' : /\d/.test(formData[key]) ? 'First name should not contain numbers' : '';
-          break;
-        case 'lastName':
-          error = formData[key].trim() === '' ? 'Last name is required' : /\d/.test(formData[key]) ? 'Last name should not contain numbers' : '';
-          break;
-        case 'phone':
-          error = formData[key].trim() === '' ? 'Phone number is required' : /[a-zA-Z]/.test(formData[key]) ? 'Phone number should not contain letters' : formData[key].length !== 10 ? 'Phone number should be exactly 10 digits': '';
-          break;
-        case 'email':
-          error = formData[key].trim() === '' ? 'Email is required' : !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(formData[key]) ? 'Email is invalid' : '';
-          break;
-        case 'password':
-          error = formData[key].trim() === '' ? 'Password is required' : !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}/.test(formData[key]) ? 'Password is invalid, please make sure it has at least: uppercase letters, lowercase Letters and Numbers' : '';
-          break;
-        case 'confirmPassword':
-          error = formData[key].trim() === '' ? 'Confirm password is required' : formData[key] !== formData.password ? 'Passwords do not match' : '';
-          break;
-        default:
-          break;    
-      }
-      setError({...error, [key]: error});
-      if (error) return;
-    }
-
-    
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+      // Check if password and confirm password match
+      if (formData.password !== formData.confirmPassword) {
+        console.error('Passwords do not match');
+        return;
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,179 +35,88 @@ const SignUpForm  = (onSignUp) => {
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
-          name: formData.firstName,
-          middle_initial: formData.middleInitial,
-          frst_lst_name: formData.lastName,
-          scnd_lst_name: formData.scndLastName,
-          phone_number: formData.phone,
-          summary: formData.summary,
-          profile: formData.profile,
-          emailVerification: false,
         }),
       });
-  
-      if (!response.ok) { //Manejo de errores 1
-        throw new Error('Error en la solicitud al servidor');
-      }
-      const result = await response.json();
-      if(result.message && result.message.includes('users_email_key')){//Manejo de errores 2
-        setError(prevError => ({
-          ...prevError,
-          email: 'The email is already registered. Please use another email.'
-        }));
-        return;
-      }
-      console.log(result.message)
-      // Everything turned out correct
-      setFormData({
-        firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        agreeTerms: false,
-      });
 
-      navigate('/login');
-
+      if (response.ok) {
+        const data = await response.json();
+        // Save token to localStorage
+        localStorage.setItem('userToken', data.token);
+        // Set global user state
+        setGlobalUser({
+          id: data.user.user_id,
+          name: data.user.name,
+          middle_initial: data.user.middle_initial,
+          frst_lst_name: data.user.frst_lst_name,
+          scnd_lst_name: data.user.scnd_lst_name,
+          phone_num: data.user.phone_number,
+          profile: data.user.profile,
+          usr_name: data.user.name,
+          email: data.user.email,
+          password: '',
+        });
+        // Handle successful signup
+        console.log('Signup successful:', data);
+      } else {
+        // Handle failed signup
+        console.error('Signup failed:', response.status);
+      }
     } catch (error) {
-      console.error('Error al enviar el formulario: ', error);
+      console.error('Error occurred while signing up:', error);
     }
   };
-  
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Typography 
-        variant="h5" 
-        sx={{ 
-          color: 'white', 
-          fontWeight: 'bold', 
-          mt: 2 
-        }}
-      >
-        Sign in
-      </Typography>
-
-      <Grid container spacing={2}> 
-      
-        <Grid item xs={12} sm={6}> 
+    <div className="container">
+      <form onSubmit={handleSubmit} className="form-container">
+        <h1 className="form-title">Sign Up</h1>
+        <div className="input-field-container">
           <TextField
-            label="First name"
-            variant="outlined"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-            fullWidth
-            margin="normal"
-            error={!!error.firstName}
-            helperText={error.firstName}
-            InputLabelProps={{ style: { color: 'white' } }}
-            inputProps={{ style: { color: 'white' } }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Last name"
-            variant="outlined"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            fullWidth
-            margin="normal"
-            error={!!error.lastName}
-            helperText={error.lastName}
-            InputLabelProps={{ style: { color: 'white' } }}
-            inputProps={{ style: { color: 'white' } }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Phone number"
-            variant="outlined"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            fullWidth
-            margin="normal"
-            error={!!error.phone}
-            helperText={error.phone}
-            InputLabelProps={{ style: { color: 'white' } }}
-            inputProps={{ style: { color: 'white' } }}
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <TextField
-            label="Email address"
+            label="Enter your email address"
             variant="outlined"
             name="email"
+            margin="none"
             value={formData.email}
             onChange={handleChange}
             required
-            fullWidth
-            margin="normal"
-            error={!!error.email}
-            helperText={error.email}
-            InputLabelProps={{ style: { color: 'white' } }}
-            inputProps={{ style: { color: 'white' } }}
+            className="input-field"
           />
-        </Grid>
-
-        <Grid item xs={12}>
           <TextField
-            label="Password"
+            label="Enter your password"
             variant="outlined"
-            type="password"
             name="password"
+            margin="none"
             value={formData.password}
             onChange={handleChange}
-            required
-            fullWidth
-            margin="normal"
-            error={!!error.password}
-            helperText={error.password}
-            InputLabelProps={{ style: { color: 'white' } }}
-            inputProps={{ style: { color: 'white' } }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Confirm password"
-            variant="outlined"
             type="password"
+            required
+            className="input-field"
+          />
+          <TextField
+            label="Confirm your password"
+            variant="outlined"
             name="confirmPassword"
+            margin="none"
             value={formData.confirmPassword}
             onChange={handleChange}
+            type="password"
             required
-            fullWidth
-            margin="normal"
-            error={!!error.confirmPassword}
-            helperText={error.confirmPassword}
-            InputLabelProps={{ style: { color: 'white' } }}
-            inputProps={{ style: { color: 'white' } }}
+            className="input-field"
           />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox checked={formData.agreeTerms} onChange={handleChange} name="agreeTerms" />}
-            label={<React.Fragment>I agree with the <Link href="#">terms and conditions</Link>.</React.Fragment>}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
-
+        </div>
+        <div className="alternative-container">
+          Already have an account?
+          <Link to="/login">
+            <button className="alternative-button">
+              Log In
+            </button>
+          </Link>
+        </div>
+        <button className="submit-button">
+          Sign Up
+        </button>
+      </form>
+    </div>
   );
 };
 

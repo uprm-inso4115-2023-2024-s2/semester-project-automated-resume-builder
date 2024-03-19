@@ -78,6 +78,7 @@ const LogInForm = (onLogIn) => {
             label="Enter your password"
             variant="outlined"
             name="password"
+            type="password"
             margin="normal"
             value={formData.password}
             onChange={handleChange}
