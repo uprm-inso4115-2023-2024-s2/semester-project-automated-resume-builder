@@ -1,75 +1,52 @@
-import React, { useState } from 'react';
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {AppBar, Box, Button, Container, Toolbar, Typography} from '@mui/material'
+import {Link, useNavigate} from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 
-export default function Navbar() {
-  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
-  const [resumeMenuAnchorEl, setResumeMenuAnchorEl] = useState(null);
-  const navigate = useNavigate();
+export default function Navbar(){
+    
+  const navigate = useNavigate()
+  const { logout, globalUser, setGlobalUser } = useUser();
 
-  const handleUserMenuClick = (event) => {
-    setUserMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleResumeMenuClick = (event) => {
-    setResumeMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setUserMenuAnchorEl(null);
-    setResumeMenuAnchorEl(null);
-  };
-
-  const handleUserMenuItemClick = (path) => {
-    handleClose();
-    navigate(path);
-  };
-
-  const handleResumeMenuItemClick = (path) => {
-    handleClose();
-    navigate(path);
-  };
-
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent">
-        <Container>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              <IconButton edge="start" color="inherit" aria-label="home" onClick={() => navigate('/')}>
-                <HomeIcon />
-              </IconButton>
-              <Link to="/" style={{ textDecoration: 'none', color: '#eee' }}>
-                Pern stack
-              </Link>
-            </Typography>
-
-            {/* User Menu */}
-            <IconButton color="inherit" aria-label="user" onClick={handleUserMenuClick}>
-              <i className="fas fa-solid fa-user"></i>
-              User
-              <ArrowDropDownIcon />
-            </IconButton>
-            <Menu anchorEl={userMenuAnchorEl} open={Boolean(userMenuAnchorEl)} onClose={handleClose}>
-              <MenuItem onClick={() => handleUserMenuItemClick('users/new')}>New user</MenuItem>
-              <MenuItem onClick={() => handleUserMenuItemClick('login')}>Log in</MenuItem>
-              <MenuItem onClick={() => handleUserMenuItemClick('signup')}>Sign up</MenuItem>
-            </Menu>
-
-            {/* Resume Menu */}
-            <IconButton color="inherit" aria-label="resume" onClick={handleResumeMenuClick}>
-              Resume
-              <ArrowDropDownIcon />
-            </IconButton>
-            <Menu anchorEl={resumeMenuAnchorEl} open={Boolean(resumeMenuAnchorEl)} onClose={handleClose}>
-              <MenuItem onClick={() => handleResumeMenuItemClick('resume/new')}>Resume Template</MenuItem>
-              <MenuItem onClick={() => handleResumeMenuItemClick('/resume/datainput')}>Resume Information</MenuItem>
-            </Menu>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </Box>
-  );
-}
+    return (
+      <Box sx={{flexGrow: 1}}>
+        <AppBar position='static' color='transparent'>
+            <Container>
+                <Toolbar>
+                    <Typography variant='h6' sx={{flexGrow: 1}}>
+                        <Link to='/' style={{textDecoration:'none', color: '#eee'}}>
+                        Pern stack
+                        </Link>
+                    </Typography>
+                    <Button variant='contained' color='primary' onClick={() => navigate('users/new')} className="navbarButton">
+                        New user
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('resume/new')}>
+                        Resume Template
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('signup')} className="navbarButton">
+                        Sign up
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('login')} className="navbarButton">
+                        Log in
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('/resume/datainput')} className="navbarButton">
+                        Resume Information
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={() => navigate('/preview')} className="navbarButton">
+                        Preview
+                    </Button>
+                    <Button variant='contained' color='primary' onClick={logout} className="navbarButton">
+                        Cerrar secion
+                    </Button>
+                    {/* Comprobamos si globalUser y globalUser.name están definidos y no son cadenas vacías */}
+            {globalUser.name !== "" ? (
+                <a>Hola {globalUser.name}</a> // Mostrar el nombre del usuario
+            ) : (
+                <a></a>
+            )}
+                </Toolbar>
+            </Container>
+        </AppBar>
+      </Box>
+    )
+  }
