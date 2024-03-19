@@ -110,7 +110,13 @@ export default function ResumeTemplates({ submittedResume }) {
         >
           <List>
             {Object.keys(templateCategories).map((category) => (
-              <ListItem button key={category} onClick={() => setSelectedCategory(category)}>
+              <ListItem button key={category} onClick={() => setSelectedCategory(category)}
+                style={{
+                  backgroundColor: selectedCategory === category ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  },
+                }}>
                 <ListItemText primary={<Typography variant="h5" style={{ color: 'white' }}>{category}</Typography>} />
               </ListItem>
             ))}
