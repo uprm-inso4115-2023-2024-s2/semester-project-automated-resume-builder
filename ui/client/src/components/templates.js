@@ -50,7 +50,7 @@ export default function ResumeTemplates({ submittedResume }) {
  
 
   let bgColor= "red";
-
+  let font = "Arial";
 
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function ResumeTemplates({ submittedResume }) {
         
         <div id="Options" sx={{display:'grid'}}>
           
-        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor :bgColor.slice() } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
+        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor :bgColor.slice(), font: font  } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
           Use This Template
         </Button>
 
@@ -83,7 +83,14 @@ export default function ResumeTemplates({ submittedResume }) {
         <input name="bg" onClick={()=>bgColor="linen"} type="radio" id="linen"/><label for="linen">Linen</label>
         <input name="bg" onClick={()=>bgColor="beige"} type="radio" id="beige"/><label for="beige">Beige</label>
         <input name="bg" onClick={()=>bgColor="Honeydew"} type="radio" id="Honeydew"/><label for="Honeydew">Honeydew</label>
-        
+        </fieldset>
+
+        <fieldset id="FontSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
+        <input name="bg" onClick={()=>font="arial"} type="radio" id="arial" checked="defaultChecked"/><label for="arial">Arial</label>
+        <input name="bg" onClick={()=>font="roboto"} type="radio" id="roboto"/><label for="Roboto">Roboto</label>
+        <input name="bg" onClick={()=>font="helvetica"} type="radio" id="helvetica"/><label for="helvetica">Helvetica</label>
+  
+        </fieldset>
        {/* <input name="bg" onClick={()=>bgColor="alice blue"} type="radio"/><label for="alice blue">Alice Blue</label>
        
        
@@ -93,7 +100,7 @@ export default function ResumeTemplates({ submittedResume }) {
         
         
         
-        </fieldset>
+       
         {/* <fieldset id="AccentColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
         <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
         <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
