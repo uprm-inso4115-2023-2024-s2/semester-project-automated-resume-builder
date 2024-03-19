@@ -44,8 +44,8 @@ export default function ResumeForm({ submitCallBack }) {
   let templateBase =  [];
   // bgColor
  
-  const bgColor = location.state?.bgColor;
-  console.log("TEST ", bgColor);
+  const bgColor = String(location.state.bgColor);
+console.log(location.state);
 
 
   templateBase.push(

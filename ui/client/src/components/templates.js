@@ -49,10 +49,13 @@ export default function ResumeTemplates({ submittedResume }) {
   const navigate = useNavigate();
  
 
-  const [bgColor, setBgColor] = useState();
+  let bgColor= "red";
+
+
 
   useEffect(() => {
     console.log("bgColor updated:", bgColor);
+
   }, [bgColor]); // Run this effect whenever bgColor changes
 
 
@@ -64,22 +67,31 @@ export default function ResumeTemplates({ submittedResume }) {
     // Generate content to display the full image of the selected template
     const content = (
       <Box sx={{ display:'grid', gridTemplateColumns: "repeat(2, 1fr)", gridGap: 20, textAlign: 'center' }}>
+        
         <div id="Preview">
         <img src={selectedTemplate.imagePath} alt={`Template ${templateName}`} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
         </div>
         
         <div id="Options" sx={{display:'grid'}}>
-        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor: bgColor } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
+          
+        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor :bgColor.slice() } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
           Use This Template
         </Button>
 
         <fieldset id="BackgroundColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
-        <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
-        <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
-        <input name="bg" onClick={()=>setBgColor("alice blue")} type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
+        <input name="bg" onClick={()=>bgColor="white"} type="radio" id="white" checked="defaultChecked"/><label for="white">White</label>
+        <input name="bg" onClick={()=>bgColor="linen"} type="radio" id="linen"/><label for="linen">Linen</label>
+        <input name="bg" onClick={()=>bgColor="beige"} type="radio" id="beige"/><label for="beige">Beige</label>
+        <input name="bg" onClick={()=>bgColor="Honeydew"} type="radio" id="Honeydew"/><label for="Honeydew">Honeydew</label>
+        
+       {/* <input name="bg" onClick={()=>bgColor="alice blue"} type="radio"/><label for="alice blue">Alice Blue</label>
+       
+       
+       
+       
+       <input name="bg" type="radio" id="aliceBlue" value="aliceBlue" onChange={(e) => setBgColor(e.target.value)} checked={bgColor === "aliceBlue"} /><label htmlFor="aliceBlue">Alice Blue</label> */}
         
         
-        <input name="bg" onClick={()=>setBgColor("red")} type="radio"/><label for="alice blue">Alice Blue</label>
         
         </fieldset>
         {/* <fieldset id="AccentColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
