@@ -31,6 +31,9 @@ export default function ResumeForm({ submitCallBack }) {
 
   const location = useLocation();
   const templateName = location.state?.templateName;
+
+
+
   const templateRef = useRef(null);
   const [isPdfPreviewModalOpen, setPdfPreviewModalOpen] = useState(false);
   const [pdfBlobUrl, setPdfBlobUrl] = useState('');
@@ -39,14 +42,14 @@ export default function ResumeForm({ submitCallBack }) {
   // This array will handle our templates. Not much of a change.
   // Is there anyway to get these into a different file and import? Some refactoring would be nice to shrink it down
   let templateBase =  [];
-  
-
-  let bgColor = 'white';
-
+  // bgColor
+ 
+  const bgColor = location.state?.bgColor;
+  console.log("TEST ", bgColor);
 
 
   templateBase.push(
-    <Box sx={{ padding: '20px', backgroundColor: bgColor, color: 'black', fontFamily: 'Arial', fontSize: '14px' }}>
+    <Box sx={{ padding: '20px', backgroundColor:bgColor, color: 'black', fontFamily: 'Arial', fontSize: '14px' }}>
     <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '3px' }}>{resume.name}</Typography>
     <Typography variant="h6" sx={{ fontSize: '15px' }}>{resume.title}</Typography>
     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
 import { jsPDF } from 'jspdf';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +47,13 @@ export default function ResumeTemplates({ submittedResume }) {
   const templateRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const navigate = useNavigate();
+ 
+
+  const [bgColor, setBgColor] = useState();
+
+  useEffect(() => {
+    console.log("bgColor updated:", bgColor);
+  }, [bgColor]); // Run this effect whenever bgColor changes
 
 
   const generateResumeTemp = (templateName) => {
@@ -62,15 +69,24 @@ export default function ResumeTemplates({ submittedResume }) {
         </div>
         
         <div id="Options" sx={{display:'grid'}}>
-        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
+        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor: bgColor } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
           Use This Template
         </Button>
 
         <fieldset id="BackgroundColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
-        <input name="bg" type="radio" id="white"/><label for="white">White</label>
-        <input name="bg" type="radio" id="linen"/><label for="linen">Linen</label>
-        <input name="bg" type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
+        <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
+        <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
+        <input name="bg" onClick={()=>setBgColor("alice blue")} type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
+        
+        
+        <input name="bg" onClick={()=>setBgColor("red")} type="radio"/><label for="alice blue">Alice Blue</label>
+        
         </fieldset>
+        {/* <fieldset id="AccentColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
+        <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
+        <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
+        <input name="bg" onClick={()=>setBgColor("alice blue")} type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
+        </fieldset> */}
         </div>
       </Box>
     );
