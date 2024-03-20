@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../contexts/UserContext';
 import { 
     Button, 
     TextField, 
@@ -11,11 +13,15 @@ import {
 import './PersonalInfo.css';
 
 const PersonalInfo = () => {
+    const { globalUser, setGlobalUser } = useUser();
+    const navigate = useNavigate();
+
     const [firstName, setFirstName] = useState("");
     const [middleInitial, setMiddleInitial] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("");
     const [socials, setSocials] = useState("");
     const [summary, setSummary] = useState("");
 
@@ -67,7 +73,7 @@ const PersonalInfo = () => {
             lastNameErrorMessage !== "";
     };
 
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
@@ -81,9 +87,36 @@ const PersonalInfo = () => {
                 return;
             }
 
-            console.log("Form submitted");
             // TODO: Save data to database
-            // TODO: Redirect to next page
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/personal-info/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: globalUser.id,
+                    first_name: firstName, 
+                    middle_initial: middleInitial, 
+                    last_name: lastName, 
+                    email: email, 
+                    phone_number: phoneNumber, 
+                    address: address, 
+                    socials: socials, 
+                    summary: summary,
+                }),
+            });
+
+            if (response.ok) {
+                // Save personal info id to local storage, for use in other pages
+                const data = await response.json();
+                localStorage.setItem('personalInfoId', data.personal_info_id);
+
+                // Redirect to the education page
+                navigate('/resume/education');
+            }
+            else {
+                console.error("Server error:", response.status);
+            }
         }
         catch (error) {
             console.log(error);
@@ -192,6 +225,20 @@ const PersonalInfo = () => {
                     {/* Third row */}
                     <Grid item xs={12}> 
                         <TextField
+                            label="Address"
+                            variant="outlined"
+                            name="address"
+                            placeholder='E.g. 123 Main St, City, State, Zip Code'
+                            value={address}
+                            className='input-field'
+                            onChange={(e) => setAddress(e.target.value)}
+                            fullWidth
+                        />
+                    </Grid>
+
+                    {/* Fourth row */}
+                    <Grid item xs={12}> 
+                        <TextField
                             label="Socials"
                             variant="outlined"
                             name="socials"
@@ -203,7 +250,7 @@ const PersonalInfo = () => {
                         />
                     </Grid>
 
-                    {/* Fourth row */}
+                    {/* Fifth row */}
                     <Grid item xs={12}> 
                         <TextField
                             label="Professional summary"

@@ -11,6 +11,7 @@ import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
+import Education from './components/Education/Education.js';
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
             <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
+            <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/preview' element={<PreviewPage />} />
           </Routes>
         </Container>
