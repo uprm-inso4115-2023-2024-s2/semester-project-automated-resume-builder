@@ -14,8 +14,8 @@ const templateCategories = {
     { name: 'Targeted Template', imagePath: template3Image, description: 'A targeted resume is tailored for a specific job position.' },
   ],
   'Category 2': [
-    { name: 'Template 3', imagePath: 'ui/client/public/chrono.png' },
-    { name: 'Template 4', imagePath: 'ui/client/public/chrono.png' }
+    { name: 'Chronological Template', imagePath: template1Image, description: 'A chronological template orders your resume based on the most recent work experience.' },
+    { name: 'Targeted Template', imagePath: template3Image, description: 'A targeted resume is tailored for a specific job position.' },
   ],
   // Add more categories and templates as needed
 };
@@ -189,6 +189,14 @@ export default function ResumeTemplates({ submittedResume }) {
             <div ref={templateRef}>
               {generatedTemplate}
             </div>
+            {/* Add the Back button here */}
+            <Button 
+              variant="contained" 
+              onClick={handleResumeModalClose} 
+              style={{ marginTop: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+            >
+              Back
+            </Button>
           </ResumePreview>
         </StyledModal>
       )}
