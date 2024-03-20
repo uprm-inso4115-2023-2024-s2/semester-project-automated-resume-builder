@@ -43,7 +43,7 @@ const ResumeInput = () => {
         setShowSkillsModal(false); // Cierra después de guardar
     };
     const handleNextPage = () => {
-        navigate('/additional-information'); // Reemplaza esto con la ruta real a la página de información adicional
+        // navigate('/additional-information'); // Reemplaza esto con la ruta real a la página de información adicional
     };
 
     return (
