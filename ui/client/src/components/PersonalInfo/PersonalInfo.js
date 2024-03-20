@@ -270,7 +270,7 @@ const PersonalInfo = () => {
                     onClick={handleOnSubmit}
                     disabled={isSubmitting}
                     sx={{
-                        background: 'rgb(84, 104, 89)',
+                        background: 'rgb(104, 162, 97)',
                         marginTop: '20px',
                         marginBottom: '20px',
                         width: '10%',
