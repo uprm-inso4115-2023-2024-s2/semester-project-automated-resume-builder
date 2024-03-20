@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
+import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, CardContent, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
 import { jsPDF } from 'jspdf';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
@@ -9,9 +9,9 @@ import template3Image from '../targeted.png'
 
 const templateCategories = {
   'Category 1': [
-    { name: 'Template 1', imagePath: template1Image }, // Adjust the path as necessary
-    { name: 'Template 2', imagePath: template2Image },
-    { name: 'Template 3', imagePath: template3Image },
+    { name: 'Chronological Template', imagePath: template1Image, description: 'A chronological template orders your resume based on the most recent work experience.' },
+    { name: 'Hybrid Template', imagePath: template2Image, description: 'A hybrid resume template is based on the skills and qualifications first, followed by employment history.' },
+    { name: 'Targeted Template', imagePath: template3Image, description: 'A targeted resume is tailored for a specific job position.' },
   ],
   'Category 2': [
     { name: 'Template 3', imagePath: 'ui/client/public/chrono.png' },
@@ -49,13 +49,10 @@ export default function ResumeTemplates({ submittedResume }) {
   const navigate = useNavigate();
  
 
-  let bgColor= "red";
-  let font = "Arial";
-
+  const [bgColor, setBgColor] = useState();
 
   useEffect(() => {
     console.log("bgColor updated:", bgColor);
-
   }, [bgColor]); // Run this effect whenever bgColor changes
 
 
@@ -67,40 +64,24 @@ export default function ResumeTemplates({ submittedResume }) {
     // Generate content to display the full image of the selected template
     const content = (
       <Box sx={{ display:'grid', gridTemplateColumns: "repeat(2, 1fr)", gridGap: 20, textAlign: 'center' }}>
-        
         <div id="Preview">
         <img src={selectedTemplate.imagePath} alt={`Template ${templateName}`} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
         </div>
         
         <div id="Options" sx={{display:'grid'}}>
-          
-        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor :bgColor.slice(), font: font  } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
+        <Button variant="contained" color="primary"  onClick={() => navigate(`/resume/new`, { state: { templateName: templateName , bgColor: bgColor } })} style={{ marginTop: '20px', gridColumnStart: 2, placeSelf: 'center',maxHeight: '5em',maxWidth: '10em'}}>
           Use This Template
         </Button>
 
         <fieldset id="BackgroundColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
-        <input name="bg" onClick={()=>bgColor="white"} type="radio" id="white" checked="defaultChecked"/><label for="white">White</label>
-        <input name="bg" onClick={()=>bgColor="linen"} type="radio" id="linen"/><label for="linen">Linen</label>
-        <input name="bg" onClick={()=>bgColor="beige"} type="radio" id="beige"/><label for="beige">Beige</label>
-        <input name="bg" onClick={()=>bgColor="Honeydew"} type="radio" id="Honeydew"/><label for="Honeydew">Honeydew</label>
+        <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
+        <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
+        <input name="bg" onClick={()=>setBgColor("alice blue")} type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
+        
+        
+        <input name="bg" onClick={()=>setBgColor("red")} type="radio"/><label for="alice blue">Alice Blue</label>
+        
         </fieldset>
-
-        <fieldset id="FontSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
-        <input name="font" onClick={()=>font="arial"} type="radio" id="arial" checked="defaultChecked"/><label for="arial">Arial</label>
-        <input name="font" onClick={()=>font="roboto"} type="radio" id="roboto"/><label for="Roboto">Roboto</label>
-        <input name="font" onClick={()=>font="helvetica"} type="radio" id="helvetica"/><label for="helvetica">Helvetica</label>
-  
-        </fieldset>
-       {/* <input name="bg" onClick={()=>bgColor="alice blue"} type="radio"/><label for="alice blue">Alice Blue</label>
-       
-       
-       
-       
-       <input name="bg" type="radio" id="aliceBlue" value="aliceBlue" onChange={(e) => setBgColor(e.target.value)} checked={bgColor === "aliceBlue"} /><label htmlFor="aliceBlue">Alice Blue</label> */}
-        
-        
-        
-       
         {/* <fieldset id="AccentColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
         <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
         <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
@@ -181,6 +162,15 @@ export default function ResumeTemplates({ submittedResume }) {
                     alt={`Template image for ${template.name}`}
                     sx={{ objectFit: 'cover', objectPosition: 'top', height: 280 }} // Set height to your preference
                   />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {template.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {/* Here you can add the actual description for each template */}
+                      {template.description || 'No description available.'}
+                    </Typography>
+                  </CardContent>
                 </CardActionArea>
               </Card>
             </Grid>
