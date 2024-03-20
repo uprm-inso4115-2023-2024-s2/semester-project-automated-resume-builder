@@ -10,6 +10,7 @@ import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
+import ExperiencePage from './components/Experience.js'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
             <Route path='/preview' element={<PreviewPage />} />
+            <Route path='/experience' element={<ExperiencePage />} />
           </Routes>
         </Container>
       </BrowserRouter>
