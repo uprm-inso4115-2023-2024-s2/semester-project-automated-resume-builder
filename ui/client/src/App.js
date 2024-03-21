@@ -10,8 +10,16 @@ import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
+import ResumeTemplates from './components/templates.js';
+import { useState } from 'react';
 
 export default function App() {
+const [submittedResume, setSubmittedResume] = useState(null);
+
+const handleResumeSubmit = (resumeData) => {
+  setSubmittedResume(resumeData);
+};
+
   return (
     <UserProvider>
       // <UserProvider>
