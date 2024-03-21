@@ -21,6 +21,7 @@ const ResumeInput = () => {
     const [projects, setProjects] = useState([]);
     const [showSkillsModal, setShowSkillsModal] = useState(false);
     const [skills, setSkills] = useState([]);
+    const [isSkillSaved, setIsSkillSaved] = useState(false);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: '',
         lastName: '',
@@ -40,7 +41,7 @@ const ResumeInput = () => {
 
     const handleSaveSkill = (newSkill) => {
         setSkills([...skills, newSkill]);
-        setShowSkillsModal(false); // Cierra después de guardar
+        setIsSkillSaved(true);
     };
     const handleNextPage = () => {
         // navigate('/additional-information'); // Reemplaza esto con la ruta real a la página de información adicional
@@ -265,9 +266,6 @@ const ResumeInput = () => {
                         ))}
                     </List>
                     <Button onClick={() => setShowSkillsModal(true)}>Add Skill</Button>
-                    {skills.length > 0 && (
-                        <Button onClick={handleNextPage} sx={{ mt: 2 }}>Next</Button>
-                    )}
                     <SkillsModal
                         open={showSkillsModal}
                         onClose={() => setShowSkillsModal(false)}

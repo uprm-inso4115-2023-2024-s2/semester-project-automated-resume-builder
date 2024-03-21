@@ -6,6 +6,11 @@ function SkillsModal({ open, onClose, onSave }) {
     const [skill, setSkill] = useState('');
     const navigate = useNavigate();
 
+    const handleClose = () => {
+        setSkill('');
+        onClose();
+    };
+
     // No guardar si la habilidad está vacía
     const handleSave = () => {
         if (!skill) {
@@ -16,8 +21,11 @@ function SkillsModal({ open, onClose, onSave }) {
         setSkill(''); 
     };
 
-        const handleNext = () => {
-        onClose(); 
+    const handleNext = () => {
+        if (skill) {
+            onSave(skill); // Opcional-> Guarda el skill actual antes de navegar
+        }
+        handleClose();
         // navigate('/Next'); // Cambiar a la siguiente pagina (hasta ahora es la ultima opcion)
     };
 
@@ -36,7 +44,7 @@ function SkillsModal({ open, onClose, onSave }) {
     };
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={handleClose}>
             <Box sx={style}>
                 <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
                     Add Skill
@@ -52,13 +60,13 @@ function SkillsModal({ open, onClose, onSave }) {
                     inputProps={{ style: { color: 'white' } }}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 2 }}>
-                    <Button onClick={onClose} sx={{ mr: 1, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
+                    <Button onClick={handleClose} sx={{ mr: 1, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
                         Cancel
                     </Button>
                     <Button onClick={handleSave} sx={{ mr: 1, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
                         Save
                     </Button>
-                    {skill && (
+                    {open && skill && (
                         <Button onClick={handleNext} sx={{ color: 'green', borderColor: 'green', '&:hover': { borderColor: 'green' } }} variant="outlined">
                             Next
                         </Button>
