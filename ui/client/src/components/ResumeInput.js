@@ -7,17 +7,20 @@ import WorkExperienceModal from './ResumeModals/workExperienceModal.js';
 import EducationModal from './ResumeModals/educationModal.js';
 import CertificationModal from './ResumeModals/certificationModal.js';
 import ProjectModal from './ResumeModals/projectModal.js'
+import LanguageProfiencyModal from './ResumeModals/LanguageProfModal.js'
 
 const ResumeInput = () => {
     const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
     const [showEducationModal, setShowEducationModal] = useState(false);
     const [showCertificationModal, setShowCertificationModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
+    const [showLanguageProfiencyModal, setShowLanguageProfiencyModal] = useState(false);
 
     const [workExperience, setWorkExperience] = useState([]);
     const [education, setEducation] = useState([]);
     const [certifications, setCertifications] = useState([]);
     const [projects, setProjects] = useState([]);
+    const [languages, setLanguages] = useState([]);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: '',
         lastName: '',
@@ -231,6 +234,33 @@ const ResumeInput = () => {
                         open={showProjectModal}
                         onClose={() => setShowProjectModal(false)}
                         onSave={handleSaveItem(setProjects)}
+                    />
+                </Grid>
+
+                {/* Language Proficiency Section */}
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+                        Language Proficiency
+                    </Typography>
+                    <List>
+                        {languages.map((lang, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={lang.institutionName} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowLanguageProfiencyModal(true)}>Add Language</Button>
+                    <LanguageProfiencyModal
+                        open={showLanguageProfiencyModal}
+                        onClose={() => setShowLanguageProfiencyModal(false)}
+                        onSave={handleSaveItem(setLanguages)}
                     />
                 </Grid>
             </Grid>
