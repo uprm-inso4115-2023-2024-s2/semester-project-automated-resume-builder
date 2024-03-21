@@ -14,7 +14,8 @@ import PreviewPage from './components/PreviewPage.js'
 export default function App() {
   return (
     <UserProvider>
-      <BrowserRouter>
+      // <UserProvider>
+    <BrowserRouter>
         <MenuContainer /> {/* Render the MenuContainer component */}
         <Container>
           <Routes>
@@ -22,7 +23,11 @@ export default function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/users/new' element={<UserForm />} />
             <Route path='/users/:id/edit' element={<UserForm />} />
-            <Route path='/resume/new' element={<ResumeForm />} />
+            <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
+            {/* Pass the submitted resume data to ResumeTemplates */}
+            <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
+            {/* <Route path='/resume/templates/editor' element={<TemplateEditor />} /> */}
+            
             <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
@@ -31,5 +36,6 @@ export default function App() {
         </Container>
       </BrowserRouter>
     </UserProvider>
-  )
+  //   </UserProvider>
+  );
 }
