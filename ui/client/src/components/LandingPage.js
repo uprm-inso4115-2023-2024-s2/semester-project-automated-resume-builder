@@ -18,7 +18,9 @@ function LandingPage() {
                     <button className='top-button'>Resume</button>
                 </Link>
             </div>
-            <div className='profile-picture'></div>
+            <Link to="/profile" className='link'>
+                <div className='profile-picture'></div>
+            </Link>
             <h1 className='welcome'>
                 <p>Resumes got you crazy?</p>
                 <p>Can't find the right color?</p>
