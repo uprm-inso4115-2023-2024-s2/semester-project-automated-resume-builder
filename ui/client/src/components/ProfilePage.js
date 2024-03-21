@@ -1,8 +1,6 @@
 import "./ProfilePage.css"
-import { Box, Grid, Paper, Button, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, Grid} from '@mui/material';
 import { Link } from 'react-router-dom';
-import { logout } from '../contexts/UserContext';
 import { useUser } from '../contexts/UserContext';
 
 
