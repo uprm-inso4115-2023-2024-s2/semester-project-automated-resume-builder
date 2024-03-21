@@ -1,0 +1,13 @@
+.personal-info-container {
+    background-color: rgb(158, 209, 152);
+    border-radius: 20px;
+}
+
+.input-field {
+    background-color: #fff; 
+    border-radius: 5px;
+}
+
+.circular-progress {
+    filter: brightness(0.5);
+}
