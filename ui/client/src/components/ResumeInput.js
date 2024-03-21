@@ -7,19 +7,13 @@ import WorkExperienceModal from './ResumeModals/workExperienceModal.js';
 import EducationModal from './ResumeModals/educationModal.js';
 import CertificationModal from './ResumeModals/certificationModal.js';
 import ProjectModal from './ResumeModals/projectModal.js'
-import AdditionalModal from './ResumeModals/additionalModal.js'
-import CareerObjModal from './ResumeModals/careerObjModal.js'
 
 const ResumeInput = () => {
     const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
     const [showEducationModal, setShowEducationModal] = useState(false);
     const [showCertificationModal, setShowCertificationModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
-    const [showAdditionalModal, setShowAdditionalModal] = useState(false);
-    const [showCareerObjModal, setShowCareerObjModal] = useState(false);
 
-    const [careerObj, setCareerObjModal] = useState([]);
-    const [additionalInfo, setAdditionalInfo] = useState([]);
     const [workExperience, setWorkExperience] = useState([]);
     const [education, setEducation] = useState([]);
     const [certifications, setCertifications] = useState([]);
@@ -132,32 +126,6 @@ const ResumeInput = () => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
-                    <Typography 
-                        variant="h6" 
-                        sx={{ 
-                        color: 'white', 
-                        fontWeight: 'bold', 
-                        mt: 2 
-                        }}
-                    >
-                        Career Objectives
-                    </Typography>
-                    <List>
-                        {workExperience.map((experience, index) => (
-                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
-                                <ListItemText primary={experience.jobTitle} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Button onClick={() => setShowCareerObjModal(true)}>Add Career Objective</Button>
-                    <CareerObjModal
-                        open={showCareerObjModal}
-                        onClose={() => setShowCareerObjModal(false)}
-                        onSave={handleSaveItem(setCareerObjModal)}
-                    />
-                </Grid>
-
                 {/* Work Experience Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
                     <Typography 
@@ -171,7 +139,7 @@ const ResumeInput = () => {
                         Work Experience
                     </Typography>
                     <List>
-                        {careerObj.map((experience, index) => (
+                        {workExperience.map((experience, index) => (
                             <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
                                 <ListItemText primary={experience.jobTitle} />
                             </ListItem>
@@ -265,33 +233,6 @@ const ResumeInput = () => {
                         onSave={handleSaveItem(setProjects)}
                     />
                 </Grid>
-                {/* Education Section */}
-                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
-                    <Typography 
-                        variant="h6" 
-                        sx={{ 
-                        color: 'white', 
-                        fontWeight: 'bold', 
-                        mt: 2 
-                        }}
-                    >
-                        Additional Information
-                    </Typography>
-                    <List>
-                        {additionalInfo.map((edu, index) => (
-                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
-                                <ListItemText primary={edu.institutionName} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Button onClick={() => setShowAdditionalModal(true)}>Add Info</Button>
-                    <AdditionalModal
-                        open={showAdditionalModal}
-                        onClose={() => setShowAdditionalModal(false)}
-                        onSave={handleSaveItem(setAdditionalInfo)}
-                    />
-                </Grid>
-
             </Grid>
         </div>
     );
