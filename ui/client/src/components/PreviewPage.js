@@ -61,6 +61,8 @@ export default function PreviewPage() {
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} sm={8}>
           <Paper elevation={3} className="pdf-preview-placeholder">
+            {/* WHY IS THIS IFRAME ONLY HALF WAY FFS 
+            TODO FIX THIS */}
             <iframe src={blobURL} title="resume-preview" width="100%" height="100%" type="application/pdf"></iframe>
           </Paper>
         </Grid>
