@@ -39,7 +39,7 @@ const handleResumeSubmit = (resumeData) => {
             <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
-            <Route path='/preview' element={<PreviewPage />} />
+            <Route path='/resume/preview' element={<PreviewPage />} />
           </Routes>
         </Container>
       </BrowserRouter>

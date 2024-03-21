@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button, Card, CardContent, Grid, TextField, Typography, Box, Modal, Paper, Link, styled, Drawer, List, ListItem, CardMedia, ListItemText } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -32,7 +32,7 @@ export default function ResumeForm({ submitCallBack }) {
   const location = useLocation();
   const templateName = location.state?.templateName;
 
-
+  const navigate = useNavigate();
 
   const templateRef = useRef(null);
   const [isPdfPreviewModalOpen, setPdfPreviewModalOpen] = useState(false);
@@ -158,6 +158,7 @@ export default function ResumeForm({ submitCallBack }) {
     const blobURL = URL.createObjectURL(pdfBlob);
     setPdfBlobUrl(blobURL);
     setPdfPreviewModalOpen(true); // Open the PDF preview modal
+    navigate('/resume/preview', { state: { blobURL } });
   };
 
 
@@ -258,9 +259,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('List your work experience, including job titles and responsibilities, and dates of employment, if applicable.')}
-              </Grid>
               {/* Experience */}
               <TextField
                 variant="filled"
@@ -275,9 +273,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('List your education, including degrees and schools attended, and dates of attendance, if applicable.')}
-              </Grid>
               {/* Education */}
               <TextField
                 variant="filled"
@@ -292,10 +287,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('List your skills, including technical skills, certifications, and other relevant qualifications.')}
-              </Grid>
-
               {/* Skills */}
               <TextField
                 variant="filled"
@@ -328,10 +319,10 @@ export default function ResumeForm({ submitCallBack }) {
         </Box>
       </StyledModal>
       <StyledModal open={isPdfPreviewModalOpen} onClose={() => setPdfPreviewModalOpen(false)}>
-      <Box sx={{ width: '80%', height: '90vh', overflowY: 'auto' }}>
-        <iframe src={pdfBlobUrl} width="100%" height="100%" style={{ border: 'none' }} title="PDF Preview"></iframe>
-      </Box>
-    </StyledModal>
+        <Box sx={{ width: '80%', height: '90vh', overflowY: 'auto' }}>
+          <iframe src={pdfBlobUrl} width="100%" height="100%" style={{ border: 'none' }} title="PDF Preview"></iframe>
+        </Box>
+      </StyledModal>
     </Grid>
   );
 }
