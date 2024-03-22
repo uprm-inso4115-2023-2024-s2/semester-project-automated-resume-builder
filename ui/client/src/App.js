@@ -11,6 +11,8 @@ import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
 import ResumeTemplates from './components/templates.js';
+import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
+import Education from './components/Education/Education.js';
 import { useState } from 'react';
 
 export default function App() {
@@ -39,6 +41,8 @@ const handleResumeSubmit = (resumeData) => {
             <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
+            <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
+            <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/resume/preview' element={<PreviewPage />} />
           </Routes>
         </Container>
