@@ -13,6 +13,112 @@ function EducationModal({ open, onClose, onSave }) {
         about: '',
     });
 
+    const [institutionNameErrorMessage, setInstitutionNameErrorMessage] = useState("");  
+    const [degreeErrorMessage, setDegreeErrorMessage] = useState("");
+    const [locationErrorMessage, setLocationErrorMessage] = useState("");
+    const [startDateErrorMessage, setStartDateErrorMessage] = useState("");
+    const [endDateErrorMessage, setEndDateErrorMessage] = useState("");
+    const [gpaErrorMessage, setGpaErrorMessage] = useState("");
+    const [relevantCoursesErrorMessage, setRelevantCoursesErrorMessage] = useState("");
+    const [aboutErrorMessage, setAboutErrorMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const validateinstitutionName = (institutionName) => {  
+      let errorMessage = "";    
+
+      if (institutionName === "") {  
+          errorMessage = "Institution name is required";  
+      }
+
+      setInstitutionNameErrorMessage(errorMessage);  
+    };
+
+
+    const validateDegree = (degree) => {
+    let errorMessage = "";   
+
+    if (institutionDegree === "") {  
+        errorMessage = "Degree is required";  
+    }
+
+    setDegreeErrorMessage(errorMessage);  
+    };
+
+
+    const validateLocation = (location) => {
+    let errorMessage = "";    
+
+    if (location === "") {  
+        errorMessage = "location is required";  
+    }
+
+    setLocationErrorMessage(errorMessage);  
+    };
+
+
+    const validateStartDate = (startDate) => {
+    let errorMessage = "";
+    const re = /0[1-9][12][0-9]3[01]/; 
+
+    if (startDate === "") {  
+        errorMessage = "Start date is required";  
+    }
+
+    else if (!re.test(startDate)) {   
+        errorMessage = "Start date is not valid";  
+    }
+
+    setStartDateErrorMessage(errorMessage);  
+
+    };
+
+
+    const validateEndDate = (endDate) => {
+    let errorMessage = "";
+    const re = /0[1-9][12][0-9]3[01]/; 
+
+    if (endDate === "") {  
+        errorMessage = "End date is required";  
+    }
+
+    else if (!re.test(endDate)) {   
+        errorMessage = "End date is not valid";  
+    }
+    setEndDateErrorMessage(errorMessage);
+
+    };
+
+    const validateGpa = (gpa) => {
+    let errorMessage = "";
+    const re = /^[0-4]\.[0-9][0-9]$/; 
+
+    if (gpa === "") {  
+        errorMessage = "Gpa is required";  
+    }
+
+    else if (!re.test(gpa)) {   
+        errorMessage = "Gpa is not valid (caution: 2 digits for decimal values required)";  
+    }
+    setGpaErrorMessage(errorMessage);
+
+    };
+
+
+    const validateRelevantCourses = (relevantCourses) => {
+    let errorMessage = "";
+    const re = /[A-Z]{4}[0-9]{4}/; 
+
+    if (relevantCourses === "") {  
+        errorMessage = "Courses are required";  
+    }
+
+    else if (!re.test(relevantCourses)) {   
+        errorMessage = "Courses are not valid (caution: courses contain 4 capital letters followed by 4 digits)";  
+    }
+    setRelevantCoursesErrorMessage(errorMessage);
+
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormState(prev => ({ ...prev, [name]: value }));
@@ -20,6 +126,21 @@ function EducationModal({ open, onClose, onSave }) {
 
     const handleSave = (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+        validateinstitutionName(institutionName);
+        validateDegree(degree);
+        validateLocation(location);
+        validateStartDate(startDate);
+        validateEndDate(endDate);
+        validateGpa(gpa);
+        validateRelevantCourses(relevantCourses);
+          
+        if (errorPresent()) {
+            return;
+        }
+        
         const { relevantCourses, ...rest } = formState;
         const educationToSave = {
             ...rest,
@@ -28,7 +149,14 @@ function EducationModal({ open, onClose, onSave }) {
         onSave(educationToSave);
         resetToDefault();
         onClose();
-    };
+    }
+    catch (error) {
+        console.log(error);
+    }
+    finally {
+        setIsSubmitting(false);
+    }
+    }
 
     const resetToDefault = () => {
         setFormState({
@@ -57,7 +185,7 @@ function EducationModal({ open, onClose, onSave }) {
         borderRadius: '16px',
         overflowY: 'auto', 
     };
-    
+
 
     return (
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
@@ -71,6 +199,8 @@ function EducationModal({ open, onClose, onSave }) {
                         label="Institution Name"
                         value={formState.institutionName}
                         onChange={handleChange}
+                        error={institutionNameErrorMessage !== ""}
+                        helperText={institutionNameErrorMessage}
                         fullWidth
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
@@ -81,6 +211,8 @@ function EducationModal({ open, onClose, onSave }) {
                         label="Degree"
                         value={formState.degree}
                         onChange={handleChange}
+                        error={degreeErrorMessage !== ""}
+                        helperText={degreeErrorMessage}
                         fullWidth
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
@@ -91,6 +223,8 @@ function EducationModal({ open, onClose, onSave }) {
                         label="Location"
                         value={formState.location}
                         onChange={handleChange}
+                        error={locationErrorMessage !== ""}
+                        helperText={locationErrorMessage}
                         fullWidth
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
@@ -102,6 +236,8 @@ function EducationModal({ open, onClose, onSave }) {
                         type="date"
                         value={formState.startDate}
                         onChange={handleChange}
+                        error={startDateErrorMessage !== ""}
+                        helperText={startDateErrorMessage}
                         fullWidth
                         InputLabelProps={{ style: { color: 'white' }, shrink: true }}
                         inputProps={{ style: { color: 'white' } }}
@@ -113,6 +249,8 @@ function EducationModal({ open, onClose, onSave }) {
                         type="date"
                         value={formState.endDate}
                         onChange={handleChange}
+                        error={endDateErrorMessage !== ""}
+                        helperText={endDateErrorMessage}
                         fullWidth
                         InputLabelProps={{ style: { color: 'white' }, shrink: true }}
                         inputProps={{ style: { color: 'white' } }}
@@ -123,6 +261,8 @@ function EducationModal({ open, onClose, onSave }) {
                         label="GPA"
                         value={formState.gpa}
                         onChange={handleChange}
+                        error={gpaErrorMessage !== ""}
+                        helperText={gpaErrorMessage}
                         fullWidth
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
