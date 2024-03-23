@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
-function EducationModal({ open, onClose, onSave }) {
+function EducationModal({ open, onClose, onSave, onNext }) {
     const [formState, setFormState] = useState({
         institutionName: '',
         degree: '',
@@ -30,6 +30,10 @@ function EducationModal({ open, onClose, onSave }) {
         onClose();
     };
 
+    const handleNext = () => {
+        onNext();
+    };
+
     const resetToDefault = () => {
         setFormState({
             institutionName: '',
@@ -40,8 +44,8 @@ function EducationModal({ open, onClose, onSave }) {
             gpa: '',
             relevantCourses: '', 
             about: '',
-        })
-    }
+        });
+    };
 
     const style = {
         position: 'absolute',
@@ -50,19 +54,24 @@ function EducationModal({ open, onClose, onSave }) {
         transform: 'translate(-50%, -50%)',
         width: 600,
         maxHeight: '70vh', 
-        bgcolor: '#202525',
-        border: '2px solid #444',
+        bgcolor: '#9ed198',
+        border: '2px solid ',
         boxShadow: 24,
         p: 4,
         borderRadius: '16px',
         overflowY: 'auto', 
     };
-    
 
+    const buttonStyle = {
+        position: 'absolute',
+        bottom: '10px',
+        right: '10px',
+    };
+    
     return (
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
-                <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 2 }} variant="h6">
+                <Typography sx={{ color: 'black', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Education
                 </Typography>
                 <form onSubmit={handleSave}>
@@ -72,8 +81,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.institutionName}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px' } }}
                         margin="normal"
                     />
                     <TextField
@@ -82,8 +91,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.degree}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <TextField
@@ -92,8 +101,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.location}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <TextField
@@ -103,8 +112,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.startDate}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' }, shrink: true }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <TextField
@@ -114,8 +123,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.endDate}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' }, shrink: true }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <TextField
@@ -124,8 +133,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.gpa}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <TextField
@@ -134,8 +143,8 @@ function EducationModal({ open, onClose, onSave }) {
                         value={formState.relevantCourses}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <TextField
@@ -146,13 +155,18 @@ function EducationModal({ open, onClose, onSave }) {
                         fullWidth
                         multiline
                         minRows={3}
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px', padding: '15px', marginTop: '-16px', marginLeft: '-14px', marginRight: '-14px', marginBottom: '-17px', border: 'none' } }}
                         margin="normal"
                     />
-                    <Button type="submit" sx={{ mt: 2, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
-                        Save
-                    </Button>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button type="submit" sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained">
+                            Save
+                        </Button>
+                        <Button sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained" onClick={handleNext}>
+                            Next
+                        </Button>
+                    </Box>
                 </form>
             </Box>
         </Modal>

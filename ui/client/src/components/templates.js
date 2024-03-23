@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
+import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, CardContent, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
 import { jsPDF } from 'jspdf';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
@@ -9,13 +9,13 @@ import template3Image from '../targeted.png'
 
 const templateCategories = {
   'Category 1': [
-    { name: 'Template 1', imagePath: template1Image }, // Adjust the path as necessary
-    { name: 'Template 2', imagePath: template2Image },
-    { name: 'Template 3', imagePath: template3Image },
+    { name: 'Chronological Template', imagePath: template1Image, description: 'A chronological template orders your resume based on the most recent work experience.' },
+    { name: 'Hybrid Template', imagePath: template2Image, description: 'A hybrid resume template is based on the skills and qualifications first, followed by employment history.' },
+    { name: 'Targeted Template', imagePath: template3Image, description: 'A targeted resume is tailored for a specific job position.' },
   ],
   'Category 2': [
-    { name: 'Template 3', imagePath: 'ui/client/public/chrono.png' },
-    { name: 'Template 4', imagePath: 'ui/client/public/chrono.png' }
+    { name: 'Chronological Template', imagePath: template1Image, description: 'A chronological template orders your resume based on the most recent work experience.' },
+    { name: 'Targeted Template', imagePath: template3Image, description: 'A targeted resume is tailored for a specific job position.' },
   ],
   // Add more categories and templates as needed
 };
@@ -94,10 +94,8 @@ export default function ResumeTemplates({ submittedResume }) {
     setGeneratedTemplate(content);
     setResumeModalOpen(true);
   };
-
   
-
-
+  
   const generatePdf = async () => {
     if (!templateRef.current) return;
     const canvas = await html2canvas(templateRef.current);
@@ -130,8 +128,7 @@ export default function ResumeTemplates({ submittedResume }) {
               backgroundColor: '#1e272e',
               marginTop: '64px',
               color: 'white',
-              overflow: 'auto',
-              width: '180px',
+              overflow: 'hidden',
             },
           }}
         >
@@ -162,6 +159,15 @@ export default function ResumeTemplates({ submittedResume }) {
                     alt={`Template image for ${template.name}`}
                     sx={{ objectFit: 'cover', objectPosition: 'top', height: 280 }} // Set height to your preference
                   />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {template.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {/* Here you can add the actual description for each template */}
+                      {template.description || 'No description available.'}
+                    </Typography>
+                  </CardContent>
                 </CardActionArea>
               </Card>
             </Grid>
@@ -180,6 +186,14 @@ export default function ResumeTemplates({ submittedResume }) {
             <div ref={templateRef}>
               {generatedTemplate}
             </div>
+            {/* Add the Back button here */}
+            <Button 
+              variant="contained" 
+              onClick={handleResumeModalClose} 
+              style={{ marginTop: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+            >
+              Back
+            </Button>
           </ResumePreview>
         </StyledModal>
       )}

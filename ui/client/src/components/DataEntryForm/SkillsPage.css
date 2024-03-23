@@ -1,0 +1,95 @@
+/* SkillsPage.css */
+
+.skillsContainer {
+    background: linear-gradient(to top, #0dca3c, #185626);
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto; /* Allows scrolling if content overflows */
+    color: white;
+}
+
+.skillFieldContainer {
+    width: 100%; /* Full width to center content */
+    max-width: 500px; /* Max width for the container */
+    background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
+    margin-bottom: 20px; /* Space between skill fields */
+    border-radius: 10px; /* Rounded corners for the field container */
+    padding: 20px; /* Padding around the fields */
+    box-sizing: border-box; /* Includes padding in the width */
+}
+
+.skillInput {
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px; /* Space between text field and button */
+    flex-grow: 1; /* Allow input to fill space */
+}
+
+.addButton {
+    font-size: 16px;
+    color: #185626;
+    background-color: #60f583;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    white-space: nowrap; /* Prevent button text wrapping */
+}
+
+.addButton:hover {
+    background-color: #45b55f;
+    color: black;
+}
+
+.skillChipsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between chips */
+    margin-top: 10px; /* Space between input field and chips */
+    justify-content: center; /* Center chips horizontally */
+    max-width: 480px; /* Limit width for chips to wrap */
+}
+
+.skillChip {
+    background-color: rgba(15, 70, 31, 0.356);
+    color: #185626;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.skillChip:hover {
+    background-color: #e0e0e0;
+}
+
+.skillChip .deleteIcon {
+    display: inline-block;
+    margin-left: 10px;
+    color: #999;
+    cursor: pointer;
+}
+
+.skillChip .deleteIcon:hover {
+    color: #df1414;
+}
+
+.skillInput .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: white; /* This ensures the border stays white when focused */
+}
+
+.skillInput .MuiInputLabel-outlined.Mui-focused {
+    color: white;
+}
+

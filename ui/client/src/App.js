@@ -1,4 +1,5 @@
 // App.js
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext.js';
 import { Container } from '@mui/material';
@@ -10,6 +11,7 @@ import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
+import SkillsPage from './components/DataEntryForm/SkillsPage.js';
 import ResumeTemplates from './components/templates.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
 import Education from './components/Education/Education.js';
@@ -21,7 +23,6 @@ const [submittedResume, setSubmittedResume] = useState(null);
 const handleResumeSubmit = (resumeData) => {
   setSubmittedResume(resumeData);
 };
-
   return (
     <UserProvider>
       // <UserProvider>
@@ -44,6 +45,9 @@ const handleResumeSubmit = (resumeData) => {
             <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
             <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/resume/preview' element={<PreviewPage />} />
+            <Route path='/resume/datainput/skills' element={<SkillsPage />} />
+            <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
+            <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
           </Routes>
         </Container>
       </BrowserRouter>

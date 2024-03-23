@@ -12,8 +12,6 @@ const StyledModal = styled(Modal)({
 });
 
 export default function ResumeForm({ submitCallBack }) {
-
-
   const [resume, setResume] = useState({
     name: '',
     email: '',
@@ -43,7 +41,6 @@ export default function ResumeForm({ submitCallBack }) {
   // Is there anyway to get these into a different file and import? Some refactoring would be nice to shrink it down
   let templateBase =  [];
   // bgColor
- 
   const bgColor = location.state?.bgColor;
   console.log("TEST ", bgColor);
 
@@ -125,6 +122,12 @@ export default function ResumeForm({ submitCallBack }) {
     generateResume(templateName); // For example, can be dynamically set based on user input
   };
 
+//create tooltip with hint
+const renderTooltip = (hint) => (
+  <Tooltip title={hint} arrow>
+    <QuestionMarkIcon />
+  </Tooltip>
+);
   const generateResume = (templateType) => {
     let content = null;
     switch (templateType) {
@@ -185,6 +188,9 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Enter your email address')}
+              </Grid>                  
               {/* Title */}
               <TextField
                 variant="filled"
@@ -209,6 +215,9 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Write a brief summary of your professional background')}
+              </Grid>
               {/* Phone */}
               <TextField
                 variant="filled"
