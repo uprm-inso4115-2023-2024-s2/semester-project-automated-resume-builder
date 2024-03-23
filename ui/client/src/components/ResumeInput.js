@@ -52,9 +52,6 @@ const ResumeInput = () => {
         setItem(prevItems => [...prevItems, newItem]);
     };
 
-    const handleNextModal = () => {
-        console.log('Moving to next step');
-    
     const handleAutoComplete = async (text) => {
         try {  // Se puso por defecto que el microservicio de flask fuera el puerto 5000. Flask debe estar corriendo para que funcione
             const response = await fetch('http://127.0.0.1:5000/generate', { 
@@ -77,6 +74,9 @@ const ResumeInput = () => {
             return text;
         }
     }
+    const handleNextModal = () => {
+        console.log('Moving to next step');
+    
         // Check which modal should be opened based on the state of information arrays
         if (!additionalInfo.length) {
             setShowAdditionalModal(true); // Open Additional Modal if additionalInfo is empty
