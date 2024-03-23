@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const userRoutes = require('./routes/users.routes');
+const personalInfoRoutes = require('./routes/personal.info.routes');
 const app = express();
 
 app.use(cors());
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(userRoutes);
+app.use(personalInfoRoutes);
 
 app.use((err, req, res, next) => {
     return res.json({
@@ -25,3 +27,7 @@ app.use((err, req, res, next) => {
 app.listen(4000, () => {
     console.log('Server on port 4000');
 });
+
+
+
+

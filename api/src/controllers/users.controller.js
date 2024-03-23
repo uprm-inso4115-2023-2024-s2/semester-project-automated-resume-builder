@@ -1,5 +1,9 @@
 const pool = require('../db');
 const PDFDocument = require('pdfkit');
+const { Resend } = require('resend');
+const resend = new Resend('re_cnazMdWM_FS1Zo3ce1vrAFm3XiboSRCzd');
+const crypto = require('crypto');
+
 
 function buildPDF(dataCallback, endCallback) {
     const doc = new PDFDocument()
@@ -42,21 +46,52 @@ const getUser = async (req, res, next) => {
     }
 };
 
-// Sign user up
+const verifiedEmail = async (req, res, next) => {
+    const { token } = req.query; // Extraes el token de la URL
+    // Aquí buscas en la base de datos el usuario con este token y actualizas su estado a verificado
+    try {
+        const result = await pool.query(
+            'UPDATE users SET email_verified = true WHERE email_verification_token = $1 RETURNING *',
+            [token]
+        );
+        
+        if (result.rows.length > 0) {
+            res.redirect("http://localhost:3000/");
+        } else {
+            res.redirect("http://localhost:3000/");
+        }
+    } catch (error) {
+        next(error)
+    }
+    
+};
+
 const signUpUser = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password, name, frst_lst_name, phone_number } = req.body;
+    const emailVerificationToken = crypto.randomBytes(20).toString('hex');
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
-            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING user_id, email, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile',
-            [email, hashedPassword, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile]
+            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile, email_verification_token, email_verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+            [email, hashedPassword, name, "", frst_lst_name, "", phone_number, "", "", emailVerificationToken, false]
         );
         const user = result.rows[0];
         const token = generateAuthToken(user.user_id);
         res.json({ user, token });
+
+        
+
+        resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: [email],
+            subject: 'Hello World',
+            html: `<strong>Haz clic en este enlace para verificar tu correo electrónico:</strong> <a href="http://localhost:4000/verificar-email?token=${emailVerificationToken}">Verificar Email</a>`,
+          });
+
     } catch (error) {
         next(error);
     }
+
 };
 
 // Log user in
@@ -72,12 +107,42 @@ const logInUser = async (req, res, next) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid Credentials' });
         }
+        if(user.email_verified === false){
+            return res.status(401).json({ message: 'Unverified email' });
+        }
         const token = generateAuthToken(user.user_id);
         res.json({ user, token });
+        // console.log(token)
+        // console.log("todo salio bien")
     } catch (error) {
         next(error);
     }
 };
+
+const getUserDetailsByToken = async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1]; // "Bearer TOKEN"
+    if (!token) {
+        return res.status(401).json({ message: 'Acceso denegado. No se proporcionó token.' });
+    }
+
+    try {
+        const verified = jwt.verify(token, 'your_secret_key');
+        const userId = verified.userId;
+        const userResult = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
+
+        if (userResult.rows.length > 0) {
+            const user = userResult.rows[0];
+            // Excluye datos sensibles como password_hash antes de enviar la respuesta
+            const { password_hash, ...userData } = user;
+            res.json(userData);
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado.' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: 'Token inválido.' });
+    }
+};
+
 
 //somewhat temporary code to convert the selected user's username into a pdf, planned for use to download resumes
 const getDownload = async (req, res, next) => {
@@ -145,5 +210,7 @@ module.exports = {
     signUpUser,
     logInUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    verifiedEmail,
+    getUserDetailsByToken
 };

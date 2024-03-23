@@ -2,6 +2,11 @@
     background: linear-gradient(160deg, #a4d96c 0%, #35612a 100%);
     padding: 20px;
     overflow: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
   
   .pdf-preview-placeholder {
@@ -46,4 +51,10 @@
   .custom-button .MuiSvgIcon-root {
     color: #4b8b3b;
   }
+.homepage-button{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
   
