@@ -7,6 +7,8 @@ import WorkExperienceModal from './ResumeModals/workExperienceModal.js';
 import EducationModal from './ResumeModals/educationModal.js';
 import CertificationModal from './ResumeModals/certificationModal.js';
 import ProjectModal from './ResumeModals/projectModal.js'
+import AdditionalModal from './ResumeModals/additionalModal.js'
+import CareerObjModal from './ResumeModals/careerObjModal.js'
 import SkillsModal from './ResumeModals/skillsModal.js';
 
 const ResumeInput = () => {
@@ -14,7 +16,11 @@ const ResumeInput = () => {
     const [showEducationModal, setShowEducationModal] = useState(false);
     const [showCertificationModal, setShowCertificationModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
+    const [showAdditionalModal, setShowAdditionalModal] = useState(false);
+    const [showCareerObjModal, setShowCareerObjModal] = useState(false);
 
+    const [careerObj, setCareerObjModal] = useState([]);
+    const [additionalInfo, setAdditionalInfo] = useState([]);
     const [workExperience, setWorkExperience] = useState([]);
     const [education, setEducation] = useState([]);
     const [certifications, setCertifications] = useState([]);
@@ -30,6 +36,9 @@ const ResumeInput = () => {
         professionalSummary: '',
     });
 
+    const [step, setStep] = useState(1); // Track the current step
+
+
     const handleChangePersonalInfo = (e) => {
         const { name, value } = e.target;
         setPersonalInfo(prev => ({ ...prev, [name]: value }));
@@ -39,6 +48,36 @@ const ResumeInput = () => {
         setItem(prevItems => [...prevItems, newItem]);
     };
 
+    const handleNextModal = () => {
+        console.log('Moving to next step');
+    
+        // Check which modal should be opened based on the state of information arrays
+        if (!additionalInfo.length) {
+            setShowAdditionalModal(true); // Open Additional Modal if additionalInfo is empty
+            return;
+        }
+        
+        if (!workExperience.length) {
+            setShowWorkExperienceModal(true); // Open Work Experience Modal if workExperience is empty
+            return;
+        }
+        if (!education.length) {
+            setShowEducationModal(true); // Open Education Modal if education is empty
+            return;
+        }
+        if (!certifications.length) {
+            setShowCertificationModal(true); // Open Certification Modal if certifications is empty
+            return;
+        }
+        if (!projects.length) {
+            setShowProjectModal(true); // Open Project Modal if projects is empty
+            return;
+        }
+    
+        // If no modal needs to be opened, move to the next step
+        setStep(prevStep => prevStep + 1);
+    };
+    
     const handleSaveSkill = (newSkill) => {
         setSkills([...skills, newSkill]);
         setIsSkillSaved(true);
@@ -138,6 +177,32 @@ const ResumeInput = () => {
                     />
                 </Grid>
 
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+                        Career Objectives
+                    </Typography>
+                    <List>
+                        {workExperience.map((experience, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={experience.jobTitle} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowCareerObjModal(true)}>Add Career Objective</Button>
+                    <CareerObjModal
+                        open={showCareerObjModal}
+                        onClose={() => setShowCareerObjModal(false)}
+                        onSave={handleSaveItem(setCareerObjModal)}
+                    />
+                </Grid>
+
                 {/* Work Experience Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
                     <Typography 
@@ -151,7 +216,7 @@ const ResumeInput = () => {
                         Work Experience
                     </Typography>
                     <List>
-                        {workExperience.map((experience, index) => (
+                        {careerObj.map((experience, index) => (
                             <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
                                 <ListItemText primary={experience.jobTitle} />
                             </ListItem>
@@ -245,7 +310,34 @@ const ResumeInput = () => {
                         onSave={handleSaveItem(setProjects)}
                     />
                 </Grid>
-
+                {/* Education Section */}
+                {/* Additional Information section  */}
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+                        Additional Information
+                    </Typography>
+                    <List>
+                        {additionalInfo.map((info, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={info.institutionName} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowAdditionalModal(true)}>Add Info</Button>
+                    <AdditionalModal
+                        open={showAdditionalModal}
+                        onClose={() => setShowAdditionalModal(false)}
+                        onSave={handleSaveItem(setAdditionalInfo)}
+                        onNext={handleNextModal}
+                    />
+                </Grid>
                 {/* Skills section  */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
                     <Typography 
@@ -256,6 +348,7 @@ const ResumeInput = () => {
                         mt: 2 
                         }}
                     >
+
                         Skills
                     </Typography>
                     <List>
@@ -272,7 +365,6 @@ const ResumeInput = () => {
                         onSave={handleSaveSkill}
                     />
                 </Grid>                
-            </Grid>
         </div>
     );
 };

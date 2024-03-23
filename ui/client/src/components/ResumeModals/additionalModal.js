@@ -32,6 +32,7 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
 
     const handleNext = () => {
         onNext();
+        onClose();
     };
 
     const resetToDefault = () => {
@@ -101,4 +102,4 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
     );
 }
 
-export default AdditionalModal;
+export default AdditionalModal
