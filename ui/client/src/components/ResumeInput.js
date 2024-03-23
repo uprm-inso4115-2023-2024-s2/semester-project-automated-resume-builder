@@ -11,6 +11,7 @@ import LanguageProfiencyModal from './ResumeModals/LanguageProfModal.js'
 import AdditionalModal from './ResumeModals/additionalModal.js'
 import CareerObjModal from './ResumeModals/careerObjModal.js'
 import SkillsModal from './ResumeModals/skillsModal.js';
+import { useNavigate } from 'react-router-dom';
 
 const ResumeInput = () => {
     const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
@@ -80,7 +81,8 @@ const ResumeInput = () => {
         // If no modal needs to be opened, move to the next step
         setStep(prevStep => prevStep + 1);
     };
-    
+    const navigate = useNavigate();
+
     const handleSaveSkill = (newSkill) => {
         setSkills([...skills, newSkill]);
         setIsSkillSaved(true);
@@ -390,12 +392,12 @@ const ResumeInput = () => {
                             </ListItem>
                         ))}
                     </List>
-                    <Button onClick={() => setShowSkillsModal(true)}>Add Skill</Button>
-                    <SkillsModal
+                    <Button onClick={() => navigate(`/resume/datainput/skills`)}>Add Skills</Button>
+                    {/* <SkillsModal
                         open={showSkillsModal}
                         onClose={() => setShowSkillsModal(false)}
                         onSave={handleSaveSkill}
-                    />
+                    /> */}
                 </Grid>  
             </Grid>                
         </div>
