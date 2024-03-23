@@ -1,4 +1,5 @@
 // App.js
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext.js';
 import { Container } from '@mui/material';
@@ -13,8 +14,14 @@ import PreviewPage from './components/PreviewPage.js'
 import SkillsPage from './components/DataEntryForm/SkillsPage.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
 import Education from './components/Education/Education.js';
+import ResumeTemplates from './components/templates.js'; // Import the ResumeTemplates component
 
 export default function App() {
+  const [submittedResume, setSubmittedResume] = useState(null);
+
+  const handleResumeSubmit = (resumeData) => {
+    setSubmittedResume(resumeData);
+  };
   return (
     <UserProvider>
       <BrowserRouter>
@@ -33,6 +40,8 @@ export default function App() {
             <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/preview' element={<PreviewPage />} />
             <Route path='/resume/datainput/skills' element={<SkillsPage />} />
+            <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
+            <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
           </Routes>
         </Container>
       </BrowserRouter>
