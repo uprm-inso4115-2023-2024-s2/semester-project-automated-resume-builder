@@ -364,7 +364,8 @@ const ResumeInput = () => {
                         onClose={() => setShowSkillsModal(false)}
                         onSave={handleSaveSkill}
                     />
-                </Grid>                
+                </Grid>  
+            </Grid>                
         </div>
     );
 };
