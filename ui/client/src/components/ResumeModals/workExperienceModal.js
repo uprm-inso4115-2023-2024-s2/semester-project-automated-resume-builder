@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
-function WorkExperienceModal({ open, onClose, onSave }) {
+function WorkExperienceModal({ open, onClose, onSave, onAutoComplete }) {
     const [formState, setFormState] = useState({
         jobTitle: '',
         companyName: '',
@@ -50,9 +50,24 @@ function WorkExperienceModal({ open, onClose, onSave }) {
         borderRadius: '16px',
         overflowY: 'auto',
     };
+
+    const handleAutoCompleteResponsabilities = async () => {
+
+        if(onAutoComplete) {
+            try {
+                const newText = await onAutoComplete(formState.responsibilities);
+                setFormState(prevState => ({
+                    ...prevState,
+                    responsibilities: newText
+                }));
+            } catch (error) {
+                console.error('Error during autocomplete', error);
+            }
+        }
+    };
     
     return (
-        <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
+        <Modal open={open} onClose={onClose}>
             <Box sx={style}>
                 <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Work Experience
@@ -134,9 +149,22 @@ function WorkExperienceModal({ open, onClose, onSave }) {
                         inputProps={{ style: { color: 'white' } }}
                         margin="normal"
                     />
-                    <Button type="submit" sx={{ mt: 2, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
-                        Save
-                    </Button>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+                        <Button
+                            sx={{ color: 'yellow', borderColor: 'yellow', '&:hover': { borderColor: 'yellow' } }}
+                            variant="outlined"
+                            onClick={handleAutoCompleteResponsabilities}
+                        >
+                            Autocompletar
+                        </Button>
+                        <Button
+                            type="submit"
+                            sx={{ color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }}
+                            variant="outlined"
+                        >
+                            Save
+                        </Button>
+                    </Box>
                 </form>
             </Box>
         </Modal>
