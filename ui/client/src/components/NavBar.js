@@ -36,7 +36,7 @@ export default function Navbar(){
                         Preview
                     </Button>
                     <Button variant='contained' color='primary' onClick={logout} className="navbarButton">
-                        Cerrar secion
+                        Cerrar sesion
                     </Button>
                     {/* Comprobamos si globalUser y globalUser.name están definidos y no son cadenas vacías */}
             {globalUser.name !== "" ? (
