@@ -20,8 +20,8 @@ export default function Navbar(){
                     <Button variant='contained' color='primary' onClick={() => navigate('users/new')} className="navbarButton">
                         New user
                     </Button>
-                    <Button variant='contained' color='primary' onClick={() => navigate('resume/new')}>
-                        Resume Template
+                    <Button variant='contained' color='primary' style={{ marginLeft: '1rem' }} onClick={() => navigate('resume/templates')}>
+                        Templates
                     </Button>
                     <Button variant='contained' color='primary' onClick={() => navigate('signup')} className="navbarButton">
                         Sign up
@@ -36,7 +36,7 @@ export default function Navbar(){
                         Preview
                     </Button>
                     <Button variant='contained' color='primary' onClick={logout} className="navbarButton">
-                        Cerrar secion
+                        Cerrar sesion
                     </Button>
                     {/* Comprobamos si globalUser y globalUser.name están definidos y no son cadenas vacías */}
             {globalUser.name !== "" ? (

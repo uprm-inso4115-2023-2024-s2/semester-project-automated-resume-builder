@@ -7,17 +7,31 @@ import WorkExperienceModal from './ResumeModals/workExperienceModal.js';
 import EducationModal from './ResumeModals/educationModal.js';
 import CertificationModal from './ResumeModals/certificationModal.js';
 import ProjectModal from './ResumeModals/projectModal.js'
+import LanguageProfiencyModal from './ResumeModals/LanguageProfModal.js'
+import AdditionalModal from './ResumeModals/additionalModal.js'
+import CareerObjModal from './ResumeModals/careerObjModal.js'
+import SkillsModal from './ResumeModals/skillsModal.js';
+import { useNavigate } from 'react-router-dom';
 
 const ResumeInput = () => {
     const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
     const [showEducationModal, setShowEducationModal] = useState(false);
     const [showCertificationModal, setShowCertificationModal] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
+    const [showLanguageProfiencyModal, setShowLanguageProfiencyModal] = useState(false);
+    const [showAdditionalModal, setShowAdditionalModal] = useState(false);
+    const [showCareerObjModal, setShowCareerObjModal] = useState(false);
 
+    const [careerObj, setCareerObjModal] = useState([]);
+    const [additionalInfo, setAdditionalInfo] = useState([]);
     const [workExperience, setWorkExperience] = useState([]);
     const [education, setEducation] = useState([]);
     const [certifications, setCertifications] = useState([]);
     const [projects, setProjects] = useState([]);
+    const [languages, setLanguages] = useState([]);
+    const [showSkillsModal, setShowSkillsModal] = useState(false);
+    const [skills, setSkills] = useState([]);
+    const [isSkillSaved, setIsSkillSaved] = useState(false);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: '',
         lastName: '',
@@ -25,6 +39,9 @@ const ResumeInput = () => {
         email: '',
         professionalSummary: '',
     });
+
+    const [step, setStep] = useState(1); // Track the current step
+
 
     const handleChangePersonalInfo = (e) => {
         const { name, value } = e.target;
@@ -34,7 +51,68 @@ const ResumeInput = () => {
     const handleSaveItem = (setItem) => (newItem) => {
         setItem(prevItems => [...prevItems, newItem]);
     };
+
+    const handleAutoComplete = async (text) => {
+        try {  // Se puso por defecto que el microservicio de flask fuera el puerto 5000. Flask debe estar corriendo para que funcione
+            const response = await fetch('http://127.0.0.1:5000/generate', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            const data = await response.json();
+            if(data.completed_text) {
+                console.log(data.completed_text);
+                return text + data.completed_text; 
+            }
+            else
+                return text;
+        }
+        catch (error) {
+            console.error('Error:', error);
+            return text;
+        }
+    }
+    const handleNextModal = () => {
+        console.log('Moving to next step');
     
+        // Check which modal should be opened based on the state of information arrays
+        if (!additionalInfo.length) {
+            setShowAdditionalModal(true); // Open Additional Modal if additionalInfo is empty
+            return;
+        }
+        
+        if (!workExperience.length) {
+            setShowWorkExperienceModal(true); // Open Work Experience Modal if workExperience is empty
+            return;
+        }
+        if (!education.length) {
+            setShowEducationModal(true); // Open Education Modal if education is empty
+            return;
+        }
+        if (!certifications.length) {
+            setShowCertificationModal(true); // Open Certification Modal if certifications is empty
+            return;
+        }
+        if (!projects.length) {
+            setShowProjectModal(true); // Open Project Modal if projects is empty
+            return;
+        }
+    
+        // If no modal needs to be opened, move to the next step
+        setStep(prevStep => prevStep + 1);
+    };
+    const navigate = useNavigate();
+
+    const handleSaveSkill = (newSkill) => {
+        setSkills([...skills, newSkill]);
+        setIsSkillSaved(true);
+    };
+    const handleNextPage = () => {
+        // navigate('/additional-information'); // Reemplaza esto con la ruta real a la página de información adicional
+    };
+
     return (
         <div>
             <Typography 
@@ -126,6 +204,32 @@ const ResumeInput = () => {
                     />
                 </Grid>
 
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+                        Career Objectives
+                    </Typography>
+                    <List>
+                        {workExperience.map((experience, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={experience.jobTitle} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowCareerObjModal(true)}>Add Career Objective</Button>
+                    <CareerObjModal
+                        open={showCareerObjModal}
+                        onClose={() => setShowCareerObjModal(false)}
+                        onSave={handleSaveItem(setCareerObjModal)}
+                    />
+                </Grid>
+
                 {/* Work Experience Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
                     <Typography 
@@ -139,7 +243,7 @@ const ResumeInput = () => {
                         Work Experience
                     </Typography>
                     <List>
-                        {workExperience.map((experience, index) => (
+                        {careerObj.map((experience, index) => (
                             <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
                                 <ListItemText primary={experience.jobTitle} />
                             </ListItem>
@@ -150,7 +254,8 @@ const ResumeInput = () => {
                         open={showWorkExperienceModal}
                         onClose={() => setShowWorkExperienceModal(false)}
                         onSave={handleSaveItem(setWorkExperience)}
-                    />
+                        onAutoComplete={handleAutoComplete}
+                        />
                 </Grid>
 
                 {/* Education Section */}
@@ -233,7 +338,91 @@ const ResumeInput = () => {
                         onSave={handleSaveItem(setProjects)}
                     />
                 </Grid>
-            </Grid>
+
+
+                {/* Education Section */}
+
+                {/* Language Proficiency Section */}
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+                        Language Proficiency
+                    </Typography>
+                    <List>
+                        {languages.map((lang, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={lang.institutionName} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowLanguageProfiencyModal(true)}>Add Language</Button>
+                    <LanguageProfiencyModal
+                        open={showLanguageProfiencyModal}
+                        onClose={() => setShowLanguageProfiencyModal(false)}
+                        onSave={handleSaveItem(setLanguages)}
+                    />
+                </Grid>
+                {/* Additional Information section  */}
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+                        Additional Information
+                    </Typography>
+                    <List>
+                        {additionalInfo.map((info, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={info.institutionName} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowAdditionalModal(true)}>Add Info</Button>
+                    <AdditionalModal
+                        open={showAdditionalModal}
+                        onClose={() => setShowAdditionalModal(false)}
+                        onSave={handleSaveItem(setAdditionalInfo)}
+                        onNext={handleNextModal}
+                    />
+                </Grid>
+                {/* Skills section  */}
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
+
+                        Skills
+                    </Typography>
+                    <List>
+                        {skills.map((skill, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={skill} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => navigate(`/resume/datainput/skills`)}>Add Skills</Button>
+                    {/* <SkillsModal
+                        open={showSkillsModal}
+                        onClose={() => setShowSkillsModal(false)}
+                        onSave={handleSaveSkill}
+                    /> */}
+                </Grid>  
+            </Grid>                
         </div>
     );
 };
