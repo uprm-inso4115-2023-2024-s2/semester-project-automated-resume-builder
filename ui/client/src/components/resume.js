@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Button, Card, CardContent, Grid, TextField, Typography, Box, Modal, Paper, Link, styled, Drawer, List, ListItem, CardMedia, ListItemText } from '@mui/material';
+import { Button, Card, CardContent, Grid, TextField, Typography, Box, Modal, Paper, Link, styled, Tooltip } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import QuestionMarkIcon from '@mui/icons-material/HelpOutlineRounded';
 
 
 const StyledModal = styled(Modal)({
@@ -125,6 +126,12 @@ console.log(location.state);
     generateResume(templateName); // For example, can be dynamically set based on user input
   };
 
+//create tooltip with hint
+const renderTooltip = (hint) => (
+  <Tooltip title={hint} arrow>
+    <QuestionMarkIcon />
+  </Tooltip>
+);
   const generateResume = (templateType) => {
     let content = null;
     switch (templateType) {
@@ -172,8 +179,11 @@ console.log(location.state);
           </Typography>
           <CardContent>
             <form onSubmit={handleSubmit}>
-               {/* Name */}
-               <TextField
+            <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Enter your full name')} 
+            </Grid>
+              {/* Name */}
+              <TextField
                 variant="filled"
                 label="Name"
                 name="name"
@@ -184,6 +194,9 @@ console.log(location.state);
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Enter your email address')}
+              </Grid>                  
               {/* Title */}
               <TextField
                 variant="filled"
@@ -208,6 +221,9 @@ console.log(location.state);
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('Write a brief summary of your professional background')}
+              </Grid>
               {/* Phone */}
               <TextField
                 variant="filled"
@@ -258,6 +274,9 @@ console.log(location.state);
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('List your work experience, including job titles and responsibilities, and dates of employment, if applicable.')}
+              </Grid>
               {/* Experience */}
               <TextField
                 variant="filled"
@@ -272,6 +291,9 @@ console.log(location.state);
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('List your education, including degrees and schools attended, and dates of attendance, if applicable.')}
+              </Grid>
               {/* Education */}
               <TextField
                 variant="filled"
@@ -286,6 +308,10 @@ console.log(location.state);
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+              <Grid container direction="row" justifyContent="flex-end">
+                {renderTooltip('List your skills, including technical skills, certifications, and other relevant qualifications.')}
+              </Grid>
+
               {/* Skills */}
               <TextField
                 variant="filled"
@@ -300,6 +326,7 @@ console.log(location.state);
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
+      
               <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Submit Resume
               </Button>
