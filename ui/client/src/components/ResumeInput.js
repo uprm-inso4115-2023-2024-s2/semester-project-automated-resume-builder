@@ -9,6 +9,7 @@ import CertificationModal from './ResumeModals/certificationModal.js';
 import ProjectModal from './ResumeModals/projectModal.js'
 import AdditionalModal from './ResumeModals/additionalModal.js'
 import CareerObjModal from './ResumeModals/careerObjModal.js'
+import SkillsModal from './ResumeModals/skillsModal.js';
 
 const ResumeInput = () => {
     const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
@@ -24,6 +25,9 @@ const ResumeInput = () => {
     const [education, setEducation] = useState([]);
     const [certifications, setCertifications] = useState([]);
     const [projects, setProjects] = useState([]);
+    const [showSkillsModal, setShowSkillsModal] = useState(false);
+    const [skills, setSkills] = useState([]);
+    const [isSkillSaved, setIsSkillSaved] = useState(false);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: '',
         lastName: '',
@@ -74,6 +78,14 @@ const ResumeInput = () => {
         setStep(prevStep => prevStep + 1);
     };
     
+    const handleSaveSkill = (newSkill) => {
+        setSkills([...skills, newSkill]);
+        setIsSkillSaved(true);
+    };
+    const handleNextPage = () => {
+        // navigate('/additional-information'); // Reemplaza esto con la ruta real a la página de información adicional
+    };
+
     return (
         <div>
             <Typography 
@@ -299,6 +311,7 @@ const ResumeInput = () => {
                     />
                 </Grid>
                 {/* Education Section */}
+                {/* Additional Information section  */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
                     <Typography 
                         variant="h6" 
@@ -325,8 +338,33 @@ const ResumeInput = () => {
                         onNext={handleNextModal}
                     />
                 </Grid>
+                {/* Skills section  */}
+                <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px'}}>
+                    <Typography 
+                        variant="h6" 
+                        sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        mt: 2 
+                        }}
+                    >
 
-            </Grid>
+                        Skills
+                    </Typography>
+                    <List>
+                        {skills.map((skill, index) => (
+                            <ListItem key={index} sx={{ border: '1px solid #666', p: 1, mb: 1, borderRadius: '4px', bgcolor: '#252525'}}>
+                                <ListItemText primary={skill} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={() => setShowSkillsModal(true)}>Add Skill</Button>
+                    <SkillsModal
+                        open={showSkillsModal}
+                        onClose={() => setShowSkillsModal(false)}
+                        onSave={handleSaveSkill}
+                    />
+                </Grid>                
         </div>
     );
 };
