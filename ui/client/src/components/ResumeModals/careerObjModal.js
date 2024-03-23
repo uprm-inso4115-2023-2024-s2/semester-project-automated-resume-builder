@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
-function AdditionalModal({ open, onClose, onSave, onNext }) {
+function CareerObjModal({ open, onClose, onSave, onNext }) {
     const [formState, setFormState] = useState({
-        institutionName: '',
-        degree: '',
-        location: '',
-        startDate: '',
-        endDate: '', 
-        gpa: '',
+        Question1: '',
+        Question2: '',
+        Question3: '',
         relevantCourses: '', 
-        information: '',
     });
 
     const handleChange = (e) => {
@@ -21,30 +17,25 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
     const handleSave = (e) => {
         e.preventDefault();
         const { relevantCourses, ...rest } = formState;
-        const additionalToSave = {
+        const careerObjModalToSave = {
             ...rest,
             relevantCourses: relevantCourses.split(',').map(item => item.trim()), 
         };
-        onSave(additionalToSave);
+        onSave(careerObjModalToSave);
         resetToDefault();
         onClose();
     };
 
     const handleNext = () => {
         onNext();
-        onClose();
     };
 
     const resetToDefault = () => {
         setFormState({
-            institutionName: '',
-            degree: '',
-            location: '',
-            startDate: '',
-            endDate: '', 
-            gpa: '',
+            Question1: '',
+            Question2: '',
+            Question3: '',
             relevantCourses: '', 
-            information: '',
         });
     };
 
@@ -73,19 +64,37 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
                 <Typography sx={{ color: 'black', fontWeight: 'bold', mb: 2 }} variant="h6">
-                    Additional Information
+                    Add Career Objectives
                 </Typography>
                 <form onSubmit={handleSave}>
                     <TextField
-                        name="information"
-                        label="Information"
-                        value={formState.Information}
+                        name="Question1"
+                        label="What are your long-term career aspirations?"
+                        value={formState.Question1}
                         onChange={handleChange}
                         fullWidth
-                        multiline
-                        minRows={3}
                         InputLabelProps={{ style: { color: 'black' } }}
-                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px', padding: '15px', marginTop: '-16px', marginLeft: '-14px', marginRight: '-14px', marginBottom: '-17px', border: 'none' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px' } }}
+                        margin="normal"
+                    />
+                    <TextField
+                        name="Question2"
+                        label="What specific role or position are you aiming for?"
+                        value={formState.Question2}
+                        onChange={handleChange}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
+                        margin="normal"
+                    />
+                    <TextField
+                        name="Question3"
+                        label="What industries are you interested in working in?"
+                        value={formState.Question3}
+                        onChange={handleChange}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white',  borderRadius: '5px'  } }}
                         margin="normal"
                     />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -102,4 +111,4 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
     );
 }
 
-export default AdditionalModal
+export default CareerObjModal;
