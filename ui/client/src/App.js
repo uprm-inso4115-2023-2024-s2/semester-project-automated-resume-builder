@@ -15,7 +15,6 @@ import SkillsPage from './components/DataEntryForm/SkillsPage.js';
 import ResumeTemplates from './components/templates.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
 import Education from './components/Education/Education.js';
-import { useState } from 'react';
 
 export default function App() {
 const [submittedResume, setSubmittedResume] = useState(null);
