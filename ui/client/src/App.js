@@ -37,8 +37,6 @@ export default function App() {
             <Route path='/signup' element={<SignUpForm onSignUp={() => { console.log("signed up") }} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => { console.log("Logged in") }} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => { console.log("Submitted resume info") }} />} />
-            <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
-            <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/preview' element={<PreviewPage />} />
             <Route path='/profile' element={<ProfilePage />} />
             <Route path='/resume/datainput/skills' element={<SkillsPage />} />

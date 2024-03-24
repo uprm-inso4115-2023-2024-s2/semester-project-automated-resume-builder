@@ -12,7 +12,7 @@
 }
 
 .form-container {
-    background: rgb(134, 186, 175);
+    background: #45b55f;
     width: 40%;
     height: 70%;
     border-radius: 5px;
@@ -29,7 +29,7 @@
 }
 
 .input-field {
-    background-color: rgb(140, 210, 194);
+    background-color: #60f583;
     color: black;
     width: 80%;
     border-radius: 10px;
@@ -42,7 +42,7 @@
 }
 
 .alternative-button {
-    background-color: rgb(140, 210, 194);
+    background-color: #60f583;
     font-size: 14px;
     width: 15%;
     border-radius: 10px;
@@ -52,11 +52,11 @@
 }
 
 .alternative-button:hover {
-    background-color: rgb(146, 237, 216);
+    background-color: #86fea2;
 }
 
 .submit-button {
-    background-color: rgb(140, 210, 194);
+    background-color: #60f583;
     color: black;
     font-size: 18px;
     width: 20%;
@@ -67,5 +67,5 @@
 }
 
 .submit-button:hover {
-    background-color: rgb(146, 237, 216);
+    background-color: #86fea2;
 }
