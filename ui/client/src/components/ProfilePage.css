@@ -1,0 +1,165 @@
+/* .top-buttons-group{
+
+} */
+.upresume-title:hover{
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.userOptions{
+  display: inline-block;
+  text-align: center;
+
+  width: 200px;
+  height: 200px;
+  margin-left: 3.6%;
+}
+.BigProfilePicture{
+  border: 5px solid; 
+  box-sizing: border-box;
+
+  width: 250px; 
+  height: 250px; 
+  padding-bottom: 10;
+  margin-right:  75%;
+  margin-top: 9%; 
+  margin-left: 3%;
+  border-radius: 100%;
+  background-color: white;}
+
+  .BigProfilePicture #profile-picture{
+    position: absolute;
+    /* transform: translateY(-10px); 
+    transform: translateX(-5px);  */
+    margin: 0px;
+    margin-bottom: 5px;
+    margin-top: -5.9px;
+    margin-left: -4px;
+
+    border: 0;
+
+
+  }
+
+.BigProfilePicture .username{
+  margin-top: 120%;
+  text-align: center;
+  position: relative;
+
+}
+
+.BigProfilePicture .user-info-sign-out{
+  padding-top: 20px;
+  padding-bottom: 5px;
+  margin-top: 4px;
+  font-size: 1.5em;
+  position: relative;
+  text-align: center;
+  
+}
+
+.BigProfilePicture .user-info-sign-out:hover{
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+}
+/* normal way of doing it */
+.gallery-box{
+  box-sizing: border-box;
+  background-color: aqua;
+  width: 750px;
+  height: 460px;
+  visibility: hidden;
+  margin-bottom: 0%; 
+  margin-top: 9%;
+  margin-left: 30%;
+  /* margin-right: %; */
+  /* padding-right: 30px; */
+
+  position: absolute;
+  transform: translateX(60px);
+  /* float: right;  */
+  
+  display: inline-block;
+}
+
+/* with the grid display attribute */
+/* .gallery-box{
+  display: grid;
+} */
+
+.gallery-box .savedTemps{
+  visibility: visible;
+  display: inline-flex;
+  border : 1px solid black;
+  /* background: linear-gradient(160deg, #4f4f4f 0%, #161616 100%); */
+  opacity: 30%;
+
+  background-color: gray;
+  height: 225px;
+  width: 370px;
+
+  border-radius: 5%;
+
+  /* padding-right: 5px; */
+}
+.gallery-box .savedTemps:hover{
+  background-color: rgba(108, 108, 108, 0.496);
+  cursor: pointer;
+}
+
+.gallery-box #box1{
+  /* upper left box */
+
+  /* background-color: grey; */
+  /* padding-right: 50px; */
+  
+  
+
+
+}
+
+
+.gallery-box #box2{
+  /* upper right corner */
+
+  /* background-color: #35612a; */
+  padding-left: 5px;
+  
+  
+
+
+}
+
+.gallery-box #box3{
+
+  /* background-color: red; */
+
+
+}
+
+.gallery-box #box4{
+  /* lower right corner */
+
+  /* background-color: blue; */
+
+
+}
+
+.gallery-box .savedTemps .gallery-img{
+  text-align: center;
+  border-radius: 5%;
+  margin-left: 30%;
+  
+}
+.Profile-page {
+    background: linear-gradient(160deg, #a4d96c 0%, #35612a 100%);
+    padding: 20px;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+
+

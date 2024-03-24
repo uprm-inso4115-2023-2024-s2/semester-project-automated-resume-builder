@@ -13,12 +13,17 @@ function LandingPage() {
         <div className='container'> {/* Apply custom styles to the container */}
             <h1 className='upresume-title'>UPResuMe</h1>
             <div className='top-buttons-group'>
-                <button className='top-button'>Templates</button>
+                <Link to='/resume/templates' className='link'>
+                    <button className='top-button'>Templates</button>
+                </Link>
+
                 <Link to='/resume/datainput' className='link'>
                     <button className='top-button'>Resume</button>
                 </Link>
             </div>
-            <div className='profile-picture'></div>
+            <Link to="/profile" className='link'>
+                <div className='profile-picture'></div>
+            </Link>
             <h1 className='welcome'>
                 <p>Resumes got you crazy?</p>
                 <p>Can't find the right color?</p>
