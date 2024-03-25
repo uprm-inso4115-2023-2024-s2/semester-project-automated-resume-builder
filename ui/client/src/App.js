@@ -11,6 +11,7 @@ import SignUpForm from './components/SignUpForm.js';
 import LogInForm from './components/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
+import ProfilePage from './components/ProfilePage.js';
 import SkillsPage from './components/DataEntryForm/SkillsPage.js';
 import ResumeTemplates from './components/templates.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
@@ -44,6 +45,7 @@ const handleResumeSubmit = (resumeData) => {
             <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
             <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/resume/preview' element={<PreviewPage />} />
+            <Route path='/profile' element={<ProfilePage />} />
             <Route path='/resume/datainput/skills' element={<SkillsPage />} />
             <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
             <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
