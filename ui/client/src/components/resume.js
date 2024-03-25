@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { Button, Card, CardContent, Grid, TextField, Typography, Box, Modal, Paper, Link, styled, Tooltip } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { Button, Card, CardContent, Grid, TextField, Typography, Box, Modal, Paper, Link, styled, Drawer, List, ListItem, CardMedia, ListItemText } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import QuestionMarkIcon from '@mui/icons-material/HelpOutlineRounded';
+import Tooltip from '@mui/material/Tooltip';
+import QuestionMarkIcon from '@mui/icons-material/HelpOutline';
 
 
 const StyledModal = styled(Modal)({
@@ -13,8 +14,6 @@ const StyledModal = styled(Modal)({
 });
 
 export default function ResumeForm({ submitCallBack }) {
-
-
   const [resume, setResume] = useState({
     name: '',
     email: '',
@@ -33,7 +32,7 @@ export default function ResumeForm({ submitCallBack }) {
   const location = useLocation();
   const templateName = location.state?.templateName;
 
-
+  const navigate = useNavigate();
 
   const templateRef = useRef(null);
   const [isPdfPreviewModalOpen, setPdfPreviewModalOpen] = useState(false);
@@ -44,31 +43,19 @@ export default function ResumeForm({ submitCallBack }) {
   // Is there anyway to get these into a different file and import? Some refactoring would be nice to shrink it down
   let templateBase = [];
   // bgColor
-  const font = String(location.state.Font);
-  const bgColor = String(location.state.bgColor);
-  console.log(location.state);
+
+  const bgColor = location.state?.bgColor;
+  console.log("TEST ", bgColor);
 
 
   templateBase.push(
-    <Box sx={{ padding: '20px', backgroundColor: bgColor, color: 'black', fontFamily: font, fontSize: '14px' }}>
-      <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '3px' }}>{resume.name}</Typography>
-      <Typography variant="h6" sx={{ fontSize: '15px' }}>{resume.title}</Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <Typography variant="subtitle1">{resume.phone}</Typography>
-        <Typography variant="subtitle1">{resume.email}</Typography>
-        <Typography variant="subtitle1">{resume.city}, {resume.country}</Typography>
-      </Box>
-      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom: 'solid' }}>SUMMARY</Typography>
-      <Typography variant="body1" sx={{ marginBottom: '20px' }}>{resume.summary}</Typography>
-      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom: 'solid' }}>PROFESSIONAL EXPERIENCE</Typography>
-      {/* Map through experiences if it's an array or just display if it's a single string */}
-      <Typography variant="body1" sx={{ marginBottom: '20px' }}>{resume.experience}</Typography>
-      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom: 'solid' }}>TECHNICAL SKILLS</Typography>
-      {/* Map through skills if they are an array or just display if it's a single string */}
-      <Typography variant="body1" sx={{ marginBottom: '20px' }}>{resume.skills}</Typography>
-      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom: 'solid' }}>EDUCATION</Typography>
-      {/* Map through education if it's an array or just display if it's a single string */}
-      <Typography variant="body1">{resume.education}</Typography>
+    <Box sx={{ padding: '20px', backgroundColor:bgColor, color: 'black', fontFamily: 'Arial', fontSize: '14px' }}>
+    <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '3px' }}>{resume.name}</Typography>
+    <Typography variant="h6" sx={{ fontSize: '15px' }}>{resume.title}</Typography>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+      <Typography variant="subtitle1">{resume.phone}</Typography>
+      <Typography variant="subtitle1">{resume.email}</Typography>
+      <Typography variant="subtitle1">{resume.city}, {resume.country}</Typography>
     </Box>
   );
 
@@ -165,6 +152,7 @@ export default function ResumeForm({ submitCallBack }) {
     const blobURL = URL.createObjectURL(pdfBlob);
     setPdfBlobUrl(blobURL);
     setPdfPreviewModalOpen(true); // Open the PDF preview modal
+    navigate('/resume/preview', { state: { blobURL } });
   };
 
 
@@ -179,11 +167,8 @@ export default function ResumeForm({ submitCallBack }) {
           </Typography>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('Enter your full name')}
-              </Grid>
-              {/* Name */}
-              <TextField
+               {/* Name */}
+               <TextField
                 variant="filled"
                 label="Name"
                 name="name"
@@ -274,9 +259,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('List your work experience, including job titles and responsibilities, and dates of employment, if applicable.')}
-              </Grid>
               {/* Experience */}
               <TextField
                 variant="filled"
@@ -291,9 +273,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('List your education, including degrees and schools attended, and dates of attendance, if applicable.')}
-              </Grid>
               {/* Education */}
               <TextField
                 variant="filled"
@@ -308,10 +287,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-              <Grid container direction="row" justifyContent="flex-end">
-                {renderTooltip('List your skills, including technical skills, certifications, and other relevant qualifications.')}
-              </Grid>
-
               {/* Skills */}
               <TextField
                 variant="filled"
@@ -326,7 +301,6 @@ export default function ResumeForm({ submitCallBack }) {
                 InputLabelProps={{ style: { color: 'white' } }}
                 inputProps={{ style: { color: 'white' } }}
               />
-
               <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
                 Submit Resume
               </Button>

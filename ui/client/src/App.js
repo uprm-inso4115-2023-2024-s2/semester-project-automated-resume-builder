@@ -13,19 +13,20 @@ import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
 import ProfilePage from './components/ProfilePage.js';
 import SkillsPage from './components/DataEntryForm/SkillsPage.js';
+import ResumeTemplates from './components/templates.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
 import Education from './components/Education/Education.js';
-import ResumeTemplates from './components/templates.js'; // Import the ResumeTemplates component
 
 export default function App() {
-  const [submittedResume, setSubmittedResume] = useState(null);
+const [submittedResume, setSubmittedResume] = useState(null);
 
-  const handleResumeSubmit = (resumeData) => {
-    setSubmittedResume(resumeData);
-  };
+const handleResumeSubmit = (resumeData) => {
+  setSubmittedResume(resumeData);
+};
   return (
     <UserProvider>
-      <BrowserRouter>
+      // <UserProvider>
+    <BrowserRouter>
         <MenuContainer /> {/* Render the MenuContainer component */}
         <Container>
           <Routes>
@@ -33,11 +34,17 @@ export default function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/users/new' element={<UserForm />} />
             <Route path='/users/:id/edit' element={<UserForm />} />
-            <Route path='/resume/new' element={<ResumeForm />} />
-            <Route path='/signup' element={<SignUpForm onSignUp={() => { console.log("signed up") }} />} />
-            <Route path='/login' element={<LogInForm onLogIn={() => { console.log("Logged in") }} />} />
-            <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => { console.log("Submitted resume info") }} />} />
-            <Route path='/preview' element={<PreviewPage />} />
+            <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
+            {/* Pass the submitted resume data to ResumeTemplates */}
+            <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
+            {/* <Route path='/resume/templates/editor' element={<TemplateEditor />} /> */}
+            
+            <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
+            <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
+            <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
+            <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
+            <Route path='/resume/education' element={<Education />}></Route>
+            <Route path='/resume/preview' element={<PreviewPage />} />
             <Route path='/profile' element={<ProfilePage />} />
             <Route path='/resume/datainput/skills' element={<SkillsPage />} />
             <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
@@ -46,5 +53,6 @@ export default function App() {
         </Container>
       </BrowserRouter>
     </UserProvider>
-  )
+  //   </UserProvider>
+  );
 }

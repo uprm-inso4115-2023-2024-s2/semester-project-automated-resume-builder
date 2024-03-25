@@ -42,82 +42,9 @@ const ResumePreview = styled(Box)({
 export default function ResumeTemplates({ submittedResume }) {
   const [generatedTemplate, setGeneratedTemplate] = useState(null);
   const [pdfUrl, setPdfUrl] = useState('');
-  const templateRef = useRef(null); // Reference for the template to convert into PDF
-
-  const generateResume = (templateType) => {
-    let content = null;
-    switch (templateType) {
-      case 'Template 1':
-        content = (
-          <Box sx={{ padding: '20px', backgroundColor: 'white', color: 'black', fontFamily: 'Arial', fontSize: '14px' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '3px' }}>{submittedResume.name}</Typography>
-          <Typography variant="h6" sx={{ fontSize: '15px' }}>{submittedResume.title}</Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <Typography variant="subtitle1">{submittedResume.phone}</Typography>
-            <Typography variant="subtitle1">{submittedResume.email}</Typography>
-            <Typography variant="subtitle1">{submittedResume.city}, {submittedResume.country}</Typography>
-          </Box>
-          <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid'}}>SUMMARY</Typography>
-          <Typography variant="body1" sx={{ marginBottom: '20px' }}>{submittedResume.summary}</Typography>
-          <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid' }}>PROFESSIONAL EXPERIENCE</Typography>
-          {/* Map through experiences if it's an array or just display if it's a single string */}
-          <Typography variant="body1" sx={{ marginBottom: '20px' }}>{submittedResume.experience}</Typography>
-          <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid' }}>TECHNICAL SKILLS</Typography>
-          {/* Map through skills if they are an array or just display if it's a single string */}
-          <Typography variant="body1" sx={{ marginBottom: '20px' }}>{submittedResume.skills}</Typography>
-          <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid' }}>EDUCATION</Typography>
-          {/* Map through education if it's an array or just display if it's a single string */}
-          <Typography variant="body1">{submittedResume.education}</Typography>
-        </Box>
-        );
-        break;
-      case 'Template 2':
-        content = (
-          <Paper elevation={3} sx={{ padding: '20px', backgroundColor: 'white', color: 'black', fontFamily: 'Roboto, Arial, sans-serif' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#2C3E50' }}>{submittedResume.name}</Typography>
-          <Typography variant="h6" sx={{ color: '#18A558' }}>{submittedResume.title}</Typography>
-          <Box sx={{ my: 2 }}>
-            <Link href={`mailto:${submittedResume.email}`} sx={{ display: 'block', color: '#34495E', textDecoration: 'none' }}>
-              {submittedResume.email}
-            </Link>
-            <Link href={`tel:${submittedResume.phone}`} sx={{ display: 'block', color: '#34495E', textDecoration: 'none' }}>
-              {submittedResume.phone}
-            </Link>
-            <Typography variant="body1" sx={{ color: '#34495E' }}>{submittedResume.city}</Typography>
-          </Box>
-          <Typography variant="body1" sx={{ color: '#34495E', mb: 2 }}>
-            {submittedResume.summary}
-          </Typography>
-          {/* Here you'd map over submittedResume.experience, submittedResume.education, etc. */}
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>AREAS OF EXPERTISE</Typography>
-          {/* Map over areas of expertise */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>TECHNICAL SKILLS</Typography>
-          {/* Map over technical skills */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>PERSONAL PROJECTS</Typography>
-          {/* Map over personal projects */}
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>EDUCATION</Typography>
-          {/* Map over education */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>INTERESTS</Typography>
-          {/* Map over interests */}
-        </Grid>
-      </Grid>
-    </Paper>
-        );
-        break;
-      default:
-        content = null;
-    }
-    setGeneratedTemplate(content);
-  };
-
   const [resumeModalOpen, setResumeModalOpen] = useState(false);
   const [pdfModalOpen, setPdfModalOpen] = useState(false);
+  const templateRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const navigate = useNavigate();
  
@@ -167,10 +94,8 @@ export default function ResumeTemplates({ submittedResume }) {
     setGeneratedTemplate(content);
     setResumeModalOpen(true);
   };
-
   
-
-
+  
   const generatePdf = async () => {
     if (!templateRef.current) return;
     const canvas = await html2canvas(templateRef.current);
@@ -200,15 +125,10 @@ export default function ResumeTemplates({ submittedResume }) {
           variant="permanent"
           PaperProps={{
             style: {
-              backgroundColor: 'transparent',
+              backgroundColor: '#1e272e',
               marginTop: '64px',
               color: 'white',
               overflow: 'hidden',
-              // backgroundColor: '#1e272e',
-              marginTop: '64px',
-              color: 'white',
-              overflow: 'auto',
-              width: '180px',
             },
           }}
         >
