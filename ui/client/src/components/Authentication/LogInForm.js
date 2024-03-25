@@ -61,6 +61,17 @@ const LogInForm = (onLogIn) => {
 
   return (
     <div className="container"> {/* Use the container class for styling */}
+      <Link to='/' className="link">
+        <h1>UPResuMe</h1>
+      </Link>
+      <div className='top-buttons-group'>
+        <Link to='/resume/templates' className='link'>
+          <button className='top-button'>Templates</button>
+        </Link>
+        <Link to='/resume/datainput' className='link'>
+          <button className='top-button'>Resume</button>
+        </Link>
+      </div>
       <form onSubmit={handleSubmit} className="form-container"> {/* Use form-container class */}
         <h1 className="form-title">Login</h1> {/* Use title class for styling */}
         <div className="input-field-container">
