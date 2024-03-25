@@ -34,14 +34,12 @@ function ProfilePage() {
                 <h1 className='upresume-title'>UPResuMe</h1>
             </Link>
             <div className='top-buttons-group'>
-                <Link to='/resume/new' className='link'>
+                <Link to='/resume/templates' className='link'>
                     <button className='top-button'>Templates</button>
                 </Link>
                 <Link to='/resume/datainput' className='link'>
                     <button className='top-button'>Resume</button>
                 </Link>
-
-
             </div>
             {/* i'm going to try to use grids instead of <div> */}
             <div className="gallery-box">
