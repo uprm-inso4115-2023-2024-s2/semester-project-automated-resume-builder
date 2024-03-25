@@ -7,8 +7,8 @@ import MenuContainer from "./components/MenuContainer";
 import LandingPage from './components/LandingPage.js';
 import UserForm from './components/UserForm.js';
 import ResumeForm from './components/resume';
-import SignUpForm from './components/SignUpForm.js';
-import LogInForm from './components/LogInForm.js';
+import SignUpForm from './components/Authentication/SignUpForm.js';
+import LogInForm from './components/Authentication/LogInForm.js';
 import ResumeInput from './components/ResumeInput.js';
 import PreviewPage from './components/PreviewPage.js'
 import ProfilePage from './components/ProfilePage.js';

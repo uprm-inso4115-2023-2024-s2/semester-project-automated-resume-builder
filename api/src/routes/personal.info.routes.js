@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const { 
-    getPersonalInfo, 
-    savePersonalInfo, 
+const {
+    getPersonalInfo,
+    savePersonalInfo,
     deletePersonalInfo,
 } = require('../controllers/personal.info.controller');
 

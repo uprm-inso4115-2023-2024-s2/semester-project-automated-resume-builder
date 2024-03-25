@@ -41,8 +41,9 @@ export default function ResumeForm({ submitCallBack }) {
 
   // This array will handle our templates. Not much of a change.
   // Is there anyway to get these into a different file and import? Some refactoring would be nice to shrink it down
-  let templateBase =  [];
+  let templateBase = [];
   // bgColor
+
   const bgColor = location.state?.bgColor;
   console.log("TEST ", bgColor);
 
@@ -56,58 +57,46 @@ export default function ResumeForm({ submitCallBack }) {
       <Typography variant="subtitle1">{resume.email}</Typography>
       <Typography variant="subtitle1">{resume.city}, {resume.country}</Typography>
     </Box>
-    <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid'}}>SUMMARY</Typography>
-    <Typography variant="body1" sx={{ marginBottom: '20px' }}>{resume.summary}</Typography>
-    <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid' }}>PROFESSIONAL EXPERIENCE</Typography>
-    {/* Map through experiences if it's an array or just display if it's a single string */}
-    <Typography variant="body1" sx={{ marginBottom: '20px' }}>{resume.experience}</Typography>
-    <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid' }}>TECHNICAL SKILLS</Typography>
-    {/* Map through skills if they are an array or just display if it's a single string */}
-    <Typography variant="body1" sx={{ marginBottom: '20px' }}>{resume.skills}</Typography>
-    <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '5px', borderBottom :  'solid' }}>EDUCATION</Typography>
-    {/* Map through education if it's an array or just display if it's a single string */}
-    <Typography variant="body1">{resume.education}</Typography>
-  </Box>
   );
-  
+
 
 
   templateBase.push(<Paper elevation={3} sx={{ padding: '20px', bgColor: 'white', color: 'black', fontFamily: 'Roboto, Arial, sans-serif' }}>
-  <Grid container spacing={2}>
-    <Grid item xs={12} md={8}>
-      <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#2C3E50' }}>{resume.name}</Typography>
-      <Typography variant="h6" sx={{ color: '#18A558' }}>{resume.title}</Typography>
-      <Box sx={{ my: 2 }}>
-        <Link href={`mailto:${resume.email}`} sx={{ display: 'block', color: '#34495E', textDecoration: 'none' }}>
-          {resume.email}
-        </Link>
-        <Link href={`tel:${resume.phone}`} sx={{ display: 'block', color: '#34495E', textDecoration: 'none' }}>
-          {resume.phone}
-        </Link>
-        <Typography variant="body1" sx={{ color: '#34495E' }}>{resume.city}</Typography>
-      </Box>
-      <Typography variant="body1" sx={{ color: '#34495E', mb: 2 }}>
-        {resume.summary}
-      </Typography>
-      {/* Here you'd map over resume.experience, resume.education, etc. */}
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={8}>
+        <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#2C3E50' }}>{resume.name}</Typography>
+        <Typography variant="h6" sx={{ color: '#18A558' }}>{resume.title}</Typography>
+        <Box sx={{ my: 2 }}>
+          <Link href={`mailto:${resume.email}`} sx={{ display: 'block', color: '#34495E', textDecoration: 'none' }}>
+            {resume.email}
+          </Link>
+          <Link href={`tel:${resume.phone}`} sx={{ display: 'block', color: '#34495E', textDecoration: 'none' }}>
+            {resume.phone}
+          </Link>
+          <Typography variant="body1" sx={{ color: '#34495E' }}>{resume.city}</Typography>
+        </Box>
+        <Typography variant="body1" sx={{ color: '#34495E', mb: 2 }}>
+          {resume.summary}
+        </Typography>
+        {/* Here you'd map over resume.experience, resume.education, etc. */}
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>AREAS OF EXPERTISE</Typography>
+        {/* Map over areas of expertise */}
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>TECHNICAL SKILLS</Typography>
+        {/* Map over technical skills */}
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>PERSONAL PROJECTS</Typography>
+        {/* Map over personal projects */}
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>EDUCATION</Typography>
+        {/* Map over education */}
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>INTERESTS</Typography>
+        {/* Map over interests */}
+      </Grid>
     </Grid>
-    <Grid item xs={12} md={4}>
-      <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>AREAS OF EXPERTISE</Typography>
-      {/* Map over areas of expertise */}
-      <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>TECHNICAL SKILLS</Typography>
-      {/* Map over technical skills */}
-      <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>PERSONAL PROJECTS</Typography>
-      {/* Map over personal projects */}
-    </Grid>
-    <Grid item xs={12}>
-      <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>EDUCATION</Typography>
-      {/* Map over education */}
-      <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mt: 2, mb: 1 }}>INTERESTS</Typography>
-      {/* Map over interests */}
-    </Grid>
-  </Grid>
   </Paper>);
-  
+
 
 
 
@@ -124,12 +113,12 @@ export default function ResumeForm({ submitCallBack }) {
     generateResume(templateName); // For example, can be dynamically set based on user input
   };
 
-//create tooltip with hint
-const renderTooltip = (hint) => (
-  <Tooltip title={hint} arrow>
-    <QuestionMarkIcon />
-  </Tooltip>
-);
+  //create tooltip with hint
+  const renderTooltip = (hint) => (
+    <Tooltip title={hint} arrow>
+      <QuestionMarkIcon />
+    </Tooltip>
+  );
   const generateResume = (templateType) => {
     let content = null;
     switch (templateType) {
@@ -145,13 +134,13 @@ const renderTooltip = (hint) => (
     setGeneratedTemplate(content);
     setResumeModalOpen(true)
   };
-  
+
 
   const generatePdf = async () => {
     if (!templateRef.current) return;
     const canvas = await html2canvas(templateRef.current);
     const data = canvas.toDataURL('image/png');
-  
+
     const pdf = new jsPDF({
       orientation: 'portrait',
     });
@@ -192,7 +181,7 @@ const renderTooltip = (hint) => (
               />
               <Grid container direction="row" justifyContent="flex-end">
                 {renderTooltip('Enter your email address')}
-              </Grid>                  
+              </Grid>
               {/* Title */}
               <TextField
                 variant="filled"
@@ -320,13 +309,13 @@ const renderTooltip = (hint) => (
         </Card>
       </Grid>
       <StyledModal open={isResumeModalOpen} onClose={closeModal}>
-        <Box sx={{alignContent: 'center', alignItems: 'center', marginRight: '500px'}}>
+        <Box sx={{ alignContent: 'center', alignItems: 'center', marginRight: '500px' }}>
           {/* This Box is what you'll use for generating the PDF */}
-          <Box ref={templateRef} sx={{ width: '300%'}}>
+          <Box ref={templateRef} sx={{ width: '300%' }}>
             {generatedTemplate}
           </Box>
           {/* The Preview button is outside the content Box */}
-          <Button variant='contained' color='primary' onClick={generatePdf} style={{margin: '10px'}}>Preview</Button>
+          <Button variant='contained' color='primary' onClick={generatePdf} style={{ margin: '10px' }}>Preview</Button>
         </Box>
       </StyledModal>
       <StyledModal open={isPdfPreviewModalOpen} onClose={() => setPdfPreviewModalOpen(false)}>

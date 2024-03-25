@@ -5,8 +5,8 @@ function ProjectModal({ open, onClose, onSave }) {
     const [formState, setFormState] = useState({
         projectName: '',
         description: '',
-        technologiesUsed: '', 
-        link: '', 
+        technologiesUsed: '',
+        link: '',
     });
 
     const handleChange = (e) => {
@@ -19,7 +19,7 @@ function ProjectModal({ open, onClose, onSave }) {
         const { technologiesUsed, ...rest } = formState;
         const projectToSave = {
             ...rest,
-            technologiesUsed: technologiesUsed.split(',').map(item => item.trim()), 
+            technologiesUsed: technologiesUsed.split(',').map(item => item.trim()),
         };
         onSave(projectToSave);
         resetToDefault();
@@ -30,7 +30,7 @@ function ProjectModal({ open, onClose, onSave }) {
         setFormState({
             projectName: '',
             description: '',
-            technologiesUsed: '', 
+            technologiesUsed: '',
             link: '',
         })
     }
@@ -41,18 +41,19 @@ function ProjectModal({ open, onClose, onSave }) {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 600,
-        maxHeight: '70vh', 
-        bgcolor: '#202525',
-        border: '2px solid #444',
+        maxHeight: '70vh',
+        bgcolor: '#9ed198',
+        border: '2px solid ',
         boxShadow: 24,
         p: 4,
         borderRadius: '16px',
-        overflowY: 'auto', 
+        overflowY: 'auto',
     };
+
     return (
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
-                <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 2 }} variant="h6">
+                <Typography sx={{ color: 'black', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Project
                 </Typography>
                 <form onSubmit={handleSave}>
@@ -62,8 +63,8 @@ function ProjectModal({ open, onClose, onSave }) {
                         value={formState.projectName}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
                     <TextField
@@ -71,11 +72,11 @@ function ProjectModal({ open, onClose, onSave }) {
                         label="Description"
                         value={formState.description}
                         onChange={handleChange}
-                        fullWidth
                         multiline
                         minRows={3}
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
                     <TextField
@@ -84,8 +85,8 @@ function ProjectModal({ open, onClose, onSave }) {
                         value={formState.technologiesUsed}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
                     <TextField
@@ -94,11 +95,11 @@ function ProjectModal({ open, onClose, onSave }) {
                         value={formState.link}
                         onChange={handleChange}
                         fullWidth
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
-                    <Button type="submit" sx={{ mt: 2, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
+                    <Button type="submit" sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained">
                         Save
                     </Button>
                 </form>

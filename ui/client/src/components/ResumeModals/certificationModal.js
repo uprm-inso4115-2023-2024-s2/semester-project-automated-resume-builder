@@ -36,67 +36,65 @@ function CertificationModal({ open, onClose, onSave }) {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 600,
-        maxHeight: '70vh', 
-        bgcolor: '#202525',
-        border: '2px solid #444',
+        maxHeight: '70vh',
+        bgcolor: '#9ed198',
+        border: '2px solid ',
         boxShadow: 24,
         p: 4,
         borderRadius: '16px',
-        overflowY: 'auto', 
+        overflowY: 'auto',
     };
 
     return (
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
-                <Typography 
-                    sx={{ 
-                        color: 'white', 
-                        fontWeight: 'bold', 
-                        mb: 2 
-                    }}
-                    variant="h6"
-                >
+                <Typography
+                    sx={{ color: 'black', fontWeight: 'bold', mb: 2 }} variant="h6">
                     Add Certification
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                    <TextField 
-                        name="certificationName" 
-                        label="Certification Name" 
-                        value={formState.certificationName} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                    <TextField
+                        name="certificationName"
+                        label="Certification Name"
+                        value={formState.certificationName}
+                        onChange={handleChange}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
-                    <TextField 
-                        name="issuingOrganization" 
-                        label="Issuing Organization" 
-                        value={formState.issuingOrganization} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                    <TextField
+                        name="issuingOrganization"
+                        label="Issuing Organization"
+                        value={formState.issuingOrganization}
+                        onChange={handleChange}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
-                    <TextField 
-                        name="dateObtained" 
-                        label="Date Obtained" 
+                    <TextField
+                        name="dateObtained"
+                        label="Date Obtained"
                         type="date"
-                        value={formState.dateObtained} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
-                        inputProps={{ style: { color: 'white' } }}
+                        value={formState.dateObtained}
+                        onChange={handleChange}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
-                    <TextField 
-                        name="purpose" 
-                        label="Purpose" 
-                        value={formState.purpose} 
-                        onChange={handleChange} fullWidth 
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        inputProps={{ style: { color: 'white' } }}
+                    <TextField
+                        name="purpose"
+                        label="Purpose"
+                        value={formState.purpose}
+                        onChange={handleChange}
+                        fullWidth
+                        InputLabelProps={{ style: { color: 'black' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
                         margin="normal"
                     />
-                    <Button type="submit" sx={{ mt: 2, color: 'light blue', borderColor: 'light blue', '&:hover': { borderColor: 'light blue' } }} variant="outlined">
+                    <Button type="submit" sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained">
                         Save
                     </Button>
                 </form>

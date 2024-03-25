@@ -37,8 +37,8 @@ function LandingPage() {
             {!started && (
                 <div className='button-container'>
                     {/* Apply custom styles to the Link */}
-                    <Link to="/resume/new" onClick={handleGetStarted} className='link'>
-                            <button className='button'>Start your resume today!</button>
+                    <Link to="/resume/datainput" onClick={handleGetStarted} className='link'>
+                        <button className='button'>Start your resume today!</button>
                     </Link>
                 </div>
             )}
