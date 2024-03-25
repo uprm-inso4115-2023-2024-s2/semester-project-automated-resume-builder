@@ -57,6 +57,7 @@ export default function ResumeForm({ submitCallBack }) {
       <Typography variant="subtitle1">{resume.email}</Typography>
       <Typography variant="subtitle1">{resume.city}, {resume.country}</Typography>
     </Box>
+    </Box>
   );
 
 
