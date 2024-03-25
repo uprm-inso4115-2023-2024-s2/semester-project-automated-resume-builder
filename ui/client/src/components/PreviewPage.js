@@ -6,11 +6,14 @@ import LinkIcon from '@mui/icons-material/Link';
 import SaveIcon from '@mui/icons-material/Save';
 import HomeIcon from '@mui/icons-material/Home';
 import './PreviewPage.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Share from "./Share.tsx"
 
 export default function PreviewPage() {
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const blobURL = location.state?.blobURL;
 
     const handleShare = async (id) => {
         console.log('Compartir presionado');
@@ -58,9 +61,9 @@ export default function PreviewPage() {
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} sm={8}>
           <Paper elevation={3} className="pdf-preview-placeholder">
-            <div id="pdf-viewer">
-                {/* La implementación de la visualización del PDF iría aquí */}
-            </div>
+            {/* WHY IS THIS IFRAME ONLY HALF WAY FFS 
+            TODO FIX THIS */}
+            <iframe src={blobURL} title="resume-preview" width="100%" height="100%" type="application/pdf"></iframe>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={4}>
