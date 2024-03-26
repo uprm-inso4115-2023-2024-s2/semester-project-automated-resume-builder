@@ -121,14 +121,8 @@ export default function ResumeForm({ submitCallBack }) {
     </Tooltip>
   );
 
-
-
   const generateResume = (templateType) => {
     let content = null;
-    console.log("HI"+ templateType);
-
-
-    // I think we can make this wayt more dynamic.
     switch (templateType) {
       case 'Template 1':
         content = templateBase[0];
