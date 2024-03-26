@@ -120,8 +120,15 @@ export default function ResumeForm({ submitCallBack }) {
       <QuestionMarkIcon />
     </Tooltip>
   );
+
+
+
   const generateResume = (templateType) => {
     let content = null;
+    console.log("HI"+ templateType);
+
+
+    // I think we can make this wayt more dynamic.
     switch (templateType) {
       case 'Template 1':
         content = templateBase[0];
@@ -129,6 +136,16 @@ export default function ResumeForm({ submitCallBack }) {
       case 'Template 2':
         content = templateBase[1];
         break;
+
+      case 'Chronological Template':
+        content = templateBase[0];
+        break;
+
+      case 'Hybrid Template' || 'Targeted Template':
+        content = templateBase[1];
+        break;
+
+
       default:
         alert("Select a Template")
     }
