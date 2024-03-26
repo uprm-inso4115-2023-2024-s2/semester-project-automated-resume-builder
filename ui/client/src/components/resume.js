@@ -43,10 +43,10 @@ export default function ResumeForm({ submitCallBack }) {
   // Is there anyway to get these into a different file and import? Some refactoring would be nice to shrink it down
   let templateBase = [];
   // bgColor
-
+  const font = String(location.state.Font);
   const bgColor = location.state?.bgColor;
   console.log("TEST ", bgColor);
-
+  
 
   templateBase.push(
     <Box sx={{ padding: '20px', backgroundColor:bgColor, color: 'black', fontFamily: 'Arial', fontSize: '14px' }}>
