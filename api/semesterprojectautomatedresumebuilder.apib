@@ -1,80 +1,518 @@
 FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+HOST: https://automated-resume-builder-back-end.onrender.com
 
-# semester-project-automated-resume-builder
+# semester-project-automated-resume-builder-API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Esta es un API dirigido al desarrollo de una pagina web para generar automaticamente resumes para los usuarios. El codigo fuente de esta api junto al front end lo pueden encontrar en https://github.com/uprm-inso4115-2023-2024-s2/semester-project-automated-resume-builder
 
-## Questions Collection [/questions]
+## Group Users
 
-### List All Questions [GET]
+Recursos relacionados con los usuarios en el sistema.
+
+### Users Collection [/users]
+
+
+#### List All Users [GET]
+
+Devuelve a todos los usuarios en la base de datos.
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
+                "user_id": 1,
+                "name": "Jane Doe",
+                "email": "jane.doe@example.com",
+                "phone_number": "123-456-7890",
+                "middle_initial": "",
+                "frst_lst_name": "Doe",
+                "scnd_lst_name": "",
+                "summary": "An experienced software developer...",
+                "profile": "URL to profile picture"
+            },
+            {
+                "user_id": 2,
+                "name": "John Doe",
+                "email": "john.doe@example.com",
+                "phone_number": "098-765-4321",
+                "middle_initial": "A",
+                "frst_lst_name": "Doe",
+                "scnd_lst_name": "Smith",
+                "summary": "A beginner in the programming world...",
+                "profile": "URL to profile picture"
             }
         ]
 
-### Create a New Question [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+
+### User Details By Token [GET /users/me]
+
+Esta ruta permite a los usuarios obtener sus propios detalles enviando un token de autenticación en los headers de la solicitud. Es útil para verificar la información del perfil del usuario basada en la sesión actual.
 
 + Request (application/json)
 
+    + Headers
+
+            Authorization: Bearer YOUR_TOKEN_HERE
+
++ Response 200 (application/json)
+
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "user_id": 1,
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "phone_number": "123-456-7890",
+            "middle_initial": "",
+            "frst_lst_name": "Doe",
+            "scnd_lst_name": "",
+            "summary": "An experienced software developer...",
+            "profile": "URL to profile picture",
+            "email_verified": true
         }
 
-+ Response 201 (application/json)
++ Response 401 (application/json)
+
+        {
+            "message": "Acceso denegado. No se proporcionó token."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "message": "Usuario no encontrado."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Token inválido."
+        }
+        
+        
+        
+### Verify Email [GET /verificar-email{?token}]
+
+Este endpoint permite a los usuarios verificar su correo electrónico. Espera recibir un token de verificación en la query string del URL. Si la verificación es exitosa, redirecciona al usuario a la página de inicio y actualiza en la base de datos como que el usuario ya esta verificado permitiendole hacer log in en su nueva cuenta.
+
++ Parameters
+    + token: `abc123def456` (required, string) - Token de verificación del correo electrónico.
+
++ Request (application/json)
+
++ Response 302
 
     + Headers
 
-            Location: /questions/2
+            Location: http://localhost:3000/
+
++ Response 400 (application/json)
+
+        {
+            "message": "Token de verificación requerido."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "message": "Token de verificación inválido o usuario no encontrado."
+        }
+
+
+
+### Sign Up User [POST /users]
+
+Este endpoint permite a nuevos usuarios registrarse en el sistema. Los usuarios deben proporcionar su correo electrónico, contraseña, nombre, apellido y número de teléfono. Después del registro exitoso, se envía un correo electrónico de verificación al usuario. Este email contiene una url que al visitarla se ejecuta la ruta de Verify Email que se puede encontrar en esta documentacion.
+
++ Request (application/json)
+
+    + Attributes (object)
+        + email: `jane.doe@example.com` (string, required) - Correo electrónico del usuario.
+        + password: `examplePassword123` (string, required) - Contraseña del usuario.
+        + name: `Jane` (string, required) - Nombre del usuario.
+        + frst_lst_name: `Doe` (string, required) - Primer apellido del usuario.
+        + phone_number: `123-456-7890` (string, required) - Número de teléfono del usuario.
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "email": "jane.doe@example.com",
+                "password": "examplePassword123",
+                "name": "Jane",
+                "frst_lst_name": "Doe",
+                "phone_number": "123-456-7890"
             }
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + user: (object)
+            + email: `jane.doe@example.com` (string) - Correo electrónico del usuario.
+            + name: `Jane` (string) - Nombre del usuario.
+            + frst_lst_name: `Doe` (string) - Primer apellido del usuario.
+            + phone_number: `123-456-7890` (string) - Número de teléfono del usuario.
+            + email_verified: `false` (boolean) - Estado de la verificación del correo electrónico.
+        + token: `abc123` (string) - Token de autenticación del usuario.
+
+    + Body
+
+            {
+                "user": {
+                    "email": "jane.doe@example.com",
+                    "name": "Jane",
+                    "frst_lst_name": "Doe",
+                    "phone_number": "123-456-7890",
+                    "email_verified": false
+                },
+                "token": "abc123"
+            }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Información faltante o inválida."
+        }
+
+
+
+
+
+
+### Log In User [POST /users/login]
+
+Este endpoint permite a los usuarios existentes iniciar sesión en el sistema. Los usuarios deben proporcionar su correo electrónico y contraseña. Después de un inicio de sesión exitoso, se devuelve un token de autenticación.
+
++ Request (application/json)
+
+    + Attributes (object)
+        + email: `jane.doe@example.com` (string, required) - Correo electrónico del usuario.
+        + password: `examplePassword123` (string, required) - Contraseña del usuario.
+
+    + Body
+
+            {
+                "email": "jane.doe@example.com",
+                "password": "examplePassword123"
+            }
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + user: (object)
+            + user_id: 1 (number) - El ID del usuario.
+            + email: `jane.doe@example.com` (string) - El correo electrónico del usuario.
+            + name: `Jane` (string) - El nombre del usuario.
+            + frst_lst_name: `Doe` (string) - El apellido del usuario.
+            + phone_number: `123-456-7890` (string) - El número de teléfono del usuario.
+            + email_verified: true (boolean) - Indica si el correo electrónico ha sido verificado.
+        + token: `abc123def456` (string) - El token de autenticación del usuario.
+
+    + Body
+
+            {
+                "user": {
+                    "user_id": 1,
+                    "email": "jane.doe@example.com",
+                    "name": "Jane",
+                    "frst_lst_name": "Doe",
+                    "phone_number": "123-456-7890",
+                    "email_verified": true
+                },
+                "token": "abc123def456"
+            }
+
++ Response 401 (application/json)
+
+    + Attributes (object)
+        + message: `Invalid Credentials` (string) - Mensaje indicando que las credenciales son inválidas.
+
+    + Body
+
+            {
+                "message": "Invalid Credentials"
+            }
+
++ Response 401 (application/json)
+
+    + Attributes (object)
+        + message: `Unverified email` (string) - Mensaje indicando que el correo electrónico no ha sido verificado.
+
+    + Body
+
+            {
+                "message": "Unverified email"
+            }
+            
+            
+            
+            
+### User Details By Token [GET /users/me]
+
+Este endpoint permite obtener los detalles del usuario que esta ingresado en una sesion en la pagina al haber hecho login utilizando un token de autenticación. Es útil para recuperar información del perfil del usuario cada vez que esta se pierde al hacer refresh de la pagina.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer YOUR_TOKEN_HERE
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + user_id: 1 (number) - El ID del usuario.
+        + name: `Jane Doe` (string) - El nombre completo del usuario.
+        + middle_initial: `A` (string, optional) - La inicial del segundo nombre del usuario.
+        + frst_lst_name: `Doe` (string) - El primer apellido del usuario.
+        + scnd_lst_name: `Smith` (string, optional) - El segundo apellido del usuario.
+        + phone_number: `1234567890` (string) - El número de teléfono del usuario.
+        + profile: `URL_to_profile_picture` (string) - La URL de la imagen de perfil del usuario.
+        + email: `jane.doe@example.com` (string) - El correo electrónico del usuario.
+
+    + Body
+
+            {
+                "user_id": 1,
+                "name": "Jane Doe",
+                "middle_initial": "A",
+                "frst_lst_name": "Doe",
+                "scnd_lst_name": "Smith",
+                "phone_number": "1234567890",
+                "profile": "URL_to_profile_picture",
+                "email": "jane.doe@example.com"
+            }
+
++ Response 401 (application/json)
+
+        {
+            "message": "Acceso denegado. No se proporcionó token."
+        }
+
++ Response 404 (application/json)
+
+        {
+            "message": "Usuario no encontrado."
+        }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Token inválido."
+        }
+        
+        
+        
+### Download User Resume [GET /users/{user_id}/dummyResumen/download]
+
+Este endpoint genera un documento PDF temporal que contiene el nombre del usuario seleccionado y lo envía al cliente para su descarga. Este endpoint está pensado para ser utilizado como base para una funcionalidad más completa de descarga de currículums.
+
++ Parameters
+    + user_id: `1` (required, number) - El ID del usuario cuyo nombre se incluirá en el PDF.
+
++ Response 200 (application/pdf)
+
+    + Headers
+
+            Content-Disposition: attachment; filename="download.pdf"
+            Content-Type: application/pdf
+
+    + Body
+
+            [El contenido binario del PDF]
+
++ Response 404 (application/json)
+
+        {
+            "message": "User not found"
+        }
+
+
+
+
+### Update User [PUT /users/{user_id}]
+
+Este endpoint permite actualizar los detalles de un usuario existente. Se deben proporcionar los campos que se desean actualizar en el cuerpo de la solicitud.
+
++ Parameters
+    + user_id: `1` (required, number) - El ID del usuario que se va a actualizar.
+
++ Request (application/json)
+
+    + Attributes (object)
+        + email: `jane.update@example.com` (string, optional) - Nuevo correo electrónico del usuario.
+        + name: `Jane Updated` (string, optional) - Nuevo nombre del usuario.
+        + middle_initial: `B` (string, optional) - Nueva inicial del segundo nombre del usuario.
+        + frst_lst_name: `Updated` (string, optional) - Nuevo primer apellido del usuario.
+        + scnd_lst_name: `Doe` (string, optional) - Nuevo segundo apellido del usuario.
+        + phone_number: `987-654-3210` (string, optional) - Nuevo número de teléfono del usuario.
+        + summary: `Updated summary about Jane.` (string, optional) - Nuevo resumen del perfil del usuario.
+        + profile: `URL_to_updated_profile_picture` (string, optional) - Nueva URL de la imagen de perfil del usuario.
+
+    + Body
+
+            {
+                "email": "jane.update@example.com",
+                "name": "Jane Updated",
+                "middle_initial": "B",
+                "frst_lst_name": "Updated",
+                "scnd_lst_name": "Doe",
+                "phone_number": "987-654-3210",
+                "summary": "Updated summary about Jane.",
+                "profile": "URL_to_updated_profile_picture"
+            }
+
++ Response 200 (application/json)
+
+        [El usuario actualizado]
+
++ Response 404 (application/json)
+
+        {
+            "message": "User not found"
+        }
+
+
+
+
+### Delete User [DELETE /users/{user_id}]
+
+Este endpoint permite eliminar un usuario existente del sistema. El usuario a eliminar se especifica a través del `user_id` en la URL.
+
++ Parameters
+    + user_id: `1` (required, number) - El ID del usuario que se va a eliminar.
+
++ Response 204
+
++ Response 404 (application/json)
+
+        {
+            "message": "User not found"
+        }
+
+
+
+
+
+## Group Personal Info
+
+Recursos relacionados con la información personal de los usuarios.
+
+### Personal Information Collection [/personal_information/{personal_info_id}]
+
+#### Get Personal Information [GET /personal_information/{personal_info_id}]
+
+Este endpoint permite obtener la información personal de un usuario específico mediante su `personal_info_id`.
+
++ Parameters
+    + personal_info_id: `1` (required, number) - El ID de la información personal del usuario.
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + personal_info_id: `5` (number) - El ID de la información personal.
+        + user_id: `72` (number) - El ID del usuario asociado.
+        + first_name: `string` - El primer nombre del usuario.
+        + middle_initial: `string` - La inicial del segundo nombre del usuario, si aplica.
+        + last_name: `string` - El apellido del usuario.
+        + email: `string` - El correo electrónico del usuario.
+        + phone_number: `string` - El número de teléfono del usuario.
+        + address: `string` - La dirección del usuario.
+        + socials: `string` - Representación en cadena de las redes sociales del usuario.
+        + summary: `string` - Un breve resumen sobre el usuario.
+
+    + Body
+
+            {
+                "personal_info_id": 5,
+                "user_id": 72,
+                "first_name": "string",
+                "middle_initial": "string",
+                "last_name": "string",
+                "email": "string",
+                "phone_number": "string",
+                "address": "string",
+                "socials": "string",
+                "summary": "string"
+            }
+
++ Response 404 (application/json)
+
+        {
+            "message": "Personal information not found"
+        }
+
+
+
+
+#### Save Personal Information [POST /personal_information]
+
+Este endpoint permite crear o guardar la información personal de un usuario.
+
++ Request (application/json)
+
+    + Attributes (object)
+        + user_id: `1` (required, number) - El ID del usuario.
+        + first_name: `Jane` (string, required) - El primer nombre del usuario.
+        + middle_initial: `A` (string, optional) - La inicial del segundo nombre del usuario.
+        + last_name: `Doe` (string, required) - El apellido del usuario.
+        + email: `jane.doe@example.com` (string, required) - El correo electrónico del usuario.
+        + phone_number: `123-456-7890` (string, required) - El número de teléfono del usuario.
+        + address: `123 Example St` (string, required) - La dirección del usuario.
+        + socials: `"numero de seguro social"` (string, required) - Numero de seguro social del usuario.
+        + summary: `A brief summary about Jane.` (string, required) - Un breve resumen sobre el usuario.
+
+    + Body
+
+            {
+                "user_id": 1,
+                "first_name": "Jane",
+                "middle_initial": "A",
+                "last_name": "Doe",
+                "email": "jane.doe@example.com",
+                "phone_number": "123-456-789,
+                "address": "cerca de la panaderia",
+                "socials": "numero de seguro social"
+                "summary": "Resumen breve sobre Jane"
+            }
+
+
+
+#### Delete Personal Information [DELETE /personal_information/{personal_info_id}]
+
+Este endpoint permite eliminar la información personal de un usuario específico mediante su `personal_info_id`. Retorna la información eliminada para confirmación.
+
++ Parameters
+    + personal_info_id: `1` (required, number) - El ID de la información personal del usuario.
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + personal_info_id: `1` (number) - El ID de la información personal eliminada.
+        + user_id: `72` (number) - El ID del usuario asociado a la información eliminada.
+        + first_name: `string` - El primer nombre asociado a la información eliminada.
+        + middle_initial: `string` - La inicial del segundo nombre asociado a la información eliminada.
+        + last_name: `string` - El apellido asociado a la información eliminada.
+        + email: `string` - El correo electrónico asociado a la información eliminada.
+        + phone_number: `string` - El número de teléfono asociado a la información eliminada.
+        + address: `string` - La dirección asociada a la información eliminada.
+        + socials: `string` - Las redes sociales asociadas a la información eliminada.
+        + summary: `string` - Un resumen asociado a la información eliminada.
+
+    + Body
+
+            {
+                "personal_info_id": 1,
+                "user_id": 72,
+                "first_name": "Janiel",
+                "middle_initial": "J",
+                "last_name": "Núñez",
+                "email": "janjannunez777@gmail.com",
+                "phone_number": "7876884974",
+                "address": "Carretera 109 km 28.5 interior barrio pozas sector quebrada larga",
+                "socials": "55555555",
+                "summary": "Personal info enviada desde el front a la base de datos."
+            }
+
++ Response 404 (application/json)
+
+        {
+            "message": "Personal information not found"
+        }
