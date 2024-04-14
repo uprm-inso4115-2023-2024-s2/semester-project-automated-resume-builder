@@ -1,3 +1,4 @@
+# [API documentation](https://uprm-inso4115-2023-2024-s2.github.io/semester-project-automated-resume-builder/)
 # Deployment of the website. [Visit the page here!!!](https://resume-builder-zr2g.onrender.com/)🎉
 # Configuration Instructions
 
