@@ -58,3 +58,20 @@ CREATE TABLE IF NOT EXISTS skills (
     proficiency_level VARCHAR(255) -- VARCHAR para permitir descripciones como 'Principiante', 'Intermedio', 'Avanzado'.
                                    -- Se puede cambiar a un ENUM si se quiere limitar las opciones o que sea del 1 - 5.
 );
+
+CREATE TABLE IF NOT EXISTS resumes (
+    resume_id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    phone VARCHAR(255),
+    city VARCHAR(255),
+    country VARCHAR(255),
+    title VARCHAR(255),
+    summary VARCHAR(255),
+    experience VARCHAR(255),
+    education VARCHAR(255),
+    skills VARCHAR(255),
+    pdfFormat VARCHAR(255),
+    resume_Verification_Token VARCHAR(255)-- resume template
+
+);

@@ -94,6 +94,50 @@ const signUpUser = async (req, res, next) => {
 
 };
 
+//save Resume
+const saveResume = async (req, res, next) => {
+    const {name, email, phone, city, country, title, summary, experience, education, skills, pdfFormat} = req.body;
+        const resumeVerificationToken = crypto.randomBytes(20).toString('hex');
+    try {
+        const result = await pool.query(
+            'INSERT INTO resumes (name, email, phone, city, country, title, summary, experience, education, skills, pdfFormat,resume_verification_token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+            [name, email, phone, city, country, title, summary, experience, education, skills, pdfFormat, resumeVerificationToken]
+        );
+        const resume = result.rows[0];
+        const token = generateAuthToken(resume.resume_id);
+        res.json({ resume, token });
+} catch (error) {
+        next(error);
+    }
+
+};
+
+//\get a particular resume
+const getResume = async (req, res, next) => {
+    try {
+        const { resume_id } = req.params;
+        const result = await pool.query('SELECT * FROM resumes WHERE resume_id = $1', [resume_id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
+};
+
+//get all resumes
+const getAllResumes = async (req, res, next) => {
+    try {
+        const allResumes = await pool.query('SELECT * FROM resumes');
+        res.json(allResumes.rows);
+    } catch (error) {
+        next(error);
+    }
+};
+
 // Log user in
 const logInUser = async (req, res, next) => {
     const { email, password } = req.body;
@@ -147,11 +191,11 @@ const getUserDetailsByToken = async (req, res) => {
 //somewhat temporary code to convert the selected user's username into a pdf, planned for use to download resumes
 const getDownload = async (req, res, next) => {
     try {
-        const { user_id, name } = req.params;
-        const result = await pool.query('SELECT * FROM users WHERE user_id = $1', [user_id]);
+        const { resume_id, name } = req.params;
+        const result = await pool.query('SELECT * FROM resumes WHERE resume_id = $1', [resume_id]);
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "Resume not found" });
         }
         val = result.rows[0].name
         const doc = new PDFDocument()
@@ -209,6 +253,9 @@ module.exports = {
     getDownload,
     signUpUser,
     logInUser,
+    saveResume,
+    getResume,
+    getAllResumes,
     updateUser,
     deleteUser,
     verifiedEmail,

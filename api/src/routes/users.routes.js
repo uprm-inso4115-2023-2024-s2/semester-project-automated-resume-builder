@@ -6,6 +6,9 @@ const {
     verifiedEmail,
     signUpUser,
     logInUser,
+    saveResume,
+    getResume,
+    getAllResumes,
     updateUser,
     deleteUser,
     getUserDetailsByToken
@@ -32,6 +35,15 @@ router.get('/verificar-email', verifiedEmail)
 
 // Sign user up
 router.post('/users/login', logInUser)
+
+// Save resume
+router.post('/resume/save', saveResume)
+
+// Get resume
+router.get('/resume/:resume_id', getResume)
+
+// Get all resumes
+router.get('/resume', getAllResumes)
 
 // Para actualizar un usuario
 router.delete('/users/:user_id', deleteUser)
