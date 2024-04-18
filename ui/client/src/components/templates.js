@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {Grid, Typography, Button, Box, Paper, Link, Card, CardActionArea, CardContent, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
+import {Grid, Typography, Button, Box, Paper, Card, CardActionArea, CardContent, Drawer, List, ListItem, ListItemText, Modal, styled, CardMedia} from '@mui/material';
 import { jsPDF } from 'jspdf';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import template1Image from '../chrono.png';
 import template2Image from '../combination.png'
 import template3Image from '../targeted.png'
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';  // This is the icon for three vertical dots
+import './LandingPage.css';
 
 const templateCategories = {
   'Category 1': [
@@ -47,6 +51,8 @@ export default function ResumeTemplates({ submittedResume }) {
   const templateRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('Category 1');
   const navigate = useNavigate();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // Initially true if you want it open by default
+
  
 
   const [bgColor, setBgColor] = useState();
@@ -118,36 +124,48 @@ export default function ResumeTemplates({ submittedResume }) {
 
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} className='container'>
+      <Link to="/profile" className='link'>
+          <div className='profile-picture'></div>
+      </Link>
       <Grid item xs={2}>
-        <Drawer
-          anchor="left"
-          variant="permanent"
-          PaperProps={{
-            style: {
-              backgroundColor: '#1e272e',
-              marginTop: '64px',
-              color: 'white',
-              overflow: 'hidden',
-            },
-          }}
-        >
-          <List>
-            {Object.keys(templateCategories).map((category) => (
-              <ListItem button key={category} onClick={() => setSelectedCategory(category)}
-                style={{
-                  backgroundColor: selectedCategory === category ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                  '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)} style={{ color: 'white', marginBottom: 20, position: 'fixed', left: isDrawerOpen ? 120 : 0, top: 60, transition: 'left 0.3s ease' }}>
+            <MoreVertIcon style={{ fontSize: '60px' }}/>
+          </IconButton>
+          <Drawer
+              anchor="left"
+              open={isDrawerOpen} // Controlled by state
+              onClose={() => setIsDrawerOpen(false)} // Close when clicking outside the drawer
+              variant={isDrawerOpen ? "persistent" : "temporary"}
+              PaperProps={{
+                  style: {
+                      backgroundColor: 'rgba(255, 255, 255, 0.20)',
+                      marginTop: '64px',
+                      color: 'white',
+                      overflow: 'hidden',
                   },
-                }}>
-                <ListItemText primary={<Typography variant="h6" style={{ color: 'white' }}>{category}</Typography>} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+              }}>
+              <List>
+                  {Object.keys(templateCategories).map((category) => (
+                      <ListItem button key={category} onClick={() => {
+                          setSelectedCategory(category);
+                          setIsDrawerOpen(false); // Optionally close drawer when a category is selected
+                      }}
+                      sx={{
+                          backgroundColor: selectedCategory === category ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                          '&:hover': {
+                              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                              cursor: 'pointer'
+                            },
+                            transition: 'background-color 0.3s ease' // Smooth transition for hover effect
+                      }}>
+                          <ListItemText primary={<Typography variant="h6" style={{ color: 'white' }}>{category}</Typography>} />
+                      </ListItem>
+                  ))}
+              </List>
+            </Drawer>
       </Grid>
-      <Grid item xs={12} style={{ marginTop: '20px' }}>
+      <Grid item xs={12} style={{ marginTop: '20px', marginLeft: isDrawerOpen ? 120 : 0 }}>
         <Grid container spacing={2}>
           {templateCategories[selectedCategory].map((template) => (
             <Grid item xs={12} sm={6} md={6} lg={4} key={template.name}> {/* Adjusted for larger items */}
