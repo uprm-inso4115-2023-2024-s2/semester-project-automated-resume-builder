@@ -67,32 +67,29 @@ const verifiedEmail = async (req, res, next) => {
 };
 
 const signUpUser = async (req, res, next) => {
-    const { email, password, name, frst_lst_name, phone_number } = req.body;
+    const { email, password } = req.body;
     const emailVerificationToken = crypto.randomBytes(20).toString('hex');
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await pool.query(
-            'INSERT INTO users (email, password_hash, name, middle_initial, frst_lst_name, scnd_lst_name, phone_number, summary, profile, email_verification_token, email_verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-            [email, hashedPassword, name, "", frst_lst_name, "", phone_number, "", "", emailVerificationToken, false]
+        const newUser = await pool.query(
+            'INSERT INTO users (email, password_hash, email_verification_token) VALUES ($1, $2, $3) RETURNING *',
+            [email, hashedPassword, emailVerificationToken]
         );
-        const user = result.rows[0];
+        const user = newUser.rows[0];
         const token = generateAuthToken(user.user_id);
         res.json({ user, token });
-
         
-
         resend.emails.send({
             from: 'onboarding@resend.dev',
             to: [email],
-            subject: 'Hello World',
-            html: `<strong>Haz clic en este enlace para verificar tu correo electrónico:</strong> <a href="http://localhost:4000/verificar-email?token=${emailVerificationToken}">Verificar Email</a>`,
-          });
-
+            subject: 'Verify Your Email',
+            html: `<strong>Click this link to verify your email:</strong> <a href="http://localhost:4000/verify-email?token=${emailVerificationToken}">Verify Email</a>`,
+        });
     } catch (error) {
         next(error);
     }
-
 };
+
 
 //save Resume
 const saveResume = async (req, res, next) => {
@@ -142,26 +139,22 @@ const getAllResumes = async (req, res, next) => {
 const logInUser = async (req, res, next) => {
     const { email, password } = req.body;
     try {
-        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (result.rows.length === 0) {
+        const userResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (userResult.rows.length === 0) {
             return res.status(401).json({ message: 'Invalid Credentials' });
         }
-        const user = result.rows[0];
+        const user = userResult.rows[0];
         const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid Credentials' });
-        }
-        if(user.email_verified === false){
-            return res.status(401).json({ message: 'Unverified email' });
+        if (!isPasswordValid || !user.email_verified) {
+            return res.status(401).json({ message: 'Invalid Credentials or Email not verified' });
         }
         const token = generateAuthToken(user.user_id);
         res.json({ user, token });
-        // console.log(token)
-        // console.log("todo salio bien")
     } catch (error) {
         next(error);
     }
 };
+
 
 const getUserDetailsByToken = async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1]; // "Bearer TOKEN"

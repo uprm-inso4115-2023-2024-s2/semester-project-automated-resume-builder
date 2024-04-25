@@ -12,42 +12,26 @@ const {
     updateUser,
     deleteUser,
     getUserDetailsByToken
-} = require('../controllers/users.controller')
+} = require('../controllers/users.controller');
 
 const router = Router();
 
-// Para obtener todos los usuarios
-router.get('/users', getAllUsers)
+// User management routes
+router.get('/users', getAllUsers);
+router.get('/users/me', getUserDetailsByToken);
+router.get('/users/:user_id', getUser);
+router.post('/users', signUpUser); // Route for signing up a new user
+router.post('/users/login', logInUser); // Route for user login
+router.delete('/users/:user_id', deleteUser); // Route to delete a user
+router.put('/users/:user_id', updateUser); // Route to update user details
+router.get('/verificar-email', verifiedEmail); // Route to handle email verification link
 
-router.get('/users/me', getUserDetailsByToken)
+// Resume management routes
+router.post('/resume/save', saveResume); // Route to save a new resume
+router.get('/resume/:resume_id', getResume); // Route to get a specific resume by ID
+router.get('/resume', getAllResumes); // Route to get all resumes
++
 
-// Para obtener un usuario por user_id
-router.get('/users/:user_id', getUser)
-
-// Call to create a pdf document off of the given resume (temporarily puts the user's username in the pdf)
-// Only missing the fromatting required to write to the pdf, all the base for writing said text is ready
-router.post('/users/:user_id/dummyResumen/download', getDownload)
-
-// Sign user up
-router.post('/users', signUpUser)
-
-router.get('/verificar-email', verifiedEmail)
-
-// Sign user up
-router.post('/users/login', logInUser)
-
-// Save resume
-router.post('/resume/save', saveResume)
-
-// Get resume
-router.get('/resume/:resume_id', getResume)
-
-// Get all resumes
-router.get('/resume', getAllResumes)
-
-// Para actualizar un usuario
-router.delete('/users/:user_id', deleteUser)
-
-router.put('/users/:user_id', updateUser)
+router.post('/users/:user_id/dummyResume/download', getDownload);
 
 module.exports = router;

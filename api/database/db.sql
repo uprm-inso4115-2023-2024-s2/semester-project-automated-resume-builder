@@ -1,31 +1,26 @@
--- Tabla para los usuarios.
+-- Revised Users Table
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL, -- Retained for login purposes
     password_hash VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    middle_initial CHAR(1), -- Por si tiene un segundo nombre (solo inicial)
-    frst_lst_name VARCHAR(255), -- Primer apellido.
-    scnd_lst_name VARCHAR(255), -- Segundo apellido.
-    phone_number VARCHAR(20),
-    summary TEXT,
-    profile TEXT,
     email_verified BOOLEAN DEFAULT FALSE,
-    email_verification_token TEXT
+    email_verification_token TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabla para la información personal del usuario.
+-- Updated Personal Information Table
 CREATE TABLE IF NOT EXISTS personal_information (
     personal_info_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     first_name VARCHAR(255) NOT NULL,
-    middle_initial CHAR(1), -- Por si tiene un segundo nombre (solo inicial)
-    last_name VARCHAR(255) NOT NULL, -- Todos los apellido.
-    email VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(20),   -- formato 123-123-1234
-    address VARCHAR(255),   -- la direccion completa
-    socials VARCHAR(255),   -- links a redes sociales separados por coma
-    summary TEXT
+    middle_initial CHAR(1),
+    last_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20),   -- Formato 123-123-1234
+    address VARCHAR(255),   -- La dirección completa
+    socials VARCHAR(255),   -- Links a redes sociales separados por coma
+    summary TEXT,
+    profile TEXT
 );
 
 -- Tabla para las experiencias laborales del usuario.
