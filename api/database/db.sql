@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS resumes (
 
 --NEW RESUME TABLE (UNCONNECTED)
 -- Resume Table (connects to users)
-CREATE TABLE IF NOT EXISTS resumes (
+CREATE TABLE IF NOT EXISTS resumes_v2 (
     resume_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS resumes (
 -- Work Experience (references resumes instead of users)
 CREATE TABLE IF NOT EXISTS work_experience (
     experience_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     company_name VARCHAR(255) NOT NULL,
     job_title VARCHAR(255) NOT NULL,
     start_date DATE NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS work_experience (
 -- Education (references resumes instead of users)
 CREATE TABLE IF NOT EXISTS education (
     education_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     institution_name VARCHAR(255) NOT NULL,
     degree VARCHAR(255),
     field_of_study VARCHAR(255),
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS education (
 -- Skills (references resumes instead of users)
 CREATE TABLE IF NOT EXISTS skills (
     skill_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     skill_name VARCHAR(255) NOT NULL,
     proficiency_level VARCHAR(255)
 );
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS skills (
 -- Table for Additional Information (related to additionalModal.js)
 CREATE TABLE IF NOT EXISTS additional_info (
     additional_info_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     info_title VARCHAR(255) NOT NULL,
     description TEXT
 );
@@ -97,14 +97,14 @@ CREATE TABLE IF NOT EXISTS additional_info (
 -- Table for Career Objectives (related to careerObjModal.js)
 CREATE TABLE IF NOT EXISTS career_objectives (
     objective_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     objective TEXT NOT NULL
 );
 
 -- Table for Certifications (related to certificationModal.js)
 CREATE TABLE IF NOT EXISTS certifications (
     certification_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     certification_name VARCHAR(255) NOT NULL,
     issued_by VARCHAR(255) NOT NULL,
     issue_date DATE,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS certifications (
 -- Table for Language Proficiency (related to LanguageProfModal.js)
 CREATE TABLE IF NOT EXISTS language_proficiency (
     language_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     language_name VARCHAR(255) NOT NULL,
     proficiency_level VARCHAR(255) NOT NULL  -- Expected values like 'Basic', 'Intermediate', 'Advanced' or later on 1-5 rating
 );
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS language_proficiency (
 -- Table for Projects (related to projectModal.js)
 CREATE TABLE IF NOT EXISTS projects (
     project_id SERIAL PRIMARY KEY,
-    resume_id INTEGER NOT NULL REFERENCES resumes(resume_id) ON DELETE CASCADE,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
     project_name VARCHAR(255) NOT NULL,
     description TEXT,
     start_date DATE,
