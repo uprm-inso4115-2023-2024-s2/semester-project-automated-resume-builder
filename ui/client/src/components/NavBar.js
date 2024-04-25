@@ -1,6 +1,7 @@
 import { AppBar, Box, Button, Container, Toolbar, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import './LandingPage.css';
 import React, { useState } from 'react';
 
 export default function Navbar() {
@@ -24,7 +25,7 @@ export default function Navbar() {
                 <Container>
                     <Toolbar>
                         <Link to='/' className="link">
-                            <h1>UPResuMe</h1>
+                            <h1 className='upresume-title'>UPResuMe</h1>
                         </Link>
                         <div className='top-buttons-group'>
                             <Link to='/resume/templates' className='link'>

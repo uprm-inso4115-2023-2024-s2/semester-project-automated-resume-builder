@@ -30,7 +30,7 @@ function ProfilePage() {
     return (<>
         <Box className="Profile-page">
 
-            <Link to='/' className="link">
+            {/* <Link to='/' className="link">
                 <h1 className='upresume-title'>UPResuMe</h1>
             </Link>
             <div className='top-buttons-group'>
@@ -40,7 +40,7 @@ function ProfilePage() {
                 <Link to='/resume/datainput' className='link'>
                     <button className='top-button'>Resume</button>
                 </Link>
-            </div>
+            </div> */}
             {/* i'm going to try to use grids instead of <div> */}
             <div className="gallery-box">
                 {/* <Box classNames="savedTemps" id="box0"></Box> */}
