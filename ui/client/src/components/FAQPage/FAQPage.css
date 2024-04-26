@@ -1,0 +1,48 @@
+/* LandingPage.css */
+
+.container {
+    background: linear-gradient(to top, #0dca3c, #185626);
+    /* lower brightness of background */
+    filter: brightness(1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-content: flex-start;
+    padding: 100px;
+    color: white;
+    overflow: auto;
+}
+
+/* Add this new class for the question button */
+.MuiButton-root.question-button {
+    background-color: white;
+    color: black;
+    margin-bottom: 0;
+    border-radius: 8px 8px 0px 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* Add other styles you want to override here */
+    font-size: x-large;
+}
+
+.expanded-answer {
+    background-color: rgb(243, 243, 243);
+    color: #ebebeb; /* Lighter than the button for contrast, but still related */
+    margin: 0; /* Resets any margin to align with the button */
+    padding: 20px; /* Consistent padding for content */
+    border-radius: 0px 0px 8px 8px; /* Round top corners only */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Inner shadow for some depth */
+    margin-top: 5px; /* Add some space between the button and the content */
+}
+
+.faq-question-container {
+    margin-bottom: 20px; /* Add some space between questions */
+}
