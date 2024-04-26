@@ -10,8 +10,8 @@ export default function Navbar() {
     const { logout, globalUser, setGlobalUser } = useUser();
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true); // Handler to open the dialog
+    const handleClickHelpButton = () => {
+        navigate('/faq'); // Redirect to the FAQ page
     };
 
     const handleClose = () => {
@@ -34,7 +34,7 @@ export default function Navbar() {
                             <Link to='/resume/datainput' className='link'>
                                 <button className='top-button'>Resume</button>
                             </Link>
-                            <button onClick={handleClickOpen} className='top-button'>Help</button>
+                            <button onClick={handleClickHelpButton} className='top-button'>Help</button>
                         </div>
                         {/* Comprobamos si globalUser y globalUser.name están definidos y no son cadenas vacías */}
                         {globalUser.name !== "" ? (

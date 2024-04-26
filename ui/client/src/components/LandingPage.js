@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Box } from '@mui/material';
 import './LandingPage.css';
 
 function LandingPage() {
@@ -9,27 +9,13 @@ function LandingPage() {
     const handleGetStarted = () => {
         setStarted(true);
     }
-    const handleClickOpen = () => {
-        setOpen(true); // Handler to open the dialog
-    };
 
     const handleClose = () => {
         setOpen(false); // Handler to close the dialog
     };
 
     return (
-        <div className='container'> {/* Apply custom styles to the container */}
-            <h1 className='upresume-title'>UPResuMe</h1>
-            <div className='top-buttons-group'>
-                <Link to='/resume/templates' className='link'>
-                    <button className='top-button'>Templates</button>
-                </Link>
-
-                <Link to='/resume/datainput' className='link'>
-                    <button className='top-button'>Resume</button>
-                </Link>
-                <button onClick={handleClickOpen} className='top-button'>Help</button>
-            </div>
+        <Box className='container'> {/* Apply custom styles to the container */}
             <Link to="/profile" className='link'>
                 <div className='profile-picture'></div>
             </Link>
@@ -46,7 +32,7 @@ function LandingPage() {
             {!started && (
                 <div className='button-container'>
                     {/* Apply custom styles to the Link */}
-                    <Link to="/resume/datainput" onClick={handleGetStarted} className='link'>
+                    <Link to="/resume/templates" onClick={handleGetStarted} className='link'>
                         <button className='button'>Start your resume today!</button>
                     </Link>
                 </div>
@@ -75,7 +61,7 @@ function LandingPage() {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </Box>
     );
 }
 
