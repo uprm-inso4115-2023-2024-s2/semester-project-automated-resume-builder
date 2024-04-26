@@ -47,6 +47,21 @@ function EducationModal({ open, onClose, onSave, onNext }) {
         });
     };
 
+    const handleAutoCompleteResponsabilities = async () => {
+        if (onAutoComplete) {
+            try {
+                const newText = await onAutoComplete(formState.responsibilities);
+                setFormState(prevState => ({
+                    ...prevState,
+                    responsibilities: newText
+                }));
+            } catch (error) {
+                console.error('Error during autocomplete', error);
+            }
+        }
+    };
+
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -160,6 +175,12 @@ function EducationModal({ open, onClose, onSave, onNext }) {
                         margin="normal"
                     />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button
+                            sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained"
+                            onClick={handleAutoCompleteResponsabilities}
+                        >
+                            Autocompletar
+                        </Button>
                         <Button type="submit" sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained">
                             Save
                         </Button>
