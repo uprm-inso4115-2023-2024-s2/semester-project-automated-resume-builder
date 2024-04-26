@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
-function EducationModal({ open, onClose, onSave, onNext }) {
+function EducationModal({ open, onClose, onSave, onNext, onAutoComplete }) {
     const [formState, setFormState] = useState({
         institutionName: '',
         degree: '',
