@@ -13,30 +13,80 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
         information: '',
     });
 
+    const [errors, setErrors] = useState({
+        institutionName: '',
+        degree: '',
+        location: '',
+        startDate: '',
+        endDate: '', 
+        gpa: '',
+        relevantCourses: '', 
+        information: '',
+    });
+
+    const validateInput = (name, value) => {
+        switch (name) {
+            case 'information':
+                if (!value.trim()) {
+                    return 'Information is required.';
+                }
+                break;
+            default:
+                return '';
+        }
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const error = validateInput(name, value);
+        setErrors(prev => ({ ...prev, [name]: error }));
         setFormState(prev => ({ ...prev, [name]: value }));
+    };
+
+    const isFormValid = () => {
+        const validations = Object.keys(formState).map(key => {
+            const error = validateInput(key, formState[key]);
+            if (error) {
+                setErrors(prev => ({ ...prev, [key]: error }));
+            }
+            return error;
+        });
+        return !validations.some(error => error);
     };
 
     const handleSave = (e) => {
         e.preventDefault();
-        const { relevantCourses, ...rest } = formState;
-        const additionalToSave = {
-            ...rest,
-            relevantCourses: relevantCourses.split(',').map(item => item.trim()), 
-        };
-        onSave(additionalToSave);
-        resetToDefault();
-        onClose();
+        if (isFormValid()) {
+            const { relevantCourses, ...rest } = formState;
+            const additionalToSave = {
+                ...rest,
+                relevantCourses: relevantCourses.split(',').map(item => item.trim()), 
+            };
+            onSave(additionalToSave);
+            resetToDefault();
+            onClose();
+        }
     };
 
     const handleNext = () => {
-        onNext();
-        onClose();
+        if (isFormValid()) {
+            onNext();
+            onClose();
+        }
     };
 
     const resetToDefault = () => {
         setFormState({
+            institutionName: '',
+            degree: '',
+            location: '',
+            startDate: '',
+            endDate: '', 
+            gpa: '',
+            relevantCourses: '', 
+            information: '',
+        });
+        setErrors({
             institutionName: '',
             degree: '',
             location: '',
@@ -68,7 +118,7 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
         bottom: '10px',
         right: '10px',
     };
-    
+
     return (
         <Modal open={open} onClose={() => { onClose(); resetToDefault(); }}>
             <Box sx={style}>
@@ -79,11 +129,13 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
                     <TextField
                         name="information"
                         label="Information"
-                        value={formState.Information}
+                        value={formState.information}
                         onChange={handleChange}
                         fullWidth
                         multiline
                         minRows={3}
+                        error={!!errors.information}
+                        helperText={errors.information}
                         InputLabelProps={{ style: { color: 'black' } }}
                         inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px', padding: '15px', marginTop: '-16px', marginLeft: '-14px', marginRight: '-14px', marginBottom: '-17px', border: 'none' } }}
                         margin="normal"
@@ -102,4 +154,4 @@ function AdditionalModal({ open, onClose, onSave, onNext }) {
     );
 }
 
-export default AdditionalModal
+export default AdditionalModal;
