@@ -14,8 +14,16 @@ export default function Navbar() {
                 <Container>
                     <Toolbar>
                         <Link to='/' className="link">
-                            <h1 className='upresume-title'>UPResuMe</h1>
+                        <div className="title-container">
+                                <span role="img" aria-label="paw-print" className="paw-print">🐾</span> {/* Paw print Unicode character */}
+                                <h1 className='upresume-title'>UPResuMe</h1>
+                            </div>
                         </Link>
+                        <div className='profile-button-container'>
+                        <Link to='/profile' className='link'>
+                                <div className='profile-picture'></div>
+                            </Link>
+                        </div>
                         <div className='top-buttons-group'>
                             <Link to='/resume/templates' className='link'>
                                 <button className='top-button'>Templates</button>
