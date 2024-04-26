@@ -6,8 +6,8 @@ function WorkExperienceModal({ open, onClose, onSave, onAutoComplete }) {
         jobTitle: '',
         companyName: '',
         location: '',
-        startDate: '',
-        endDate: '',
+        startDate: '--/--/--',
+        endDate: '--/--/--',
         responsibilities: '',
         achievements: '',
     });
@@ -29,8 +29,8 @@ function WorkExperienceModal({ open, onClose, onSave, onAutoComplete }) {
             jobTitle: '',
             companyName: '',
             location: '',
-            startDate: '',
-            endDate: '',
+            startDate: '--/--/--',
+            endDate: '--/--/--',
             responsibilities: '',
             achievements: '',
         })
@@ -133,7 +133,7 @@ function WorkExperienceModal({ open, onClose, onSave, onAutoComplete }) {
                         minRows={3}
                         fullWidth
                         InputLabelProps={{ style: { color: 'black' } }}
-                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px', padding: '15px', marginTop: '-16px', marginLeft: '-14px', marginRight: '-14px', marginBottom: '-17px', border: 'none' } }}
                         margin="normal"
                     />
                     <TextField
@@ -145,7 +145,7 @@ function WorkExperienceModal({ open, onClose, onSave, onAutoComplete }) {
                         minRows={3}
                         fullWidth
                         InputLabelProps={{ style: { color: 'black' } }}
-                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
+                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px', padding: '15px', marginTop: '-16px', marginLeft: '-14px', marginRight: '-14px', marginBottom: '-17px', border: 'none' } }}
                         margin="normal"
                     />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>

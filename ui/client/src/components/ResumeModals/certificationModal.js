@@ -5,7 +5,7 @@ function CertificationModal({ open, onClose, onSave }) {
     const [formState, setFormState] = useState({
         certificationName: '',
         issuingOrganization: '',
-        dateObtained: '',
+        dateObtained: '--/--/--',
         purpose: '',
     });
 
@@ -25,7 +25,7 @@ function CertificationModal({ open, onClose, onSave }) {
         setFormState({
             certificationName: '',
             issuingOrganization: '',
-            dateObtained: '',
+            dateObtained: '--/--/--',
             purpose: '',
         })
     }
