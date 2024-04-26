@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS personal_information (
     first_name VARCHAR(255) NOT NULL,
     middle_initial CHAR(1),
     last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,    -- Note, this email can or not be different from the user's account
     phone_number VARCHAR(20),   -- Formato 123-123-1234
     address VARCHAR(255),   -- La dirección completa
     socials VARCHAR(255),   -- Links a redes sociales separados por coma
