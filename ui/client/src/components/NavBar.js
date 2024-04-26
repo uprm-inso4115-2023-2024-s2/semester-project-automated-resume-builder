@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import React, { useState } from 'react';
 import './LandingPage.css';
-import React, { useState } from 'react';
 
 export default function Navbar() {
 
