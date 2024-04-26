@@ -8,9 +8,9 @@ const {
 
 const router = Router();
 
-router.get('/personal-info/user/:user_id', getPersonalInfo); // Fetch by user_id
+router.get('/personal-info/resume/:resume_id', getPersonalInfo); // Fetch personal info by resume_id
 router.post('/personal-info', savePersonalInfo); // creates new personal info
-router.put('/personal-info/:personal_info_id', updatePersonalInfo); // Update existing personal info
-router.delete('/personal-info/:personal_info_id', deletePersonalInfo); // Delete by personal_info_id
+router.put('/personal-info/resume/:resume_id', updatePersonalInfo); // Update existing personal info by resume_id
+router.delete('/personal-info/resume/:resume_id', deletePersonalInfo); // Delete by personal info by resume_id
 
 module.exports = router;

@@ -25,8 +25,7 @@ const handleResumeSubmit = (resumeData) => {
 };
   return (
     <UserProvider>
-      // <UserProvider>
-    <BrowserRouter>
+      <BrowserRouter>
         <MenuContainer /> {/* Render the MenuContainer component */}
         <Container>
           <Routes>
@@ -42,7 +41,8 @@ const handleResumeSubmit = (resumeData) => {
             <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
-            <Route path='/resume/personalInfo' element={<PersonalInfo />}></Route>
+            <Route path='/resume/:resumeId/personalInfo/new' element={<PersonalInfo />}></Route>
+            <Route path='/resume/:resumeId/personalInfo/edit' element={<PersonalInfo />}></Route>
             <Route path='/resume/education' element={<Education />}></Route>
             <Route path='/resume/preview' element={<PreviewPage />} />
             <Route path='/profile' element={<ProfilePage />} />
@@ -53,6 +53,5 @@ const handleResumeSubmit = (resumeData) => {
         </Container>
       </BrowserRouter>
     </UserProvider>
-  //   </UserProvider>
   );
 }
