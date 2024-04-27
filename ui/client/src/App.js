@@ -16,13 +16,14 @@ import SkillsPage from './components/DataEntryForm/SkillsPage.js';
 import ResumeTemplates from './components/templates.js';
 import PersonalInfo from './components/PersonalInfo/PersonalInfo.js';
 import Education from './components/Education/Education.js';
+import FAQPage from './components/FAQPage/FAQPage.js';
 
 export default function App() {
-const [submittedResume, setSubmittedResume] = useState(null);
+  const [submittedResume, setSubmittedResume] = useState(null);
 
-const handleResumeSubmit = (resumeData) => {
-  setSubmittedResume(resumeData);
-};
+  const handleResumeSubmit = (resumeData) => {
+    setSubmittedResume(resumeData);
+  };
   return (
     <UserProvider>
       <BrowserRouter>
@@ -37,7 +38,6 @@ const handleResumeSubmit = (resumeData) => {
             {/* Pass the submitted resume data to ResumeTemplates */}
             <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
             {/* <Route path='/resume/templates/editor' element={<TemplateEditor />} /> */}
-            
             <Route path='/signup' element={<SignUpForm onSignUp={() => {console.log("signed up")}} />} />
             <Route path='/login' element={<LogInForm onLogIn={() => {console.log("Logged in")}} />} />
             <Route path='/resume/datainput' element={<ResumeInput onSubmitResumeForm={() => {console.log("Submitted resume info")}} />} />
@@ -49,6 +49,7 @@ const handleResumeSubmit = (resumeData) => {
             <Route path='/resume/datainput/skills' element={<SkillsPage />} />
             <Route path='/resume/templates' element={<ResumeTemplates submittedResume={submittedResume} />} />
             <Route path='/resume/new' element={<ResumeForm submitCallBack={handleResumeSubmit} />} />
+            <Route path='/faq' element={<FAQPage />} />
           </Routes>
         </Container>
       </BrowserRouter>
