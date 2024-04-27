@@ -76,7 +76,7 @@ function ProjectModal({ open, onClose, onSave }) {
                         minRows={3}
                         fullWidth
                         InputLabelProps={{ style: { color: 'black' } }}
-                        inputProps={{ style: { color: 'black', backgroundColor: 'white', borderRadius: '5px' } }}
+                        inputProps={{ style: {  color: 'black', backgroundColor: 'white', borderRadius: '5px', padding: '15px', marginTop: '-16px', marginLeft: '-14px', marginRight: '-14px', marginBottom: '-17px', border: 'none' } }}
                         margin="normal"
                     />
                     <TextField

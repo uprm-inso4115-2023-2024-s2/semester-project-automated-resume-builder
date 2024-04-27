@@ -129,6 +129,7 @@ const ResumeInput = () => {
 
                 {/* Personal Information Section */}
                 <Grid item xs={12} sm={6}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '0px', margin: '0px', border: '1px solid #666', display: 'flex'}}>
                     <TextField
                         label="First name"
                         variant="outlined"
@@ -137,13 +138,15 @@ const ResumeInput = () => {
                         onChange={handleChangePersonalInfo}
                         required
                         fullWidth
-                        margin="normal"
+                        margin="none"
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
                     />
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '0px', margin: '0px', border: '1px solid #666', display: 'flex'}}>
                     <TextField
                         label="Last name"
                         variant="outlined"
@@ -152,13 +155,15 @@ const ResumeInput = () => {
                         onChange={handleChangePersonalInfo}
                         required
                         fullWidth
-                        margin="normal"
+                        margin="none"
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
                     />
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '0px', margin: '0px', border: '1px solid #666', display: 'flex'}}>
                     <TextField
                         label="Phone number"
                         variant="outlined"
@@ -167,13 +172,15 @@ const ResumeInput = () => {
                         onChange={handleChangePersonalInfo}
                         required
                         fullWidth
-                        margin="normal"
+                        margin="none"
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
                     />
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '0px', margin: '0px', border: '1px solid #666', display: 'flex'}}>
                     <TextField
                         label="Email"
                         variant="outlined"
@@ -182,13 +189,15 @@ const ResumeInput = () => {
                         onChange={handleChangePersonalInfo}
                         required
                         fullWidth
-                        margin="normal"
+                        margin="none"
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
                     />
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '0px', margin: '0px', border: '1px solid #666', display: 'flex'}}>
                     <TextField
                         label="Professional Summary"
                         variant="outlined"
@@ -198,13 +207,15 @@ const ResumeInput = () => {
                         required
                         fullWidth
                         multiline
-                        margin="normal"
+                        margin="none"
                         InputLabelProps={{ style: { color: 'white' } }}
                         inputProps={{ style: { color: 'white' } }}
                     />
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -228,10 +239,12 @@ const ResumeInput = () => {
                         onClose={() => setShowCareerObjModal(false)}
                         onSave={handleSaveItem(setCareerObjModal)}
                     />
+                    </Box>
                 </Grid>
 
                 {/* Education Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -255,10 +268,12 @@ const ResumeInput = () => {
                         onClose={() => setShowEducationModal(false)}
                         onSave={handleSaveItem(setEducation)}
                     />
+                    </Box>
                 </Grid>
-
+                
                 {/* Work Experience Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -283,10 +298,12 @@ const ResumeInput = () => {
                         onSave={handleSaveItem(setWorkExperience)}
                         onAutoComplete={handleAutoComplete}
                     />
+                    </Box>
                 </Grid>
 
                 {/* Skills section  */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -310,10 +327,12 @@ const ResumeInput = () => {
                         onClose={() => setShowSkillsModal(false)}
                         onSave={handleSaveSkill}
                     />
+                    </Box>
                 </Grid>
 
                 {/* Project Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -337,10 +356,12 @@ const ResumeInput = () => {
                         onClose={() => setShowProjectModal(false)}
                         onSave={handleSaveItem(setProjects)}
                     />
+                    </Box>
                 </Grid>
 
                 {/* Certification Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -364,10 +385,12 @@ const ResumeInput = () => {
                         onClose={() => setShowCertificationModal(false)}
                         onSave={handleSaveItem(setCertifications)}
                     />
+                    </Box>
                 </Grid>
 
                 {/* Language Proficiency Section */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -391,9 +414,11 @@ const ResumeInput = () => {
                         onClose={() => setShowLanguageProfiencyModal(false)}
                         onSave={handleSaveItem(setLanguages)}
                     />
+                    </Box>
                 </Grid>
                 {/* Additional Information section  */}
                 <Grid item xs={12} sx={{ border: '1px solid #666', p: 2, mt: 2, borderRadius: '4px' }}>
+                <Box sx={{ borderRadius: '10px', bgcolor: '#9ed198', p: '20px', margin: '-20px'}}>
                     <Typography
                         variant="h6"
                         sx={{
@@ -418,6 +443,7 @@ const ResumeInput = () => {
                         onSave={handleSaveItem(setAdditionalInfo)}
                         onNext={handleNextModal}
                     />
+                    </Box>
                 </Grid>
             </Grid>
         </div>
