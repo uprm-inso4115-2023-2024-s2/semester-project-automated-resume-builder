@@ -9,20 +9,6 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Updated Personal Information Table
-CREATE TABLE IF NOT EXISTS personal_information (
-    personal_info_id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-    first_name VARCHAR(255) NOT NULL,
-    middle_initial CHAR(1),
-    last_name VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(20),   -- Formato 123-123-1234
-    address VARCHAR(255),   -- La dirección completa
-    socials VARCHAR(255),   -- Links a redes sociales separados por coma
-    summary TEXT,
-    profile TEXT
-);
-
 --PAST RESUME TABLE
 CREATE TABLE IF NOT EXISTS resumes (
     resume_id SERIAL PRIMARY KEY,
@@ -49,6 +35,20 @@ CREATE TABLE IF NOT EXISTS resumes_v2 (
     name VARCHAR(255) NOT NULL,
     title VARCHAR(255),
     created_at DATE DEFAULT CURRENT_DATE
+);
+
+-- Updated Personal Information Table
+CREATE TABLE IF NOT EXISTS personal_information (
+    personal_info_id SERIAL PRIMARY KEY,
+    resume_id INTEGER NOT NULL REFERENCES resumes_v2(resume_id) ON DELETE CASCADE,
+    first_name VARCHAR(255) NOT NULL,
+    middle_initial CHAR(1),
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,    -- Note, this email can or not be different from the user's account
+    phone_number VARCHAR(20),   -- Formato 123-123-1234
+    address VARCHAR(255),   -- La dirección completa
+    socials VARCHAR(255),   -- Links a redes sociales separados por coma
+    summary TEXT
 );
 
 -- Work Experience (references resumes instead of users)

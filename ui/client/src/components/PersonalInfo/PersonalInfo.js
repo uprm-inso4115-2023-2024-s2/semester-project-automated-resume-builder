@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../contexts/UserContext';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { 
     Button, 
     TextField, 
@@ -13,8 +12,13 @@ import {
 import './PersonalInfo.css';
 
 const PersonalInfo = () => {
-    const { globalUser, setGlobalUser } = useUser();
+    const { resumeId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    const isEditing = location.pathname.includes('edit');
+    
+    const [resumeNotFound, setResumeNotFound] = useState(false);
 
     const [firstName, setFirstName] = useState("");
     const [middleInitial, setMiddleInitial] = useState("");
@@ -31,6 +35,34 @@ const PersonalInfo = () => {
     const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
     const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
     const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+
+    useEffect(() => {
+        const fetchPersonalInfo = async () => {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/personal-info/resume/${resumeId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.status === 404) {
+                setResumeNotFound(true);
+            }
+            else if (response.ok) {
+                const data = await response.json();
+                setFirstName(data[0].first_name ?? "");
+                setMiddleInitial(data[0].middle_initial ?? "");
+                setLastName(data[0].last_name ?? "");
+                setEmail(data[0].email ?? "");
+                setPhoneNumber(data[0].phone_number ?? "");
+                setAddress(data[0].address ?? "");
+                setSocials(data[0].socials ?? "");
+                setSummary(data[0].summary ?? "");
+            }
+        };
+        if (isEditing) {
+            fetchPersonalInfo();
+        }
+    }, []);
 
     const validateEmail = (email) => {
         let errorMessage = "";
@@ -87,24 +119,7 @@ const PersonalInfo = () => {
                 return;
             }
 
-            // TODO: Save data to database
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/personal-info/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user_id: globalUser.id,
-                    first_name: firstName, 
-                    middle_initial: middleInitial, 
-                    last_name: lastName, 
-                    email: email, 
-                    phone_number: phoneNumber, 
-                    address: address, 
-                    socials: socials, 
-                    summary: summary,
-                }),
-            });
+            const response = isEditing ? await updatePersonalInfo() : await createPersonalInfo();
 
             if (response.ok) {
                 // Save personal info id to local storage, for use in other pages
@@ -126,8 +141,57 @@ const PersonalInfo = () => {
         }
     };
 
+    // NOTE: This assumes that a the relationship between a resume and its user already exists in the database.
+    // That is, an entry in the resumes_v2 table already exists.
+    const createPersonalInfo = async () => {
+        return await fetch(`${process.env.REACT_APP_BACKEND_URL}/personal-info/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                resume_id: resumeId,
+                first_name: firstName, 
+                middle_initial: middleInitial, 
+                last_name: lastName, 
+                email: email, 
+                phone_number: phoneNumber, 
+                address: address, 
+                socials: socials, 
+                summary: summary,
+            }),
+        });
+    };
+    
+    const updatePersonalInfo = async () => {
+        console.log('updating summary:', summary);
+        return await fetch(`${process.env.REACT_APP_BACKEND_URL}/personal-info/resume/${resumeId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                first_name: firstName, 
+                middle_initial: middleInitial, 
+                last_name: lastName, 
+                email: email, 
+                phone_number: phoneNumber, 
+                address: address, 
+                socials: socials, 
+                summary: summary,
+            }),
+        });
+    };
+
     return (
         <Container className='personal-info-container'>
+            {resumeNotFound ? <Typography variant="h4" sx={{ 
+                        color: 'black', 
+                        fontWeight: 'bold', 
+                        mt: 2 ,
+                        textAlign: 'center',
+                        marginBottom: '20px',
+                    }}>Resume relationship not found. Please select a resume template to start.</Typography> :
             <FormControl>
                 <Typography 
                     variant="h4" 
@@ -278,7 +342,7 @@ const PersonalInfo = () => {
                 >
                     {isSubmitting ? <CircularProgress className='circular-progress' size={25} /> : "Next"}
                 </Button>
-            </FormControl>
+            </FormControl>}
         </Container>
     );
 
