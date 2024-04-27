@@ -55,11 +55,9 @@ export default function ResumeTemplates({ submittedResume }) {
 
  
 
-  const [bgColor, setBgColor] = useState();
-
-  useEffect(() => {
-    console.log("bgColor updated:", bgColor);
-  }, [bgColor]); // Run this effect whenever bgColor changes
+  let [bgColor, setBgColor] = useState();
+  let font = "Arial"
+ 
 
 
   const generateResumeTemp = (templateName) => {
@@ -83,16 +81,14 @@ export default function ResumeTemplates({ submittedResume }) {
         <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
         <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
         <input name="bg" onClick={()=>setBgColor("alice blue")} type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
-        
-        
         <input name="bg" onClick={()=>setBgColor("red")} type="radio"/><label for="alice blue">Alice Blue</label>
         
         </fieldset>
-        {/* <fieldset id="AccentColorSelector" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
-        <input name="bg" onClick={()=>setBgColor("white")} type="radio" id="white" checked="checked"/><label for="white">White</label>
-        <input name="bg" onClick={()=>setBgColor("linen")} type="radio" id="linen"/><label for="linen">Linen</label>
-        <input name="bg" onClick={()=>setBgColor("alice blue")} type="radio" id="alice blue"/><label for="alice blue">Alice Blue</label>
-        </fieldset> */}
+        <fieldset id="FontSelection" style={{ marginTop: '20px', gridColumnStart: 2, gridRowStart: 1, backgroundColor:"blue"}}>
+        <input name="font" onClick={()=>font="arial"} type="radio" id="arial" checked="defaultChecked"/><label for="arial">Arial</label>
+        <input name="font" onClick={()=>font="roboto"} type="radio" id="roboto"/><label for="Roboto">Roboto</label>
+        <input name="font" onClick={()=>font="helvetica"} type="radio" id="helvetica"/><label for="helvetica">Helvetica</label>        
+        </fieldset> 
         </div>
       </Box>
     );
