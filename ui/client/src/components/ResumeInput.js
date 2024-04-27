@@ -267,6 +267,7 @@ const ResumeInput = () => {
                         open={showEducationModal}
                         onClose={() => setShowEducationModal(false)}
                         onSave={handleSaveItem(setEducation)}
+                        onAutoComplete={handleAutoComplete}
                     />
                     </Box>
                 </Grid>

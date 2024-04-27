@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Box, Typography } from '@mui/material';
 
-function EducationModal({ open, onClose, onSave, onNext }) {
+function EducationModal({ open, onClose, onSave, onNext, onAutoComplete }) {
     const [formState, setFormState] = useState({
         institutionName: '',
         degree: '',
@@ -46,6 +46,21 @@ function EducationModal({ open, onClose, onSave, onNext }) {
             about: '',
         });
     };
+
+    const handleAutoCompleteResponsabilities = async () => {
+        if (onAutoComplete) {
+            try {
+                const newText = await onAutoComplete(formState.responsibilities);
+                setFormState(prevState => ({
+                    ...prevState,
+                    responsibilities: newText
+                }));
+            } catch (error) {
+                console.error('Error during autocomplete', error);
+            }
+        }
+    };
+
 
     const style = {
         position: 'absolute',
@@ -160,6 +175,12 @@ function EducationModal({ open, onClose, onSave, onNext }) {
                         margin="normal"
                     />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button
+                            sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained"
+                            onClick={handleAutoCompleteResponsabilities}
+                        >
+                            Autocompletar
+                        </Button>
                         <Button type="submit" sx={{ mt: 2, color: 'black', bgcolor: 'green', borderRadius: '20px', minWidth: '120px', '&:hover': { bgcolor: '#007F00' } }} variant="contained">
                             Save
                         </Button>
